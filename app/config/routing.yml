@@ -1,0 +1,4 @@
+frame_workers_tm_food_rescue_food_app:
+    resource: "@FrameWorkersTMFoodRescueFoodAppBundle/Resources/config/routing.yml"
+    prefix:   /
+

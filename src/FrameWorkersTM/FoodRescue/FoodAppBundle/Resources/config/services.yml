@@ -1,0 +1,7 @@
+parameters:
+#    frame_workers_tm_food_rescue_food_app.example.class: FrameWorkersTM\FoodRescue\FoodAppBundle\Example
+
+services:
+#    frame_workers_tm_food_rescue_food_app.example:
+#        class: %frame_workers_tm_food_rescue_food_app.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
