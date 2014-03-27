@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
     v.customize ["setextradata", :id, "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
   config.vm.hostname = "projektas.dev"
-  sync_type = Vagrant::Util::Platform.windows? == true ? "smb" : "nfs"
+  sync_type = Vagrant::Util::Platform.windows? == true ? "rsync" : "nfs"
   config.vm.synced_folder "./", "/var/www", id: "vagrant-root" , :type => sync_type
   config.vm.provision :shell, :inline =>"sudo apt-get update"
   config.vm.provision :shell, :path => ".vagrant/install.sh"
