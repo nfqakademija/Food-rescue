@@ -1,3 +1,11 @@
 frame_workers_tm_food_rescue_food_app_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Default:index }
+
+frame_workers_tm_food_rescue_food_app_my_products:
+    pattern:  /myproducts/
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index }
+
+frame_workers_tm_food_rescue_food_app_recipes:
+    pattern:  /recipes/
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index }
