@@ -17,12 +17,12 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FrameWorkersTM\FoodRescue\FoodAppBundle\FrameWorkersTMFoodRescueFoodAppBundle(),
-
-            new FOS\UserBundle\FOSUserBundle(),
+            #uzkomentinam kol nenaudosim kad nemestu err
+            //new FOS\UserBundle\FOSUserBundle(),
             #Rolando demo
-            new Testukas\Bundle\TestasBundle\TestukasTestasBundle(),
+            #new Testukas\Bundle\TestasBundle\TestukasTestasBundle(),
             #Rolando demo
-            new Acme\UserBundle\AcmeUserBundle(),
+            #new Acme\UserBundle\AcmeUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
