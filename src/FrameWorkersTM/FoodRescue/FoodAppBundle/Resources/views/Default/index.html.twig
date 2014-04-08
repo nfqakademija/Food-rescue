@@ -3,8 +3,40 @@
 {# base template yra app/resources/views/base.html.twig #}
 {% extends '::base.html.twig' %}
 
-{% block title %} Pagrindinis {% endblock %}
+{% block title %} Pradinis {% endblock %}
 
 {% block body %}
-homepage body vieta
+
+    <div class="jumbotron" style="text-align:center;">
+        <h2>Pamiršti, kad baigiasi tavo produktų galiojimas?</h2>
+        <h2>Pamiršti ką turi savo šaldytuve?</h2>
+        <h2>Nežinai ką skanaus šį vakarą pasigaminti?</h2>
+
+        <h2 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h2>
+        <h2>Daugiau neišmesk produktų!</h2>
+
+        <p style="margin-top:50px;"><a role="button" href="#" class="btn btn-lg btn-success">Išbandyk</a></p>
+    </div>
+
+<!--
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>Pamiršti, kad baigiasi tavo produktų galiojimas?</p>
+            <p>Pamiršti ką turi savo šaldytuve?</p>
+            <p>Nežinai ką skanaus šį vakarą pasigaminti?</p>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</p>
+            <p>Daugiau neišmesk produktų!</p>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Išbandyk</button>
+-->
+
+
+
 {% endblock %}
