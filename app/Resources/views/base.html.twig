@@ -3,11 +3,34 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="header" style="background-color:green;">
+            <div class="container">
+                {% block headblock %}
+
+                    <ul class="nav nav-pills pull-right">
+                        <li class="active"><a href="#">Priisjungti Registruotis</a></li>
+                    </ul>
+
+                    <h3 class="text-muted">Food Rescue</h3>
+
+                {% endblock %}
+            </div>
+        </div>
+        <div class="container">
+            {% block body %}
+
+            {% endblock %}
+
+            {% block javascripts %}
+                <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></srcipt>
+            {% endblock %}
+        </div>
     </body>
 </html>
