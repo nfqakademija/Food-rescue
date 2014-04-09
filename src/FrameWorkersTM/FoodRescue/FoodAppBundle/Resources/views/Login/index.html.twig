@@ -1,0 +1,54 @@
+{# src/FrameWorkersTm/FoodRescue/FoodAppBundle/Resources/views/Login/index.html.twig #}
+
+{# base template yra app/resources/views/base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block title %} Prisijungimas/Registracija {% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-lg-6 col-md-6">
+            <form role="form" class="form-signin">
+                <h3 class="form-signin-heading">Prisijungimas</h3>
+                <p>Slapyvardis</p>
+                <p><input type="text" required="" placeholder="" class="form-control"></p>
+                <p>El. paštas</p>
+                <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
+
+
+                <a href="#" style="display:block;background:#35589A;">Prisijungti su Facebook</a>
+                <a href="#" style="display:block;background:#D64136;">Prisijungti su Google+</a>
+
+                <!--
+                <div style="background-color:#35589A;">Prisijungti su Facebook</div>
+                <div style="background-color:#D64136;">Prisijungti su Google+</div>
+                -->
+
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Prisijungti</button>
+            </form>
+
+
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+            <h3>Registracija</h3>
+            <p>Slapyvardis</p>
+            <p><input type="text" required="" placeholder="" class="form-control"></p>
+            <p>El. paštas</p>
+            <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
+            <p>Slaptažodis</p>
+            <p><input type="password" required="" placeholder="" class="form-control"></p>
+            <p>Pakartokite slaptažodį</p>
+            <p><input type="password2" required="" placeholder="" class="form-control"></p>
+
+
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Registruotis</button>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

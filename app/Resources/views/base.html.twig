@@ -16,8 +16,8 @@
                 {% block headblock %}
 
                     <ul class="nav nav-pills pull-right">
-                        <li class="active"><a href="#">Prisijungti </a></li>
-                        <li class="active"><a href="#">Registruotis</a></li>
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
                     </ul>
 
                     <h3 class="logo"><a href="#">Food Rescue</a></h3>
@@ -25,14 +25,14 @@
                 {% endblock %}
             </div>
         </div>
-        <div class="container">
-            {% block body %}
+            <div class="container">
+                {% block body %}
 
-            {% endblock %}
+                {% endblock %}
 
-            {% block javascripts %}
-                <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></srcipt>
-            {% endblock %}
-        </div>
+                {% block javascripts %}
+                    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></srcipt>
+                {% endblock %}
+            </div>
     </body>
 </html>
