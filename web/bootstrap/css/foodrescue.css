@@ -1,0 +1,23 @@
+a,a:hover,a:visited{
+    color:white;
+    text-decoration: none;
+}
+
+body{
+
+}
+
+.logo{
+    margin:20px 0;
+}
+
+.container{
+    margin-top:50px;
+}
+
+.header .container{
+    margin-top:0;
+}
+.header .nav{
+    margin-top:10px;
+}

@@ -6,19 +6,21 @@
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}">
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div class="header" style="background-color:green;">
+        <div class="header" style="background-color:#8CD968;">
             <div class="container">
                 {% block headblock %}
 
                     <ul class="nav nav-pills pull-right">
-                        <li class="active"><a href="#">Priisjungti Registruotis</a></li>
+                        <li class="active"><a href="#">Prisijungti </a></li>
+                        <li class="active"><a href="#">Registruotis</a></li>
                     </ul>
 
-                    <h3 class="text-muted">Food Rescue</h3>
+                    <h3 class="logo"><a href="#">Food Rescue</a></h3>
 
                 {% endblock %}
             </div>
