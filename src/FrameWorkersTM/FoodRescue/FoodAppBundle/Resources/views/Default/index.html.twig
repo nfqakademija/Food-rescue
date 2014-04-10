@@ -3,8 +3,80 @@
 {# base template yra app/resources/views/base.html.twig #}
 {% extends '::base.html.twig' %}
 
-{% block title %} Pagrindinis {% endblock %}
+{% block title %} Pradinis {% endblock %}
 
 {% block body %}
-homepage body vieta
+
+    <div class="jumbotron" style="text-align:center;">
+        <h3>Pamiršti, kad baigiasi tavo produktų galiojimas?</h3>
+        <h3>Pamiršti ką turi savo šaldytuve?</h3>
+        <h3>Nežinai ką skanaus šį vakarą pasigaminti?</h3>
+
+        <h4 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h4>
+        <h4>Daugiau neišmesk produktų!</h4>
+
+        <h4 style="margin-top:50px;">Food Rescue aplikacijos vartotojai per menesi sutaupo xxx LITU !</h4>
+
+        <p style="margin-top:50px;"><a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-lg btn-success">Išbandyk</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="jumbotron" style="">
+                <h4>Jūs jau sutaupėte: <span>X produktų</span></h4>
+                <p>Produktai, kurių galiojimas netrukus baigsis:</p>
+                <table style="width:100%">
+                    <tr>
+                        <td>Pienas</td>
+                        <td>1L</td>
+                        <td>liko</td>
+                        <td>2 dienos</td>
+                    </tr>
+                    <tr>
+                        <td>Varškė</td>
+                        <td>200g</td>
+                        <td>liko</td>
+                        <td>2 dienos</td>
+                    </tr>
+                    <tr>
+                        <td>jogurtas</td>
+                        <td>0.5L</td>
+                        <td>liko</td>
+                        <td>3 dienos</td>
+                    </tr>
+                    <tr>
+                        <td>Dešra</td>
+                        <td>100g</td>
+                        <td>liko</td>
+                        <td>4 dienos</td>
+                    </tr>
+                </table>
+
+                <p>Neišmesk šių produktų - spauks ant receptų !</p>
+
+                <a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-lg btn-success">Produktai</a>
+                <a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}" class="btn btn-lg btn-success">Receptai</a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="jumbotron" style="">
+                <h4>Jūs jau išbandėte: <span>X receptų</span></h4>
+                <h4>Atradote: <span>X mėgstamų receptų</span></h4>
+
+                <p>Išbandyk šiuos receptus:</p>
+
+                <ul>
+                    <li>Omletas</li>
+                    <li>Traški vištiena</li>
+                    <li>Varškės apkepas</li>
+                    <li>Šaltibarščiai</li>
+                    <li>Omletas</li>
+                    <li>Traški vištiena</li>
+                    <li>Varškės apkepas</li>
+                    <li>Šaltibarščiai</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

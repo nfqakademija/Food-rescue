@@ -3,11 +3,36 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="header" style="background-color:#8CD968;">
+            <div class="container">
+                {% block headblock %}
+
+                    <ul class="nav nav-pills pull-right">
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+                    </ul>
+
+                    <h3 class="logo"><a href="#">Food Rescue</a></h3>
+
+                {% endblock %}
+            </div>
+        </div>
+            <div class="container">
+                {% block body %}
+
+                {% endblock %}
+
+                {% block javascripts %}
+                    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></srcipt>
+                {% endblock %}
+            </div>
     </body>
 </html>
