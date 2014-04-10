@@ -13,3 +13,6 @@ frame_workers_tm_food_rescue_food_app_recipes:
 frame_workers_tm_food_rescue_food_app_login:
     pattern:  /login/
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Login:index }
+frame_workers_tm_food_rescue_food_app_settings:
+    pattern: /settings/
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Settings:index }
