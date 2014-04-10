@@ -1,3 +1,4 @@
+#default ignores
 .idea
 .vagrant/*
 .DS_Store
@@ -12,3 +13,12 @@
 /vendor/
 /bin/
 /composer.phar
+
+#personal ignores
+#/src/Acme/*
+/src/Testukas/*
+
+#for bootstrapping stuff
+#/package.json
+
+node_modules/

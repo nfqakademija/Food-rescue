@@ -14,10 +14,15 @@
         <div class="header" style="background-color:#8CD968;">
             <div class="container">
                 {% block headblock %}
-
                     <ul class="nav nav-pills pull-right">
                         <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
                         <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+                    </ul>
+
+                    <ul class="navmenu nav nav-pills pull-right">
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">Pagrindinis </a></li>
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}">Produktai </a></li>
+                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}">Receptai</a></li>
                     </ul>
 
                     <h3 class="logo"><a href="#">Food Rescue</a></h3>
@@ -31,7 +36,7 @@
                 {% endblock %}
 
                 {% block javascripts %}
-                    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></srcipt>
+                    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
                 {% endblock %}
             </div>
     </body>
