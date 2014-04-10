@@ -1,0 +1,7 @@
+parameters:
+#    fw_user.example.class: FrameWorkersTM\UserBundle\FwUserBundle\Example
+
+services:
+#    fw_user.example:
+#        class: %fw_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

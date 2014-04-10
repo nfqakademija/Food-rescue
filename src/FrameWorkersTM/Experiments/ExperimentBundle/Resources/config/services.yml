@@ -1,0 +1,7 @@
+parameters:
+#    fw_experiments.example.class: FrameWorkersTM\Experiments\ExperimentBundle\Example
+
+services:
+#    fw_experiments.example:
+#        class: %fw_experiments.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
