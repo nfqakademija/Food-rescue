@@ -25,3 +25,9 @@ body{
 .navmenu{
     margin-right:10px;
 }
+
+.advertisement{
+    text-align:center;
+    float:none;
+    margin:0 auto;
+}

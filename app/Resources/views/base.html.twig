@@ -14,18 +14,26 @@
         <div class="header" style="background-color:#8CD968;">
             <div class="container">
                 {% block headblock %}
-                    <ul class="nav nav-pills pull-right">
-                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
-                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
-                    </ul>
+                <div class="row">
+                    <div class="col-lg-2 col-md-4 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
 
-                    <ul class="navmenu nav nav-pills pull-right">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <ul class="nav nav-pills pull-right">
+                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
+                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+                         </ul>
+                    </div>
+
+                    <div class="col-lg-6 col-md-4 col-sm-12">
+                        <ul class="navmenu nav nav-pills pull-right">
                         <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">Pagrindinis </a></li>
                         <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}">Produktai </a></li>
                         <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}">Receptai</a></li>
+                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}">Nustatymai</a></li>
+                            <li class="active"><a href="#">Karolis</a></li>
                     </ul>
-
-                    <h3 class="logo"><a href="#">Food Rescue</a></h3>
+                    </div>
+                </div>
 
                 {% endblock %}
             </div>
