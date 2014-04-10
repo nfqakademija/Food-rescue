@@ -1,5 +1,5 @@
 .idea
-.vagrant/machines
+.vagrant/*
 .DS_Store
 /web/bundles/
 /app/bootstrap.php.cache
