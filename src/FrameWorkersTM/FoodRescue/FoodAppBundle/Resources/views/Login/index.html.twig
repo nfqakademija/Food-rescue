@@ -5,48 +5,52 @@
 
 {% block title %} Prisijungimas/Registracija {% endblock %}
 
+{% block headblock %}
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
+
+        <div class="col-lg-10 col-md-10 col-sm-12">
+            <ul class="nav nav-pills pull-right">
+                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
+                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
 
     <div class="row">
 
         <div class="col-lg-6 col-md-6">
-            <form role="form" class="form-signin">
+            <form role="form" class="form-signin" action="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">
                 <h3 class="form-signin-heading">Prisijungimas</h3>
                 <p>Slapyvardis</p>
                 <p><input type="text" required="" placeholder="" class="form-control"></p>
                 <p>El. paštas</p>
                 <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
 
-
-                <a href="#" style="display:block;background:#35589A;">Prisijungti su Facebook</a>
-                <a href="#" style="display:block;background:#D64136;">Prisijungti su Google+</a>
-
-                <!--
-                <div style="background-color:#35589A;">Prisijungti su Facebook</div>
-                <div style="background-color:#D64136;">Prisijungti su Google+</div>
-                -->
+                <a href="#" class="fb-login" style="">Prisijungti su Facebook</a>
+                <a href="#" class="gplus-login" style="">Prisijungti su Google+</a>
 
                 <button type="submit" class="btn btn-lg btn-primary btn-block">Prisijungti</button>
             </form>
-
-
         </div>
 
         <div class="col-lg-6 col-md-6">
-            <h3>Registracija</h3>
-            <p>Slapyvardis</p>
-            <p><input type="text" required="" placeholder="" class="form-control"></p>
-            <p>El. paštas</p>
-            <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
-            <p>Slaptažodis</p>
-            <p><input type="password" required="" placeholder="" class="form-control"></p>
-            <p>Pakartokite slaptažodį</p>
-            <p><input type="password2" required="" placeholder="" class="form-control"></p>
+            <form role="form" class="form-signin" action="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">
+                <h3>Registracija</h3>
+                <p>Slapyvardis</p>
+                <p><input type="text" required="" placeholder="" class="form-control"></p>
+                <p>El. paštas</p>
+                <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
+                <p>Slaptažodis</p>
+                <p><input type="password" required="" placeholder="" class="form-control"></p>
+                <p>Pakartokite slaptažodį</p>
+                <p><input type="password2" required="" placeholder="" class="form-control"></p>
 
-
-            <button type="submit" class="btn btn-lg btn-primary btn-block">Registruotis</button>
-
-
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Registruotis</button>
+            </form>
         </div>
 
     </div>
