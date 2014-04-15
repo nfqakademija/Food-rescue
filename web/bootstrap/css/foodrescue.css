@@ -62,7 +62,18 @@ a.logo, a.fb-login, a.gplus-login{
      bottom: 0;
     position: absolute;
 }
-
+.jumbo1 {
+    height: 230px !important;
+    min-height: 100px !important;
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.form-small-margin {
+    margin: 1px;
+    padding: 3px;
+}
 .container .jumbotron {
     min-height: 440px;
 }
