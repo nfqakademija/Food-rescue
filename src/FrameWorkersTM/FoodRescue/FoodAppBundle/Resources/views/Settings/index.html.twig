@@ -3,5 +3,52 @@
 {% block title %} Nustatymai {% endblock %}
 
 {% block body %}
+    <div class="jumbotron">
+        <div class="row center-block">
+            <div class="col-sm-5 col-lg-5 col-md-5">
+                <form role="settings" id="settings">
+                    <div class="form-group">
+                        <label for="email">El. paštas</label>
+                        <input type="email" class="form-control" id="email" placeholder="karolis@yahoo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="notificationDays">Pranešti apie pasibaigiančius produktus likus dienų:</label>
+                        <input type="number" class="form-control" id="notificationDays" placeholder="2">
+                    </div>
+                    <div class="form-group">
+                        <label for="sortRecipes">Rūšiuoti receptus pagal</label>
+                        <select class="form-control" name="sortRecipes" form="settings">
+                            <option value="endDate">Produktų pasibaigimo laiką</option>
+                            <option value="preferences">Pomėgius</option>
+                        </select>
+
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="col-sm-5 col-lg-5 col-md-5">
+                <form role="password">
+                    <div class="form-group">
+                        <label for="currentPassword">Dabartinis slaptažodis</label>
+                        <input type="password" class="form-control" id="currentPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Naujas slaptažodis</label>
+                        <input type="password" class="form-control" id="newPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="repeatPassword">Pakartoti slaptažodį</label>
+                        <input type="password" class="form-control" id="repeatPassword">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control" title="Išsaugoti">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
 
 {% endblock %}
