@@ -1,58 +1,77 @@
-{# src/FrameWorkersTm/FoodRescue/FoodAppBundle/Resources/views/Login/index.html.twig #}
+{# src/FrameworkersTM/FoodRescue/FoodAppBundle/Resources/views/Default/index.html.twig #}
 
 {# base template yra app/resources/views/base.html.twig #}
 {% extends '::base.html.twig' %}
 
 {% block title %} Prisijungimas/Registracija {% endblock %}
 
-{% block headblock %}
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
-
-        <div class="col-lg-10 col-md-10 col-sm-12">
-            <ul class="nav nav-pills pull-right">
-                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
-                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
 {% block body %}
-
     <div class="row">
+        <div class="col-lg-2 col-md-2"> </div>
+        <div class="col-lg-4 col-md-4">
+            {{ form_start(form,{ 'attr': {'class': 'form-signin'} }) }}
 
-        <div class="col-lg-6 col-md-6">
-            <form role="form" class="form-signin" action="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">
-                <h3 class="form-signin-heading">Prisijungimas</h3>
-                <p>Slapyvardis</p>
-                <p><input type="text" required="" placeholder="" class="form-control"></p>
-                <p>El. paštas</p>
-                <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
+            {{ form_errors(form) }}
 
+            <div class="form-group">
+                {{ form_label(form.loginName) }}
+                {{ form_errors(form.loginName) }}
+                {{ form_widget(form.loginName,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.password) }}
+                {{ form_errors(form.password) }}
+                {{ form_widget(form.password,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
                 <a href="#" class="fb-login" style="">Prisijungti su Facebook</a>
                 <a href="#" class="gplus-login" style="">Prisijungti su Google+</a>
+            </div>
 
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Prisijungti</button>
-            </form>
+            <div>
+                {{ form_widget(form.save,{'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
+            </div>
+
+            {{ form_end(form) }}
         </div>
 
-        <div class="col-lg-6 col-md-6">
-            <form role="form" class="form-signin" action="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">
-                <h3>Registracija</h3>
-                <p>Slapyvardis</p>
-                <p><input type="text" required="" placeholder="" class="form-control"></p>
-                <p>El. paštas</p>
-                <p><input type="email" autofocus="" required="" placeholder="" class="form-control"></p>
-                <p>Slaptažodis</p>
-                <p><input type="password" required="" placeholder="" class="form-control"></p>
-                <p>Pakartokite slaptažodį</p>
-                <p><input type="password2" required="" placeholder="" class="form-control"></p>
+        <div class="col-lg-4 col-md-4">
+            {{ form_start(form2,{ 'attr': {'class': 'form-signin'} }) }}
 
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Registruotis</button>
-            </form>
+            {{ form_errors(form2) }}
+
+            <div class="form-group">
+                {{ form_label(form2.loginName) }}
+                {{ form_errors(form2.loginName) }}
+                {{ form_widget(form2.loginName,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form2.email) }}
+                {{ form_errors(form2.email) }}
+                {{ form_widget(form2.email,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form2.password) }}
+                {{ form_errors(form2.password) }}
+                {{ form_widget(form2.password,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form2.password2) }}
+                {{ form_errors(form2.password2) }}
+                {{ form_widget(form2.password2,{'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div>
+                {{ form_widget(form2.save,{'attr': {'class': 'btn btn-lg btn-primary btn-block'}}) }}
+            </div>
+
+            {{ form_end(form2) }}
         </div>
-
+        <div class="col-lg-2 col-md-2"> </div>
     </div>
-
 {% endblock %}

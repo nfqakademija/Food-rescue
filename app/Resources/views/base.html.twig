@@ -13,29 +13,37 @@
     <body>
         <div class="header" style="background-color:#8CD968;">
             <div class="container">
+
                 {% block headblock %}
                 <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
+                    <div class="col-lg-2 col-md-2 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
+                    {% if logged is defined and logged is not empty %}
 
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <ul class="nav nav-pills pull-right">
-                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
-                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
-                         </ul>
-                    </div>
+                        <div class="col-lg-10 col-md-10 col-sm-12">
+                            <ul class="navmenu user-settings nav nav-pills pull-right">
+                                <li class="username"><a href="#">{{ logged }}</a></li>
+                                <li class="settings"><a href="{{ path('frame_workers_tm_food_rescue_food_app_settings') }}">Nustatymai</a></li>
+                                <li class="logout"><a href="{{ path('frame_workers_tm_food_rescue_food_app_logout') }}">Atsijungti</a></li>
 
-                    <div class="col-lg-6 col-md-4 col-sm-12">
-                        <ul class="navmenu nav nav-pills pull-right">
-                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">Pagrindinis </a></li>
-                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}">Produktai </a></li>
-                        <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}">Receptai</a></li>
+                            </ul>
+                            <ul class="navmenu nav nav-pills pull-right">
+                               <!-- <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">Pagrindinis </a></li>-->
+                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}">Produktai </a></li>
+                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_recipes') }}">Receptai</a></li>
+                            </ul>
+                            <ul class="navmenu sutaupe-nav nav nav-pills pull-right">
+                                <li class="sutaupe"><a href="#">Jūs sutaupėte 203 Litus ! </a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="col-lg-10 col-md-10 col-sm-12">
+                            <ul class="navmenu nav nav-pills pull-right">
+                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
+                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
 
-                            <li class="active"><a href="#">Karolis</a></li>
-                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_settings') }}">Nustatymai</a></li>
-                            <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}">Atsijungti</a></li>
-
-                    </ul>
-                    </div>
                 </div>
                 {% endblock %}
             </div>
