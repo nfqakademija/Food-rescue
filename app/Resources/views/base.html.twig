@@ -4,11 +4,35 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
-            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}" />
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/> 
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        
+<style type="text/css">
+.rec_wrap{
+    border: 1px solid black;
+    padding: 8px;
+}
+.rec_image{
+    margin-right: 15px;
+}
+.rec_image,.rec_descr{
+    float: left;
+}
+.rec_descr h4,.rec_descr p{
+    margin: 0;
+}
+.rec_descr p{
+    font-size: 13px;
+}
+.rec_stats{
+    margin-top: 35px;
+}
+</style>        
+        
+        
     </head>
     <body>
         <div class="header" style="background-color:#8CD968;">
