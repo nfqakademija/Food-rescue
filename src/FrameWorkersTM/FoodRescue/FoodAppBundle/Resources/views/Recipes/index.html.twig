@@ -6,5 +6,39 @@
 {% block title %} Receptai {% endblock %}
 
 {% block body %}
-    cia bus atvaizduoti receptai
+<h4>Ką pasigaminti?</h4>
+ <div class="container">
+ 
+    <div class="row">
+        <div class="jumbotron col-lg-12 col-md-12 col-sm-12 ">
+{% for i in 0..4 %}
+
+             <div class="rec_wrap clearfix">
+                <div class="rec_image">
+                    <img src="{{ asset('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTEY0VZXM9oLfJ8H5U-cXdA3A-baHn9d1elmEwJsR8ENHasaYVN') }}"
+                         width="100" height="100" />
+                </div>
+                <div class="rec_descr">
+                    <h4><a href="view/omleto-receptas">Omletas</a></h4> 
+                    <p>
+                        pienas 100ml, kiausiniai 6vnt, druska ziupsnelis, citrina 1skiltele, kiauliena 50g, aliejus saukstelis
+                    </p>
+                    <div class="rec_stats">
+                        <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
+                        <span>Turi visus produktus - kodėl nepasigaminus šio patiekalo?</span>    
+                    </div>
+                    <div class="rec_fav">
+                        <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" /> 
+                        <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
+                    </div>
+                </div>
+             </div>
+             
+{% endfor %}
+             
+        </div>
+    </div>
+ 
+ </div>
+
 {% endblock %}

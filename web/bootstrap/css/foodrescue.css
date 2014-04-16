@@ -2,6 +2,7 @@ a,a:hover,a:visited{
     text-decoration: none;
 }
 body{
+
 }
 .logo{
     display: block;
@@ -70,7 +71,4 @@ a.logo, a.fb-login, a.gplus-login{
 }
 .container .jumbotron {
     min-height: 440px;
-}
-.klase{
-    background-repeat: repeat-x;
 }
