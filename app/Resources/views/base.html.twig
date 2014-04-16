@@ -4,9 +4,9 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}">
-            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}">
-            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}">
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -16,15 +16,13 @@
 
                 {% block headblock %}
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
+                    <div class="col-lg-2 col-md-2 col-sm-8"><a href="#" class="logo">Food Rescue</a></div>
                     {% if logged is defined and logged is not empty %}
-
-                        <div class="col-lg-10 col-md-10 col-sm-12">
+                        <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu user-settings nav nav-pills pull-right">
                                 <li class="username"><a href="#">{{ logged }}</a></li>
                                 <li class="settings"><a href="{{ path('frame_workers_tm_food_rescue_food_app_settings') }}">Nustatymai</a></li>
                                 <li class="logout"><a href="{{ path('frame_workers_tm_food_rescue_food_app_logout') }}">Atsijungti</a></li>
-
                             </ul>
                             <ul class="navmenu nav nav-pills pull-right">
                                <!-- <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_dashboard') }}">Pagrindinis </a></li>-->
@@ -36,7 +34,7 @@
                             </ul>
                         </div>
                     {% else %}
-                        <div class="col-lg-10 col-md-10 col-sm-12">
+                        <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu nav nav-pills pull-right">
                                 <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
                                 <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
@@ -54,7 +52,7 @@
                 {% endblock %}
 
                 {% block javascripts %}
-                    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
                 {% endblock %}
             </div>
     </body>
