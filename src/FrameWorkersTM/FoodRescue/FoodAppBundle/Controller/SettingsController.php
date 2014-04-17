@@ -16,7 +16,8 @@ class SettingsController extends Controller {
     public function indexAction(Request $request)
     {
         $session = $request->getSession();
-        $array['logged']= $session->get('logged');
+        $logged = $session->get('logged');
+        
         $settingsForm = $this->createFormBuilder()
             ->add('email', 'email', array(
                 'label' => 'El. paštas'
@@ -36,6 +37,7 @@ class SettingsController extends Controller {
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Settings:index.html.twig', array(
             'settingsForm' => $settingsForm->createView(),
+            'logged'       => $logged
         ));
     }
 } 
