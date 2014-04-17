@@ -21,14 +21,12 @@ class RecipesController extends Controller
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', $array);
     }
     
-    public function RecipieViewAction($slug){
-        $request = Request::createFromGlobals();
-                
+    public function RecipieViewAction(Request $request){
+        $session = $request->getSession();
+        $array['logged'] = $session->get('logged');
         
         
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',array(
-            'slug' => $slug
-        ));
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',$array);
     }
     
 }
