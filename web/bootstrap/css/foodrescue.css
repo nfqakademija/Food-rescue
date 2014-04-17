@@ -1,8 +1,9 @@
+
 a,a:hover,a:visited{
     text-decoration: none;
 }
 body{
-    
+    background: red;
 }
 .logo{
     display: block;
@@ -85,3 +86,5 @@ a.logo, a.fb-login, a.gplus-login{
 .container .jumbotron {
     min-height: 440px;
 }
+
+.new { color: #bce8f1;}
