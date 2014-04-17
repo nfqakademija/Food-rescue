@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SettingsController extends Controller {
     public function indexAction()
     {
-        $form = $this->createFormBuilder()
+        $settingsForm = $this->createFormBuilder()
             ->add('email', 'email', array(
                 'label' => 'El. paštas'
             ))
@@ -29,7 +29,7 @@ class SettingsController extends Controller {
             ->getForm();
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Settings:index.html.twig', array(
-            'form' => $form->createView(),
+            'settingsForm' => $settingsForm->createView(),
         ));
     }
 } 
