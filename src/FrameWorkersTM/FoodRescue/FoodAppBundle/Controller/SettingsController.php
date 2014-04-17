@@ -15,10 +15,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class SettingsController extends Controller {
     public function indexAction(Request $request)
     {
-
         $session = $request->getSession();
         $array['logged']= $session->get('logged');
-        $form = $this->createFormBuilder()
+        $settingsForm = $this->createFormBuilder()
             ->add('email', 'email', array(
                 'label' => 'El. paštas'
             ))
@@ -33,9 +32,10 @@ class SettingsController extends Controller {
                 )
             ))
             ->getForm();
+        $array['settingsForm'] = $settingsForm->createView();
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Settings:index.html.twig', array(
-            'form' => $form->createView(),
+            'settingsForm' => $settingsForm->createView(),
         ));
     }
 } 
