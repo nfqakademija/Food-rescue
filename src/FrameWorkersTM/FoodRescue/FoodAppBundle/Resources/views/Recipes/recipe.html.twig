@@ -1,0 +1,93 @@
+{# src/FrameWorkersTm/FoodRescue/FoodAppBundle/Resources/views/Recipes/recipe.html.twig #}
+{# base template yra app/resources/views/base.html.twig #}
+{% extends '::base.html.twig' %}
+{% block title %} {{ slug }} {% endblock %}
+{% block body %}
+<h4>Gaminam receptą!</h4>
+<a href="{{ asset('recipies') }}">Grįžti atgal</a>
+ <div class="container">
+    <div class="row">
+        <div class="jumbotron col-lg-7 col-md-12 col-sm-12 ">
+            <div class="rec_wrap clearfix"> 
+                <div class="recip_top clearfix">
+                    <div class="rec_image">
+                        <img src="{{ asset('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTEY0VZXM9oLfJ8H5U-cXdA3A-baHn9d1elmEwJsR8ENHasaYVN') }}"
+                             width="100" height="100" />
+                    </div>
+                        <div class="rec_descr">
+                            <h4><a href="view/omleto-receptas">Omletas</a></h4>
+                            <div class="rec_view_stat">
+                                <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
+                                <span>Turi visus produktus!</span>    
+                            </div>
+                            <div class="view_icons">
+                                <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" /> 
+                                <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
+                            </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12 ingredients"> 
+                        <h4>Ingredientai</h4>
+                        <ul>
+                            <li>Pienas 1l</li>
+                            <li>Pienas 300g</li>
+                            <li>Pienas 2kg</li>
+                            <li>Pienas 2vnt</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 coock_info"> 
+                        <h4>Gaminimas</h4>
+                        <p>
+                            Lorem ipsum - tai fiktyvus tekstas naudojamas spaudos ir grafinio dizaino pasaulyje jau nuo XVI a. pradžios. Lorem Ipsum tapo standartiniu fiktyviu tekstu, kai nežinomas spaustuvininkas atsitiktine tvarka išdėliojo raides atspaudų prese ir tokiu būdu sukūrė raidžių egzempliorių. Šis tekstas išliko beveik nepasikeitęs ne tik penkis amžius, bet ir įžengė i kopiuterinio grafinio dizaino laikus. Jis išpopuliarėjo XX a. šeštajame dešimtmetyje, kai buvo išleisti Letraset lapai su Lorem Ipsum ištraukomis, o vėliau -leidybinė sistema AldusPageMaker, kurioje buvo ir Lorem Ipsum versija. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="jumbotron col-lg-4 col-md-12 col-sm-12 coocing_table">
+           <h4>Receptui panaudota</h4>  
+        <form action="#" method="post">
+           <table class="table table-striped">
+            <tr>
+                <td>
+                    Pieno
+                </td>
+                <td>
+                    <input type="text" value="1l" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Pieno
+                </td>
+                <td>
+                    <input type="text" value="300g" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Pieno
+                </td>
+                <td>
+                    <input type="text" value="2kg" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Pieno
+                </td>
+                <td>
+                    <input type="text" value="2vnt" />
+                </td>
+            </tr> 
+           </table>
+           <a class="btn btn-success" href="{{ asset('recipes/') }}">Pagaminau!</a>
+           <!-- <button class="btn btn-success" value="1" name="done">Pagaminau!</button> -->
+          </form>   
+        </div>
+        
+    </div>
+ </div>
+{% endblock %}

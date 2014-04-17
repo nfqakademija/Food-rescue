@@ -33,6 +33,27 @@
 .rec_fav{
     float: right;
 }
+.rec_view_stat,.view_icons{
+    margin-top: 15px;
+}
+.recip_top{
+    border-bottom: 3px solid #000;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+}
+.ingredients{
+    
+}
+.ingredients h4{
+    text-align: center;
+}
+.coock_info p{
+    font-size: 13px;
+    text-align: justify;
+}
+.coocing_table{
+    float: right;
+}
 </style>        
         
         
@@ -43,7 +64,7 @@
 
                 {% block headblock %}
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-8"><a href="#" class="logo">Food Rescue</a></div>
+                    <div class="col-lg-2 col-md-2 col-sm-8"><a href="/" class="logo">Food Rescue</a></div>
                     {% if logged is defined and logged is not empty %}
                         <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu user-settings nav nav-pills pull-right">
