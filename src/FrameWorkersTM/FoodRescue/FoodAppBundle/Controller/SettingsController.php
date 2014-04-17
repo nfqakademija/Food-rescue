@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class SettingsController extends Controller {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $session = $request->getSession();
         $array['logged']= $session->get('logged');
