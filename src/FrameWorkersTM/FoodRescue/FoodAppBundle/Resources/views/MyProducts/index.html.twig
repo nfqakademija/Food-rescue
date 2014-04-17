@@ -41,9 +41,25 @@
             </div>
 
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="jumbotron jumbo1">
-
+        <div class="col-lg-6 col-md-6 col-sm-6 clearfix">
+            <div class="jumbotron jumbo1 jumbo2">
+{% for i in 1..3 %} 
+             <div class="rec_wrap clearfix">
+                <div class="rec_image">
+                    <img src="{{ asset('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTEY0VZXM9oLfJ8H5U-cXdA3A-baHn9d1elmEwJsR8ENHasaYVN') }}"
+                         width="100" height="100" />
+                </div>
+                <div class="short_desc">
+                    <h4><a href="view/omleto-receptas">Omletas</a></h4>
+                    <div class="short_desc_cont">
+                        <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
+                        <span>Turi visus produktus!</span>
+                        <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" /> 
+                        <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
+                    </div>
+                </div>
+             </div> 
+{% endfor %}
             </div>
         </div>
 

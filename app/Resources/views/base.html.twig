@@ -3,14 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/> 
+        {% block stylesheets %} 
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/foodrescue.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         
 <style type="text/css">
+body{
+    background: #fff !important;
+}
 .rec_wrap{
     border: 1px solid black;
     padding: 8px;
@@ -53,6 +56,12 @@
 }
 .coocing_table{
     float: right;
+}
+.short_desc_cont{
+    float: left;
+}
+.jumbo2{
+    height: auto !important;
 }
 </style>        
         
