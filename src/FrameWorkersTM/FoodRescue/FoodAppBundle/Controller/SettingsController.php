@@ -9,9 +9,15 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 class SettingsController extends Controller {
     public function indexAction()
     {
+
+        $session = $request->getSession();
+        $array['logged']= $session->get('logged');
         $form = $this->createFormBuilder()
             ->add('email', 'email', array(
                 'label' => 'El. paštas'

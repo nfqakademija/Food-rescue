@@ -4,6 +4,8 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
@@ -14,8 +16,10 @@ class DefaultController extends Controller
     }
     */
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig');
+        $session = $request->getSession();
+        $array['logged']= $session->get('logged');
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig',$array);
     }
 }

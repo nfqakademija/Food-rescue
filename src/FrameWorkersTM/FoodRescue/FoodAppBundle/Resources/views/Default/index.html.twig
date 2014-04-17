@@ -5,30 +5,19 @@
 
 {% block title %} Pradinis {% endblock %}
 
-{% block headblock %}
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-12"><a href="#" class="logo">Food Rescue</a></div>
-
-        <div class="col-lg-10 col-md-10 col-sm-12">
-            <ul class="nav nav-pills pull-right">
-                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
-                <li class="active"><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
-            </ul>
-        </div>
-    </div>
-{% endblock %}
-
 {% block body %}
 
     <div class="advertisement jumbotron col-lg-8 col-md-8">
         <h3>Pamiršti, kad baigiasi tavo produktų galiojimas?</h3>
         <h3>Pamiršti ką turi savo šaldytuve?</h3>
-        <h3>Nežinai ką skanaus šį vakarą pasigaminti?</h3>
+        <!--<h3>Nežinai ką skanaus šį vakarą pasigaminti?</h3>-->
 
-        <h4 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h4>
+        <p><img src="/web/bootstrap/images/maistas.jpg" alt="maistas"/></p>
+
         <h4>Daugiau neišmesk produktų!</h4>
+        <h4 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h4>
 
-        <h4 style="margin-top:50px;">Food Rescue aplikacijos vartotojai per menesi sutaupo xxx LITU !</h4>
+        <h4 style="margin-top:50px;">Food Rescue aplikacijos vartotojai per mėnesį sutaupo 129 LITUS !</h4>
 
         <p style="margin-top:50px;"><a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-lg btn-success">Išbandyk</a></p>
     </div>
