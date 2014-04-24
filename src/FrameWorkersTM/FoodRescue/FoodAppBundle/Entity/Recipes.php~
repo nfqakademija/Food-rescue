@@ -1,0 +1,46 @@
+<?php
+
+namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Recipes
+ *
+ * @ORM\Table(name="recipes")
+ * @ORM\Entity
+ */
+class Recipes
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="describtion", type="text", nullable=false)
+     */
+    private $describtion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image_name", type="string", length=255, nullable=false)
+     */
+    private $imageName;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}

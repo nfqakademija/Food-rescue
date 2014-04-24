@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `aa`
+-- Database: `foodrescue`
 --
-CREATE DATABASE IF NOT EXISTS `aa` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `aa`;
+CREATE DATABASE IF NOT EXISTS `foodrescue` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `foodrescue`;
 
 -- --------------------------------------------------------
 

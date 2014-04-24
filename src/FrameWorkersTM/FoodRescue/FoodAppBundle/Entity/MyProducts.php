@@ -1,0 +1,48 @@
+<?php
+
+namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * MyProducts
+ *
+ * @ORM\Table(name="my_products")
+ * @ORM\Entity
+ */
+class MyProducts
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantity", type="decimal", precision=45, scale=0, nullable=false)
+     */
+    private $quantity;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="end_date", type="integer", nullable=false)
+     */
+    private $endDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="users_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $usersId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="products_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $productsId;
+
+
+}
