@@ -3,6 +3,7 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Products
@@ -49,7 +50,7 @@ class Products
 
     /**
      * @var integer
-     *
+
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -57,129 +58,9 @@ class Products
     private $id;
 
 
-
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Products
+     * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="product")
      */
-    public function setName($name)
-    {
-        $this->name = $name;
+    protected $recipes;
 
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set price
-     *
-     * @param string $price
-     * @return Products
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return string 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set quantity
-     *
-     * @param string $quantity
-     * @return Products
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity
-     *
-     * @return string 
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * Set unit
-     *
-     * @param string $unit
-     * @return Products
-     */
-    public function setUnit($unit)
-    {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    /**
-     * Get unit
-     *
-     * @return string 
-     */
-    public function getUnit()
-    {
-        return $this->unit;
-    }
-
-    /**
-     * Set endDays
-     *
-     * @param integer $endDays
-     * @return Products
-     */
-    public function setEndDays($endDays)
-    {
-        $this->endDays = $endDays;
-
-        return $this;
-    }
-
-    /**
-     * Get endDays
-     *
-     * @return integer 
-     */
-    public function getEndDays()
-    {
-        return $this->endDays;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }

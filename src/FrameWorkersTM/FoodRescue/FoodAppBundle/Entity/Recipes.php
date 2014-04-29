@@ -3,15 +3,18 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Recipes
  *
  * @ORM\Table(name="recipes")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesRepository")
  */
 class Recipes
 {
+
+
     /**
      * @var string
      *
@@ -42,6 +45,15 @@ class Recipes
      */
     private $id;
 
+/**
+ * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="recipes")
+ */
+protected $recipesid;
+
+public function __construct()
+{
+    $this->recipesid = new ArrayCollection();
+}
 
 
     /**
@@ -122,4 +134,41 @@ class Recipes
     {
         return $this->id;
     }
+
+
+
+
+    /**
+     * Add recipesid
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid
+     * @return Recipes
+     */
+    public function addRecipesid(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid)
+    {
+        $this->recipesid[] = $recipesid;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipesid
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid
+     */
+    public function removeRecipesid(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid)
+    {
+        $this->recipesid->removeElement($recipesid);
+    }
+
+    /**
+     * Get recipesid
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRecipesid()
+    {
+        return $this->recipesid;
+    }
+
 }

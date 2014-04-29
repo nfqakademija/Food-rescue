@@ -45,4 +45,96 @@ class MyProducts
     private $productsId;
 
 
+
+    /**
+     * Set quantity
+     *
+     * @param string $quantity
+     * @return MyProducts
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return string 
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set endDate
+     *
+     * @param integer $endDate
+     * @return MyProducts
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return integer 
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * Set usersId
+     *
+     * @param integer $usersId
+     * @return MyProducts
+     */
+    public function setUsersId($usersId)
+    {
+        $this->usersId = $usersId;
+
+        return $this;
+    }
+
+    /**
+     * Get usersId
+     *
+     * @return integer 
+     */
+    public function getUsersId()
+    {
+        return $this->usersId;
+    }
+
+    /**
+     * Set productsId
+     *
+     * @param integer $productsId
+     * @return MyProducts
+     */
+    public function setProductsId($productsId)
+    {
+        $this->productsId = $productsId;
+
+        return $this;
+    }
+
+    /**
+     * Get productsId
+     *
+     * @return integer 
+     */
+    public function getProductsId()
+    {
+        return $this->productsId;
+    }
 }

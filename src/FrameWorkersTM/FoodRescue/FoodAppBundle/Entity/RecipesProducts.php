@@ -26,25 +26,17 @@ class RecipesProducts
      */
     private $unit;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="recipes_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $recipesId;
+/**
+ * @ORM\ManyToOne(targetEntity="Recipes", inversedBy="recipesid")
+ * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
+ */
+protected $recipe;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="products_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $productsId;
-
-
+/**
+ * @ORM\ManyToOne(targetEntity="Products", inversedBy="recipes")
+ * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+ */
+protected $product;
 
     /**
      * Set quantity
@@ -136,5 +128,54 @@ class RecipesProducts
     public function getProductsId()
     {
         return $this->productsId;
+    }
+
+
+
+
+    /**
+     * Set recipes
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes $recipes
+     * @return RecipesProducts
+     */
+    public function setRecipes(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes $recipes = null)
+    {
+        $this->recipes = $recipes;
+
+        return $this;
+    }
+
+    /**
+     * Get recipes
+     *
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes 
+     */
+    public function getRecipes()
+    {
+        return $this->recipes;
+    }
+
+    /**
+     * Set products
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $products
+     * @return RecipesProducts
+     */
+    public function setProducts(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $products = null)
+    {
+        $this->products = $products;
+
+        return $this;
+    }
+
+    /**
+     * Get products
+     *
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products 
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

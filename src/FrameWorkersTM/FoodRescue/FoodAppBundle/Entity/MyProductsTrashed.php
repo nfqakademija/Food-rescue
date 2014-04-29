@@ -38,4 +38,73 @@ class MyProductsTrashed
     private $myProductsId;
 
 
+
+    /**
+     * Set quantity
+     *
+     * @param string $quantity
+     * @return MyProductsTrashed
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return string 
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return MyProductsTrashed
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set myProductsId
+     *
+     * @param integer $myProductsId
+     * @return MyProductsTrashed
+     */
+    public function setMyProductsId($myProductsId)
+    {
+        $this->myProductsId = $myProductsId;
+
+        return $this;
+    }
+
+    /**
+     * Get myProductsId
+     *
+     * @return integer 
+     */
+    public function getMyProductsId()
+    {
+        return $this->myProductsId;
+    }
 }
