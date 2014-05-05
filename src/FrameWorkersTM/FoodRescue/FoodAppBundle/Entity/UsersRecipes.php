@@ -14,6 +14,15 @@ class UsersRecipes
 {
     /**
      * @var integer
+
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+    
+    /**
+     * @var integer
      *
      * @ORM\Column(name="cooked", type="integer", nullable=false)
      */
@@ -29,22 +38,31 @@ class UsersRecipes
     /**
      * @var integer
      *
-     * @ORM\Column(name="users_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $usersId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="recipes_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="recipe_id", type="integer", nullable=false)
      */
     private $recipesId;
 
 
+    
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set cooked

@@ -13,6 +13,29 @@ use Doctrine\ORM\Mapping as ORM;
 class MyProducts
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
+     */
+    private $userId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="product_id", type="integer")
+     */
+    private $productId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="quantity", type="decimal", precision=45, scale=0, nullable=false)
@@ -26,25 +49,66 @@ class MyProducts
      */
     private $endDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="users_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $usersId;
+
+
+
+
 
     /**
-     * @var integer
+     * Get id
      *
-     * @ORM\Column(name="products_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @return integer 
      */
-    private $productsId;
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return MyProducts
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
 
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set productId
+     *
+     * @param integer $productId
+     * @return MyProducts
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return integer 
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
 
     /**
      * Set quantity
@@ -90,51 +154,5 @@ class MyProducts
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * Set usersId
-     *
-     * @param integer $usersId
-     * @return MyProducts
-     */
-    public function setUsersId($usersId)
-    {
-        $this->usersId = $usersId;
-
-        return $this;
-    }
-
-    /**
-     * Get usersId
-     *
-     * @return integer 
-     */
-    public function getUsersId()
-    {
-        return $this->usersId;
-    }
-
-    /**
-     * Set productsId
-     *
-     * @param integer $productsId
-     * @return MyProducts
-     */
-    public function setProductsId($productsId)
-    {
-        $this->productsId = $productsId;
-
-        return $this;
-    }
-
-    /**
-     * Get productsId
-     *
-     * @return integer 
-     */
-    public function getProductsId()
-    {
-        return $this->productsId;
     }
 }

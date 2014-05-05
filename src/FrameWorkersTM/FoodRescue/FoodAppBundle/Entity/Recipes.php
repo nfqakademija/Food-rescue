@@ -14,6 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Recipes
 {
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
     /**
      * @var string
@@ -39,22 +47,32 @@ class Recipes
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="products_nr", type="integer", nullable=false)
      */
-    private $id;
+    private $productsNr;
 
-/**
- * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="recipes")
- */
-protected $recipesid;
+    /**
+     * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="recipe")
+     */
+    protected $products;
 
-public function __construct()
-{
-    $this->recipesid = new ArrayCollection();
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set name
@@ -126,49 +144,58 @@ public function __construct()
     }
 
     /**
-     * Get id
+     * Set productsNr
      *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-
-
-
-    /**
-     * Add recipesid
-     *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid
+     * @param integer $productsNr
      * @return Recipes
      */
-    public function addRecipesid(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid)
+    public function setProductsNr($productsNr)
     {
-        $this->recipesid[] = $recipesid;
+        $this->productsNr = $productsNr;
 
         return $this;
     }
 
     /**
-     * Remove recipesid
+     * Get productsNr
      *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid
+     * @return integer 
      */
-    public function removeRecipesid(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipesid)
+    public function getProductsNr()
     {
-        $this->recipesid->removeElement($recipesid);
+        return $this->productsNr;
     }
 
     /**
-     * Get recipesid
+     * Add products
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products
+     * @return Recipes
+     */
+    public function addProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products)
+    {
+        $this->products[] = $products;
+
+        return $this;
+    }
+
+    /**
+     * Remove products
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products
+     */
+    public function removeProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products)
+    {
+        $this->products->removeElement($products);
+    }
+
+    /**
+     * Get products
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRecipesid()
+    public function getProducts()
     {
-        return $this->recipesid;
+        return $this->products;
     }
-
 }
