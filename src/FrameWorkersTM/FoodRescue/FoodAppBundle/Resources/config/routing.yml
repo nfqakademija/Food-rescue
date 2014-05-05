@@ -15,7 +15,7 @@ frame_workers_tm_food_rescue_food_app_recipes:
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index }
     
 frame_workers_tm_food_rescue_food_app_recipe:
-    pattern: /recipes/view/{slug}
+    pattern: /recipes/view/{recipeid}
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:RecipieView }
     
 frame_workers_tm_food_rescue_food_app_login:
