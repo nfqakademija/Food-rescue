@@ -4,6 +4,7 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+use Doctrine\ORM\Query\ResultSetMapping;
 /**
  * RecipesRepository
  *
@@ -13,163 +14,179 @@ use Doctrine\ORM\EntityRepository;
 class RecipesRepository extends EntityRepository
 {
 
-    /*
-     * count recipe products and update recipes table products_nr field
-     * UPDATE recipes SET products_nr = (SELECT COUNT(recipes_id) FROM recipes_products WHERE recipes.id = recipes_products.recipes_id GROUP BY id)
-     */
+    public function findRecipesByUser($userid,$quantity)
+    {
 
-    /*
-     * print recipes with products ids
-      select a.id, a.name, a.products_nr, (select GROUP_CONCAT(products_id) from recipes_products where recipes_id = a.id) as products_id
-      from recipes a LIMIT 10
-     */
+        // pasiemam vartotojo turimus produktus
+        $myproducts = $this->getEntityManager()
+            ->createQuery('SELECT a
+                FROM FrameWorkersTMFoodRescueFoodAppBundle:MyProducts a
+                WHERE a.userId = :idOfUser')
+            ->setParameter('idOfUser', $userid)
+            ->getResult();
 
-    /*
-     * atvaizduoja receptus, kuriem turim 1 produkta
+        // surasom produktu id i masyva
+        $i = 0;
+        $myProductsIds = [];
+        foreach ($myproducts as $myproduct){
+            $myProductsIds[$i] = (int)$myproduct->getId();
+            $i++;
+        }
 
-select distinct(a.id), a.name, a.products_nr,
-(select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) as my_products
-from recipes a
-left join recipes_products b ON a.id = b.recipes_id
-where b.products_id in (select products_id from my_products where users_id =1)
-and (select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) = 1
-    */
+ //$m = implode(',', array_map('intval', $myProductsIds));
+ //$myProductsIds = $m;
 
-    /*
-    // atvaizduoja receptus, kuriem turim bent puse reikalingu produktu
+echo "turimi produktai: ";
+print_r($myProductsIds);
+echo "<br/>";
 
-select distinct(a.id), a.name, a.products_nr,
-(select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) as my_products
-from recipes a
-left join recipes_products b ON a.id = b.recipes_id
-where b.products_id in (select products_id from my_products where users_id =1)
-and (select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) >= a.products_nr/2
-ORDER BY `my_products`  DESC
-    */
+//WARNING - blogai supranta myProductsIds nes turi grazinti tik 120 reiksmiu
+//          ir negalime panaudoti LIMIT
 
-    /*
-    // atvaizduoja receptus , kuriem turim bent puse reikalingu produktu, kartu su reikalingais produktais
+        // paimam tuos receptus, kuriem turim bent puse reikalingu produktu
+        return $this->getEntityManager()
+            ->createQuery(
+               'SELECT a,b,d
+                FROM FrameWorkersTMFoodRescueFoodAppBundle:Recipes a
+                JOIN a.products b
+                JOIN b.product d
 
-select distinct(a.id), a.name, a.products_nr,
-(select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) as my_products,
-(SELECT GROUP_CONCAT(d.name)
-  from products d
- left join recipes_products e on e.products_id = d.id
- WHERE e.recipes_id = a.id) as products_name
-from recipes a
-left join recipes_products b ON a.id = b.recipes_id
-left join products c ON c.id = b.products_id
-where b.products_id in (select products_id from my_products where users_id =1)
-and (select count(products_id) from recipes_products where products_id in (select products_id from my_products where users_id =1) and recipes_id = a.id) >= a.products_nr/2
-ORDER BY `a`.`id` ASC
-    */
+                WHERE b.product IN (:myProductsIds)
+                AND (SELECT COUNT(e.product)
+                    FROM FrameWorkersTMFoodRescueFoodAppBundle:RecipesProducts e
+                    WHERE e.product IN (:myProductsIds)
+                    AND e.recipe = a.id
+                    ) >= a.productsNr/:quantity
 
-    /*
-    //atvaizduoja receptus, kuriem turim bent puse reikalingu produktu, kartu su reikalingais ir turimais produktais
+                ORDER BY a.id ASC
+                '
+            )
+            ->setParameter('myProductsIds', $myProductsIds)
+            ->setParameter('quantity', $quantity)
+            //->setFirstResult(0)
+            //->setMaxResults(10)
+            ->getResult();
+    }
+
+    // get recipes by user products
+    public function findRecipesByUserNativeSQL($userid,$quantity)
+    {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+                 SELECT DISTINCT(a.id), a.name, a.image_name, a.products_nr,
+                 (  SELECT COUNT(e.product_id)
+                     FROM recipes_products e
+                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     AND e.recipe_id = a.id
+                 ) as products_accepted,
+                 f.cooked, f.liked
+
+                 FROM recipes as a
+                 LEFT JOIN recipes_products as b ON b.recipe_id = a.id
+                 LEFT JOIN products as d ON d.id = b.product_id
+                 LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+                 WHERE b.product_id IN (SELECT product_id FROM my_products WHERE user_id = :userid)
+                 AND (SELECT COUNT(e.product_id)
+                     FROM recipes_products e
+                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     AND e.recipe_id = a.id
+                     ) >= a.products_nr/:quantity
+
+                 ORDER BY a.id ASC
+                 LIMIT 10
+                 ;
+        ");
+        $statement->bindValue('quantity', $quantity);
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    // get recipe with info if it was cooked and liked
+    public function findRecipeNativeSQL($userid,$recipeid)
+    {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+                 SELECT a.id, a.name, a.describtion, a.image_name, a.products_nr,
+                 b.cooked, b.liked
+                 FROM recipes a
+                 LEFT JOIN users_recipes b ON b.user_id = :user_id AND b.recipe_id = :recipe_id
+                 WHERE a.id = :recipe_id
+                 ;
+        ");
+        $statement->bindValue('user_id', $userid);
+        $statement->bindValue('recipe_id', $recipeid);
+        $statement->execute();
+        $results = $statement->fetch();
+        return $results;
+    }
+
+    // get recipe products with quantity required and products nr i have for recipe
+    public function findRecipeProductsNativeSQL($recipeid)
+    {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+                 SELECT a.id, a.name, a.unit, b.quantity, d.product_id as myproduct
+                 FROM products a
+                 LEFT JOIN recipes_products b on b.product_id = a.id
+                 LEFT JOIN my_products d on d.product_id = a.id
+                 WHERE b.recipe_id = :recipe_id
+                 ;
+        ");
+        $statement->bindValue('recipe_id', $recipeid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
+}
+
+/*
+count recipe products and update recipes table products_nr field
+
+UPDATE recipes SET products_nr = (SELECT COUNT(recipe_id) FROM recipes_products WHERE recipe_id = recipes.id);
+*/
+
+/*
+print recipes with products ids
+
+select a.id, a.name, a.products_nr, (select GROUP_CONCAT(product_id) from recipes_products where recipe_id = a.id) as products_id
+from recipes a LIMIT 10
+*/
+
+/*
+//atvaizduoja receptus,
+    kuriem turim bent puse reikalingu produktu,
+    kartu su reikalingais ir turimais produktais
+
 SELECT DISTINCT(a.id), a.name, a.products_nr,
-(SELECT COUNT(products_id)
+(SELECT COUNT(product_id)
     FROM recipes_products
-    WHERE products_id IN (SELECT products_id FROM my_products WHERE users_id =1)
-    AND recipes_id = a.id)
+    WHERE product_id IN (SELECT product_id FROM my_products WHERE user_id =1)
+    AND recipe_id = a.id)
 AS my_products,
 (SELECT GROUP_CONCAT(d.name)
     FROM products d
-    LEFT JOIN recipes_products e ON e.products_id = d.id
-    WHERE e.recipes_id = a.id)
+    LEFT JOIN recipes_products e ON e.product_id = d.id
+    WHERE e.recipe_id = a.id)
 AS products_name,
 (SELECT GROUP_CONCAT(name)
     FROM products f
-    LEFT JOIN recipes_products g ON g.products_id = f.id
-    WHERE id IN (SELECT products_id FROM my_products WHERE users_id =1) AND recipes_id = a.id)
+    LEFT JOIN recipes_products g ON g.product_id = f.id
+    WHERE id IN (SELECT product_id FROM my_products WHERE user_id =1) AND recipe_id = a.id)
 AS my_products_name
 FROM recipes a
-LEFT JOIN recipes_products b ON a.id = b.recipes_id
-LEFT JOIN products c ON c.id = b.products_id
-WHERE b.products_id IN (SELECT products_id FROM my_products WHERE users_id = 1)
-AND (SELECT COUNT(products_id)
-    FROM recipes_products
-    WHERE products_id in (SELECT products_id FROM my_products WHERE users_id = 1)
-    AND recipes_id = a.id)
+LEFT JOIN recipes_products b ON a.id = b.recipe_id
+LEFT JOIN products c ON c.id = b.product_id
+WHERE b.product_id IN (SELECT product_id FROM my_products WHERE user_id = 1)
+AND (SELECT COUNT(h.product_id)
+    FROM recipes_products h
+    WHERE h.product_id in (SELECT product_id FROM my_products WHERE user_id = 1)
+    AND recipe_id = a.id)
 >= a.products_nr/2
-ORDER BY a.id ASC
-     */
-
-
-
-
-
-    /* a.products_nr, */
-    /* shows a number of products user have for recipe
-    (SELECT COUNT(products_id)
-        FROM FrameWorkersTMFoodRescueFoodAppBundle:RecipesProducts
-        WHERE products_id IN (SELECT products_id FROM my_products WHERE users_id =1)
-        AND recipes_id = a.id)
-    AS my_products,
-                 */
-    /* shows recipe products names */
-    /*
-    (SELECT GROUP_CONCAT(d.name)
-        FROM products d
-        LEFT JOIN recipes_products e ON e.products_id = d.id
-        WHERE e.recipes_id = a.id)
-    AS products_name,
-    */
-    /* show products names that user have */
-    /*
-    (SELECT GROUP_CONCAT(name)
-        FROM products f
-        LEFT JOIN recipes_products g ON g.products_id = f.id
-        WHERE id IN (SELECT products_id FROM my_products WHERE users_id =1) AND recipes_id = a.id)
-    AS my_products_name
-    */
-
-
-    /*
-    AND (SELECT COUNT(products_id)
-        FROM recipes_products
-        WHERE products_id in (SELECT products_id FROM my_products WHERE users_id = 1)
-        AND recipes_id = a.id)
-    >= a.productsNr/2
-    */
-    public function findRecipes($userid)
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT DISTINCT(a.id), a.name
-
-FROM FrameWorkersTMFoodRescueFoodAppBundle:Recipes a
-LEFT JOIN FrameWorkersTMFoodRescueFoodAppBundle:RecipesProducts b ON b.recipesId = a.id
-LEFT JOIN FrameWorkersTMFoodRescueFoodAppBundle:Products cc ON cc.id = b.productsId
-WHERE b.productsId IN (SELECT d.productsId FROM FrameWorkersTMFoodRescueFoodAppBundle:MyProducts d WHERE d.usersId = 1)
-                WHERE a.id = :id
-                ORDER BY a.id ASC'
-            )
-            ->setParameter('id', $userid)
-            ->getResult();
-    }
-
-    public function getProducts()
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT p FROM FrameWorkersTMFoodRescueFoodAppBundle:Recipes p
-                ORDER BY p.id ASC'
-            )
-            ->setMaxResults(1)
-            ->getResult();
-    }
-
-    public function findAllProductsByRecipeId($id)
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT p FROM FrameWorkersTMFoodRescueFoodAppBundle:RecipesProducts p
-                WHERE p.recipesId = :id
-                '
-            )
-            ->setParameter('id', $id)
-            ->getResult();
-    }
-
-
-}
+ORDER BY a.id ASC;
+*/
