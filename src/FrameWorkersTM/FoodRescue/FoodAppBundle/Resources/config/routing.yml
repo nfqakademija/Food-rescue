@@ -31,6 +31,9 @@ frame_workers_tm_food_rescue_food_app_settings:
     pattern: /settings/
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Settings:index }
 
+frame_workers_tm_food_rescue_app_products_list:
+    pattern: /productslist/
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:ProductList:index }
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

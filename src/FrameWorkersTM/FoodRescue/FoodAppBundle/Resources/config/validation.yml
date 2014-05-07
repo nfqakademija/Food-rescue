@@ -1,0 +1,15 @@
+FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\AddMyProduct:
+    properties:
+        productName:
+        ~ NotBlank: ~
+    productID:
+        ~ NotBlank: ~
+        ~ GreaterThan:
+            value: -1
+    quantity:
+        ~ NotBlank: ~
+        ~ GreaterThan:
+            value: 0
+    endDate:
+        ~ NotBlank: ~
+        ~ Date: ~1
