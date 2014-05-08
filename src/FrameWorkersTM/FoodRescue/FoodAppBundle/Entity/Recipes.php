@@ -3,15 +3,26 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Recipes
  *
  * @ORM\Table(name="recipes")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesRepository")
  */
 class Recipes
 {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
     /**
      * @var string
      *
@@ -36,13 +47,32 @@ class Recipes
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="products_nr", type="integer", nullable=false)
      */
-    private $id;
+    private $productsNr;
 
+    /**
+     * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="recipe")
+     */
+    protected $products;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set name
@@ -114,12 +144,58 @@ class Recipes
     }
 
     /**
-     * Get id
+     * Set productsNr
+     *
+     * @param integer $productsNr
+     * @return Recipes
+     */
+    public function setProductsNr($productsNr)
+    {
+        $this->productsNr = $productsNr;
+
+        return $this;
+    }
+
+    /**
+     * Get productsNr
      *
      * @return integer 
      */
-    public function getId()
+    public function getProductsNr()
     {
-        return $this->id;
+        return $this->productsNr;
+    }
+
+    /**
+     * Add products
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products
+     * @return Recipes
+     */
+    public function addProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products)
+    {
+        $this->products[] = $products;
+
+        return $this;
+    }
+
+    /**
+     * Remove products
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products
+     */
+    public function removeProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $products)
+    {
+        $this->products->removeElement($products);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class RecipesProducts
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="quantity", type="decimal", precision=9, scale=2, nullable=false)
@@ -27,23 +36,16 @@ class RecipesProducts
     private $unit;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="recipes_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="Recipes", inversedBy="products", cascade={"persist"})
+     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
      */
-    private $recipesId;
+    protected $recipe;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="products_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="Products", inversedBy="recipes", cascade={"persist"})
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
-    private $productsId;
-
+    protected $product;
 
 
     /**
@@ -93,48 +95,58 @@ class RecipesProducts
     }
 
     /**
-     * Set recipesId
+     * Set recipe
      *
-     * @param integer $recipesId
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes $recipe
      * @return RecipesProducts
      */
-    public function setRecipesId($recipesId)
+    public function setRecipe(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes $recipe = null)
     {
-        $this->recipesId = $recipesId;
+        $this->recipe = $recipe;
 
         return $this;
     }
 
     /**
-     * Get recipesId
+     * Get recipe
      *
-     * @return integer 
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes 
      */
-    public function getRecipesId()
+    public function getRecipe()
     {
-        return $this->recipesId;
+        return $this->recipe;
     }
 
     /**
-     * Set productsId
+     * Set product
      *
-     * @param integer $productsId
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
      * @return RecipesProducts
      */
-    public function setProductsId($productsId)
+    public function setProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product = null)
     {
-        $this->productsId = $productsId;
+        $this->product = $product;
 
         return $this;
     }
 
     /**
-     * Get productsId
+     * Get product
+     *
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Get id
      *
      * @return integer 
      */
-    public function getProductsId()
+    public function getId()
     {
-        return $this->productsId;
+        return $this->id;
     }
 }
