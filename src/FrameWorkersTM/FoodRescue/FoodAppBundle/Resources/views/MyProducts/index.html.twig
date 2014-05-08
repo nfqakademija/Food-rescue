@@ -68,6 +68,7 @@
 
 
     </div>
+
     <div class="jumbotron">
         <h4>Turimi produktai</h4>
         <table id="myProductsTable" class="table table-striped">
@@ -85,7 +86,7 @@
                     <td> {{ product.product.name }}</td>
                     <td> {{ product.quantity }}</td>
                     <td> {{ product.product.unit }}</td>
-                    <td> {{ date("Y-m-d", product.endDate) }}</td>
+                    <td> {{ product.endDate }}</td>
                 </tr>
             {% endfor %}
 
@@ -93,4 +94,5 @@
         </table>
 
     </div>
+
 {% endblock %}
