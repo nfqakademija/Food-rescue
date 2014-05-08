@@ -13,6 +13,31 @@ use Doctrine\ORM\Mapping as ORM;
 class MyProducts
 {
     /**
+     * @var Products
+     *
+     * @ORM\ManyToOne(targetEntity="Products", inversedBy="products")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     *
+     */
+    private $product;
+
+    /**
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")

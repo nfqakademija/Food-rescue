@@ -5,42 +5,45 @@
 
 {% block title %} Mano produktai {% endblock %}
 
+
 {% block body %}
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="jumbo1 jumbotron">
                 <h4>Pridėti produktą</h4>
-                <div class="row">
-                    <form>
-                        <div class="form-small-margin col-lg-4">
-                            <label for="name">Pavadinimas</label>
-                            <input type="text" class="form-control" id="name" placeholder="Produktas">
-                        </div>
-                        <div class="form-small-margin col-lg-2">
-                            <label for="quantity">Kiekis</label>
-                            <input type="number" class="form-control" id="quantity">
-                            <select class="form-control">
-                                <option class="form-control" value="num">vnt.</option>
-                                <option class="form-control" value="litres">l</option>
-                                <option class="form-control" value="grams">g</option>
-                            </select>
-                        </div>
-                        <div class="form-small-margin col-lg-3">
-                            <label for="endDate">Suges</label>
-                            <input type="date" class="form-control" id="endDate">
-                        </div>
-                        <div class="form-small-margin col-lg-2">
-                            <span style="height: 25px; display: block"></span>
-                            <input class="form-control" type="submit" value="Išsaugoti">
-                        </div>
+                {{ form_start(addProductForm) }}
 
-                    </form>
+                {{ form_errors(addProductForm) }}
+                <div class ="row">
+                    <div class="form-small-margin col-lg-4">
+                        {{ form_label(addProductForm.productName, 'Pavadinimas') }}
+                        {{ form_errors(addProductForm.productName) }}
+                        {{ form_widget(addProductForm.productName, {'attr': {'class': 'form-control ui-autocomplete-input'}}) }}
+                    </div>
+                    <div class="form-small-margin col-lg-2">
+                        {{ form_label(addProductForm.quantity, 'Kiekis') }}
+                        {{ form_errors(addProductForm.quantity) }}
+                        {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-small-margin col-lg-1">
+                        <label>Vnt</label>
+                        <label id="addMyProductUnits"></label>
+                    </div>
+                    <div class="form-small-margin col-lg-2">
+                        {{ form_label(addProductForm.endDate, 'Suges') }}
+                        {{ form_errors(addProductForm.endDate) }}
+                        {{ form_widget(addProductForm.endDate, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-small-margin col-lg-2">
+                        <label> </label>
+                        {{ form_widget(addProductForm.submit, {'attr': {'class': 'form-control', 'value': 'Išsaugoti'}, 'label': 'Išsaugoti'}) }}
+                    </div>
                 </div>
-
-
+                {{ form_widget(addProductForm.productId) }}
+                {{ form_end(addProductForm) }}
             </div>
-
         </div>
+
         <div class="col-lg-6 col-md-6 col-sm-6 clearfix">
             <div class="jumbotron jumbo1 jumbo2">
 {% for i in 1..2 %}
@@ -50,7 +53,7 @@
                          width="100" height="100" />
                 </div>
                 <div class="short_desc">
-                    <h4><a href="view/omleto-receptas">Omletas</a></h4>
+                    <h4><a href="{{ asset('app.php/recipes/view/omleto-receptas') }}">Omletas</a></h4>
                     <div class="short_desc_cont">
                         <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
                         <span>Turi visus produktus!</span>
@@ -65,33 +68,29 @@
 
 
     </div>
-    <div class="row">
-        <div class="jumbotron">
-            <h4>Turimi produktai</h4>
+    <div class="jumbotron">
+        <h4>Turimi produktai</h4>
+        <table id="myProductsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pavadinimas</th>
+                    <th>Kiekis</th>
+                    <th>vnt.</th>
+                    <th>Suges</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in myProducts %}
+                <tr>
+                    <td> {{ product.product.name }}</td>
+                    <td> {{ product.quantity }}</td>
+                    <td> {{ product.product.unit }}</td>
+                    <td> {{ date("Y-m-d", product.endDate) }}</td>
+                </tr>
+            {% endfor %}
 
-            <div class=\"form-group row\"/>
-            <div class='col-sm-5 col-md-5 col-lg-5'>
-                <label>Pavadinimas</label>
-            </div>
-            <div class='col-sm-2 col-md-2 col-lg-2'>
-                <label>Kiekis</label>
-            </div>
-            <div class='col-sm-2 col-md-2 col-lg-2'>
-                <label>Vienetai</label>
-            </div>
-            <div class='col-sm-2 col-md-2 col-lg-2'>
-                <label>Suges</label>
-            </div>
-            <div class='col-sm-1 col-md-1 col-lg-1'>
-                <label>Trinti</label>
-            </div>
-        </div>
+            </tbody>
+        </table>
 
-            <form>
-                {{ forma | raw }}
-            </form>
-
-
-        </div>
     </div>
 {% endblock %}
