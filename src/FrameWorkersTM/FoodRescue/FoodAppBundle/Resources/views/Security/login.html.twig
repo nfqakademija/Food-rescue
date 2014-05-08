@@ -1,27 +1,34 @@
-{% extends "::base.html.twig" %}
+{# src/FrameworkersTM/FoodRescue/FoodAppBundle/Resources/views/Default/index.html.twig #}
 
-{% trans_default_domain 'FOSUserBundle' %}
+{# base template yra app/resources/views/base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block title %} Prisijungimas/Registracija {% endblock %}
 
 {% block body %}
-    {% if error %}
-        <div>{{ error|trans }}</div>
-    {% endif %}
+    <div class="row">
+        <div class="col-lg-2 col-md-2"> </div>
+        <div class="col-lg-4 col-md-4">
+            {% if error %}
+                <div>{{ error|trans }}</div>
+            {% endif %}
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <form action="{{ path("fos_user_security_check") }}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                <label for="username">Prisijungimo vardas</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" /><br />
 
-        <label for="username">{{ 'security.login.username'|trans }}</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+                <label for="password">Slaptažodis</label>
+                <input type="password" id="password" name="_password" required="required" /> <br />
 
-        <label for="password">{{ 'security.login.password'|trans }}</label>
-        <input type="password" id="password" name="_password" required="required" />
+                <input type="submit" id="_submit" name="_submit" value="Prisijunkti" />
+            </form>
+        </div>
 
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+        <div class="col-lg-4 col-md-4">
 
-        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-    </form>
 
-    {% render url('fos_user_registration_register') %}
-
-{% endblock body %}
+        </div>
+        <div class="col-lg-2 col-md-2"> </div>
+    </div>
+{% endblock %}
