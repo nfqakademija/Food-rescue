@@ -65,6 +65,11 @@ class Products
      */
     protected $recipes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MyProducts", mappedBy="product")
+     */
+    protected $products;
+
 
     /**
      * Constructor
@@ -230,5 +235,48 @@ class Products
     public function getRecipes()
     {
         return $this->recipes;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product
+     * @return Products
+     */
+    public function addProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product)
+    {
+        $this->product[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product
+     */
+    public function removeProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product)
+    {
+        $this->product->removeElement($product);
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

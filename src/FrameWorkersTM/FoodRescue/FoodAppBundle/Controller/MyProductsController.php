@@ -5,6 +5,7 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\AddMyProduct;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -31,15 +32,22 @@ class MyProductsController extends Controller
             ->handleRequest($request);
 
         if ($addProductForm->isValid()) {
+
             $productData = $addProductForm->getData();
+
+            //$em = $this->getDoctrine()->getManager();
+           // $a = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
+            //    ->findOneById(1);
+            //print_r($a->getName()); die();
+
             $product = new MyProducts();
             $product->setEndDate(strtotime($productData->getEndDate()))
                 ->setQuantity($productData->getQuantity())
                 ->setUserId($session->getId())
-                ->setProductId(2);//$productData->getProductId());
+                ->setProduct(1);//$productData->getProductId());
 
             $em = $this->getDoctrine()->getManager();
-            print_r($product);
+            //print_r($product);
 
             $em->persist($product);
             $em->flush();

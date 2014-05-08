@@ -21,21 +21,7 @@ class MyProducts
      */
     private $product;
 
-    /**
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-    }
 
-    /**
-     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
 
     /**
      * @var integer
@@ -54,11 +40,13 @@ class MyProducts
     private $userId;
 
     /**
-     * @var integer
+     * var integer
      *
-     * @ORM\Column(name="product_id", type="integer")
-     */
+     * ORM\Column(name="product_id", type="integer")
+
     private $productId;
+     */
+
 
     /**
      * @var string
@@ -112,28 +100,7 @@ class MyProducts
         return $this->userId;
     }
 
-    /**
-     * Set productId
-     *
-     * @param integer $productId
-     * @return MyProducts
-     */
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
 
-        return $this;
-    }
-
-    /**
-     * Get productId
-     *
-     * @return integer 
-     */
-    public function getProductId()
-    {
-        return $this->productId;
-    }
 
     /**
      * Set quantity
@@ -179,5 +146,30 @@ class MyProducts
     public function getEndDate()
     {
         return $this->endDate;
+    }
+
+
+
+    /**
+     * Set product
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
+     * @return MyProducts
+     */
+    public function setProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products 
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
