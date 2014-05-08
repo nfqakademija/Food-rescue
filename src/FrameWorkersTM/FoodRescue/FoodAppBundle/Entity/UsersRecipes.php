@@ -14,6 +14,15 @@ class UsersRecipes
 {
     /**
      * @var integer
+
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+    
+    /**
+     * @var integer
      *
      * @ORM\Column(name="cooked", type="integer", nullable=false)
      */
@@ -29,20 +38,121 @@ class UsersRecipes
     /**
      * @var integer
      *
-     * @ORM\Column(name="users_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $usersId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="recipes_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="recipe_id", type="integer", nullable=false)
      */
     private $recipesId;
 
 
+    
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set cooked
+     *
+     * @param integer $cooked
+     * @return UsersRecipes
+     */
+    public function setCooked($cooked)
+    {
+        $this->cooked = $cooked;
+
+        return $this;
+    }
+
+    /**
+     * Get cooked
+     *
+     * @return integer 
+     */
+    public function getCooked()
+    {
+        return $this->cooked;
+    }
+
+    /**
+     * Set liked
+     *
+     * @param integer $liked
+     * @return UsersRecipes
+     */
+    public function setLiked($liked)
+    {
+        $this->liked = $liked;
+
+        return $this;
+    }
+
+    /**
+     * Get liked
+     *
+     * @return integer 
+     */
+    public function getLiked()
+    {
+        return $this->liked;
+    }
+
+    /**
+     * Set usersId
+     *
+     * @param integer $usersId
+     * @return UsersRecipes
+     */
+    public function setUsersId($usersId)
+    {
+        $this->usersId = $usersId;
+
+        return $this;
+    }
+
+    /**
+     * Get usersId
+     *
+     * @return integer 
+     */
+    public function getUsersId()
+    {
+        return $this->usersId;
+    }
+
+    /**
+     * Set recipesId
+     *
+     * @param integer $recipesId
+     * @return UsersRecipes
+     */
+    public function setRecipesId($recipesId)
+    {
+        $this->recipesId = $recipesId;
+
+        return $this;
+    }
+
+    /**
+     * Get recipesId
+     *
+     * @return integer 
+     */
+    public function getRecipesId()
+    {
+        return $this->recipesId;
+    }
 }

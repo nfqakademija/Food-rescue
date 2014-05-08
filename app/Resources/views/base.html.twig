@@ -11,61 +11,7 @@
 
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        
-<style type="text/css">
-body{
-    background: #fff !important;
-}
-.rec_wrap{
-    border: 1px solid black;
-    padding: 8px;
-}
-.rec_image{
-    margin-right: 15px;
-}
-.rec_image,.rec_descr,.rec_stats{
-    float: left;
-}
-.rec_descr h4,.rec_descr p{
-    margin: 0;
-}
-.rec_descr p{
-    font-size: 13px;
-}
-.rec_stats,.rec_stats,.rec_fav{
-    margin-top: 35px;
-}
-.rec_fav{
-    float: right;
-}
-.rec_view_stat,.view_icons{
-    margin-top: 15px;
-}
-.recip_top{
-    border-bottom: 3px solid #000;
-    padding-bottom: 6px;
-    margin-bottom: 6px;
-}
-.ingredients{
-    
-}
-.ingredients h4{
-    text-align: center;
-}
-.coock_info p{
-    font-size: 13px;
-    text-align: justify;
-}
-.coocing_table{
-    float: right;
-}
-.short_desc_cont{
-    float: left;
-}
-.jumbo2{
-    height: auto !important;
-}
-</style>        
+
         
         
     </head>
@@ -95,8 +41,8 @@ body{
                     {% else %}
                         <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu nav nav-pills pull-right">
-                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Prisijungti </a></li>
-                                <li><a href="{{ path('frame_workers_tm_food_rescue_food_app_login') }}">Registruotis</a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}">Prisijungti </a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}">Registruotis</a></li>
                             </ul>
                         </div>
                     {% endif %}
@@ -111,10 +57,12 @@ body{
                 {% endblock %}
 
                 {% block javascripts %}
-                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
                     <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-1.10.2.js') }}"></script>
                     <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
-                    <script type="text/javascript" src="{{ asset('assets/js/AddProduct.js') }}"></script>
+                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+                    <script type="text/javascript" src="{{ asset('assets/js/mindmup-editabletable.js') }}"></script>
+                    <script type="text/javascript" src="{{ asset('assets/js/MyProduct.js') }}"></script>
+
                 {% endblock %}
             </div>
     </body>

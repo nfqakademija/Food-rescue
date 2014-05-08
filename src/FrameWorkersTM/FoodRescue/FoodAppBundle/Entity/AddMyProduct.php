@@ -11,7 +11,7 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 class AddMyProduct {
     private $productName;
-    private $productID;
+    private $productId;
     private $quantity;
     private $endDate;
     /**
@@ -33,17 +33,17 @@ class AddMyProduct {
     /**
      * @param mixed $productID
      */
-    public function setProductID($productID)
+    public function setProductId($productId)
     {
-        $this->productID = $productID;
+        $this->productId = $productId;
     }
 
     /**
      * @return mixed
      */
-    public function getProductID()
+    public function getProductId()
     {
-        return $this->productID;
+        return $this->productId;
     }
 
     /**

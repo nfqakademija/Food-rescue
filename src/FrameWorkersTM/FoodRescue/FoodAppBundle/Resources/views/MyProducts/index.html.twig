@@ -7,7 +7,6 @@
 
 
 {% block body %}
-    <script src="{{ asset('assets/js/productListAutocomplete.js') }}"></script>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="jumbo1 jumbotron">
@@ -40,7 +39,7 @@
                         {{ form_widget(addProductForm.submit, {'attr': {'class': 'form-control', 'value': 'Išsaugoti'}, 'label': 'Išsaugoti'}) }}
                     </div>
                 </div>
-                {{ form_widget(addProductForm.productID) }}
+                {{ form_widget(addProductForm.productId) }}
                 {{ form_end(addProductForm) }}
             </div>
         </div>
@@ -71,7 +70,7 @@
     </div>
     <div class="jumbotron">
         <h4>Turimi produktai</h4>
-        <table class="table table-striped">
+        <table id="myProductsTable" class="table table-striped">
             <thead>
                 <tr>
                     <th>Pavadinimas</th>
@@ -83,10 +82,10 @@
             <tbody>
             {% for product in myProducts %}
                 <tr>
-                    <td> {{ myProductsArray[product.id]["name"] }}</td>
+                    <td> {{ product.product.name }}</td>
                     <td> {{ product.quantity }}</td>
-                    <td> {{ myProductsArray[product.id]["units"] }}</td>
-                    <td> {{ product.endDate }}</td>
+                    <td> {{ product.product.unit }}</td>
+                    <td> {{ date("Y-m-d", product.endDate) }}</td>
                 </tr>
             {% endfor %}
 

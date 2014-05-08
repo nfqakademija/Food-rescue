@@ -14,48 +14,37 @@ use Doctrine\ORM\Mapping as ORM;
 class MyProducts
 {
     /**
+     * @var Products
+     *
+     * @ORM\ManyToOne(targetEntity="Products", inversedBy="products")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     *
+     */
+    private $product;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @param mixed $id
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    private $userId;
 
     /**
-     * @return mixed
+     * @var integer
+     *
+     * @ORM\Column(name="product_id", type="integer")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-    /*
-     * @ORM\ManyToOne(targetEntity="Products")
-     * @ORM\JoinColumn(name="productsID", referenceColumnName="id")
-     */
-    protected $product;
+    private $productId;
 
-    /**
-     * @param mixed $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
 
     /**
      * @var string
@@ -71,21 +60,66 @@ class MyProducts
      */
     private $endDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="users_id", type="integer")
-     */
-    private $usersId;
+
+
+
+
 
     /**
-     * @var integer
+     * Get id
      *
-     * @ORM\Column(name="products_id", type="integer")
+     * @return integer
      */
-    private $productsId;
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return MyProducts
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
 
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set productId
+     *
+     * @param integer $productId
+     * @return MyProducts
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return integer 
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
 
     /**
      * Set quantity
@@ -134,48 +168,18 @@ class MyProducts
     }
 
     /**
-     * Set usersId
-     *
-     * @param integer $usersId
-     * @return MyProducts
+     * @param Products $product
      */
-    public function setUsersId($usersId)
+    public function setProduct($product)
     {
-        $this->usersId = $usersId;
-
-        return $this;
+        $this->product = $product;
     }
 
     /**
-     * Get usersId
-     *
-     * @return integer 
+     * @return Products
      */
-    public function getUsersId()
+    public function getProduct()
     {
-        return $this->usersId;
-    }
-
-    /**
-     * Set productsId
-     *
-     * @param integer $productsId
-     * @return MyProducts
-     */
-    public function setProductsId($productsId)
-    {
-        $this->productsId = $productsId;
-
-        return $this;
-    }
-
-    /**
-     * Get productsId
-     *
-     * @return integer 
-     */
-    public function getProductsId()
-    {
-        return $this->productsId;
+        return $this->product;
     }
 }

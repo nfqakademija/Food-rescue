@@ -3,6 +3,7 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Products
@@ -12,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Products
 {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
     /**
      * @var string
      *
@@ -47,16 +58,31 @@ class Products
      */
     private $endDays;
 
+
+
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToMany(targetEntity="RecipesProducts", mappedBy="product")
      */
-    private $id;
+    protected $recipes;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set name
@@ -174,12 +200,35 @@ class Products
     }
 
     /**
-     * Get id
+     * Add recipes
      *
-     * @return integer 
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipes
+     * @return Products
      */
-    public function getId()
+    public function addRecipe(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipes)
     {
-        return $this->id;
+        $this->recipes[] = $recipes;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipes
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipes
+     */
+    public function removeRecipe(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipes)
+    {
+        $this->recipes->removeElement($recipes);
+    }
+
+    /**
+     * Get recipes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRecipes()
+    {
+        return $this->recipes;
     }
 }
