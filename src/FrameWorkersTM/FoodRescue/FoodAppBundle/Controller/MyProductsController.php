@@ -31,6 +31,7 @@ class MyProductsController extends Controller
             ->getForm()
             ->handleRequest($request);
 
+
         if ($addProductForm->isValid()) {
 
             $productData = $addProductForm->getData();
@@ -41,17 +42,19 @@ class MyProductsController extends Controller
             //print_r($a->getName()); die();
 
             $product = new MyProducts();
+            $prod = $repository = $this->getDoctrine()
+                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
+                ->findOneById($productData->getProductId());
             $product->setEndDate(strtotime($productData->getEndDate()))
                 ->setQuantity($productData->getQuantity())
                 ->setUserId($session->getId())
-                ->setProduct(1);//$productData->getProductId());
+                ->setProduct($prod);
 
             $em = $this->getDoctrine()->getManager();
-            //print_r($product);
-
             $em->persist($product);
             $em->flush();
         }
+
 
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')

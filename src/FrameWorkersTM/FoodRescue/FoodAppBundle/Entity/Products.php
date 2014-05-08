@@ -20,8 +20,15 @@ class Products
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
      */
     private $id;
+     /**
+      *
+      *  @ORM\OneToMany(targetEntity="MyProducts", mappedBy="products")
+      *
+      */
+    protected $myProducts;
 
     /**
      * @var string

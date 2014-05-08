@@ -12,16 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MyProducts
 {
-    /**
-     * @var Products
-     *
-     * @ORM\ManyToOne(targetEntity="Products", inversedBy="products")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     *
-     */
-    private $product;
-
-
 
     /**
      * @var integer
@@ -40,15 +30,6 @@ class MyProducts
     private $userId;
 
     /**
-     * var integer
-     *
-     * ORM\Column(name="product_id", type="integer")
-
-    private $productId;
-     */
-
-
-    /**
      * @var string
      *
      * @ORM\Column(name="quantity", type="decimal", precision=45, scale=0, nullable=false)
@@ -62,15 +43,17 @@ class MyProducts
      */
     private $endDate;
 
-
-
-
-
+    /**
+     * @var Products
+     *
+     * @ORM\ManyToOne(targetEntity="Products")
+     */
+    private $product;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -93,13 +76,12 @@ class MyProducts
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
         return $this->userId;
     }
-
 
 
     /**
@@ -118,7 +100,7 @@ class MyProducts
     /**
      * Get quantity
      *
-     * @return string 
+     * @return string
      */
     public function getQuantity()
     {
@@ -141,35 +123,27 @@ class MyProducts
     /**
      * Get endDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getEndDate()
     {
         return $this->endDate;
     }
 
-
-
     /**
-     * Set product
-     *
      * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
-     * @return MyProducts
      */
-    public function setProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product = null)
+    public function setProduct($product)
     {
         $this->product = $product;
-
-        return $this;
     }
 
     /**
-     * Get product
-     *
-     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products 
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products
      */
     public function getProduct()
     {
         return $this->product;
     }
 }
+
