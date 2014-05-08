@@ -1,7 +1,7 @@
 {# src/FrameWorkersTm/FoodRescue/FoodAppBundle/Resources/views/Recipes/recipe.html.twig #}
 {# base template yra app/resources/views/base.html.twig #}
 {% extends '::base.html.twig' %}
-
+{% block title %} Receptas - {{ recipe.name }} {% endblock %}
 {% block body %}
 
 <h4>Gaminam receptą!</h4>
@@ -67,9 +67,11 @@
            <a class="btn btn-success" href="{{ asset('recipes/') }}">Pagaminau!</a>
            <!-- <button class="btn btn-success" value="1" name="done">Pagaminau!</button> -->
           </form>
-{#
+
             {{ form(form) }}
- #}
+pazymeti ar patiko <br/>
+palaikinti fb?
+
         </div>
         
     </div>

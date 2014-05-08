@@ -87,15 +87,13 @@ echo "<br/>";
                  LEFT JOIN products as d ON d.id = b.product_id
                  LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
 
-                 WHERE b.product_id IN (SELECT product_id FROM my_products WHERE user_id = :userid)
-                 AND (SELECT COUNT(e.product_id)
+                 WHERE (SELECT COUNT(e.product_id)
                      FROM recipes_products e
                      WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
                      AND e.recipe_id = a.id
                      ) >= a.products_nr/:quantity
 
                  ORDER BY a.id ASC
-                 LIMIT 10
                  ;
         ");
         $statement->bindValue('quantity', $quantity);

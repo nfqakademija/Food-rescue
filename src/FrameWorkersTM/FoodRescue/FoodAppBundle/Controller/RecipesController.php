@@ -10,6 +10,8 @@ use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
+
 
 class RecipesController extends Controller
 {
@@ -22,6 +24,30 @@ class RecipesController extends Controller
     {   
         $session = $request->getSession();
         $array['logged'] = $session->get('logged');
+
+/*
+        $aa = new MyProducts();
+        $aa->setProductId(1);
+        $aa->setUserId(1);
+        $aa->setQuantity(1);
+        $aa->setEndDate(1);
+
+        print_r($aa);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($aa);
+        $em->flush();
+*/
+
+       // $recipe->setDescribtion('cia apibudinimas');
+        //$recipe->setImageName('cia kelias');
+
+
+        // testitnis isvedimas is serviso
+        $greeter = $this->get('recipeservice');
+        echo $greeter->greet('rolkis');
+
+
 
         $userid = 1;  // user id
         $quantity =2; // 2 - reiskia kad turim tureti bent puse produktu ieinanciu i recepta kad ji paselectinti
@@ -72,20 +98,26 @@ class RecipesController extends Controller
         $recipe = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipeNativeSQL($userid, $recipeid);
 
-        //get recipe products
+        //get recipe products from service
+        $recipeProducts = $this->get('recipeservice')->findRecipeProducts($recipeid);
+        /* paprastas budas
+         * //get recipe products
         $em = $this->getDoctrine()->getManager();
         $recipeProducts = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipeProductsNativeSQL($recipeid);
+        */
 
         //get user accepted products for recipe
         $acceptedProductsNr = 0;
         //add products to form
         $formBuilder = $this->createFormBuilder($recipeProducts);
-
+//formos generavimas
+//formos seivinimas turi eiti i servisa
         foreach($recipeProducts as $key=>$product){
             $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
 
             if ( $product['myproduct'] != null ){
+
                 $acceptedProductsNr++;
             }
         }
@@ -93,36 +125,49 @@ class RecipesController extends Controller
         $form = $formBuilder->getForm();
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            ///eiti per my products lenta
-            //selectinti panaudotus produktu quantity ir atimti panaudota quantity
 
-            //print_r($form->getData());
-            //echo "<br/>";
+        //update product quantities
+        if ($form->isValid()) {
+
             $myproducts = $form->getData();
             foreach($myproducts as $key=>$myproduct){
                 if (isset($myproduct['id'])){
                     //echo $key."<br/>";
-                    //echo $myproduct['id']." ".$myproduct['name']." ".$myproduct['quantity']."<br/>";
-                  /*
-                    if ($myproduct['id'] == 4){
-                    $myprod = $this->getDoctrine()
-                        ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-                        ->findOneById($myproduct['id']);
-                    $myprod->setQuantity(1);
-                    $em2 = $this->getDoctrine()->getManager();
-                    $em2->persist($myprod);
-                    $em2->flush();
-                  }
-                  */
+                    echo $myproduct['id']." ".$myproduct['name']." ".$myproduct['quantity']." ".$myproduct['myproduct']." ";
+
+                    //if product with product_id exist in myproduct table
+                    if($myproduct['myproduct']){
+                        echo "turim";
+                        $prod = $this->getDoctrine()
+                            ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
+                            ->findOneByProductId($myproduct['id']);
+
+
+                        $oldQuantity  = $prod->getQuantity();
+                        $usedQuantity = $myproduct['quantity'];
+                        $newQuantity  = $oldQuantity - $usedQuantity;
+                        echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." ";
+                            if ($newQuantity > 0){
+                                echo " dar turim";
+                            }
+                            else{
+                                echo " nebeliko ";
+                            }
+
+                        //$myprod->setQuantity(123);
+                        //$em2 = $this->getDoctrine()->getManager();
+                        //$em2->persist($prod);
+                        //$em2->flush();
+
+                     }
+                    echo "<br/>";
                 }
-
-
             }
-            //echo "<br/>";
+            echo "<br/>";
 
             //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
         }
+
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
             array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)

@@ -72,3 +72,16 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\User
+
+
+#recipes serviso parametrai
+parameters:
+     recipeservice.class:      FrameWorkersTM\FoodRescue\FoodAppBundle\Services\RecipeService
+     #recipes.userid: Hello
+
+#recipes servisas
+services:
+    recipeservice:
+        class:        "%recipeservice.class%"
+        #arguments:    ["%cvuorinen_example.greeter.greeting%"]
+        arguments: [ @doctrine ]
