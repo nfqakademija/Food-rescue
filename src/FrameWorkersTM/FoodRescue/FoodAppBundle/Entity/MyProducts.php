@@ -5,11 +5,10 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MyProducts /home/povlas/NFQ/vm/src/FrameWorkersTM/FoodRescue/FoodAppBundle/Entity/MyProducts.php
+ * MyProducts
  *
  * @ORM\Table(name="my_products")
  * @ORM\Entity
- *
  */
 class MyProducts
 {
@@ -21,6 +20,22 @@ class MyProducts
      *
      */
     private $product;
+
+    /**
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * @return \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
 
     /**
      * @var integer
@@ -45,7 +60,6 @@ class MyProducts
      */
     private $productId;
 
-
     /**
      * @var string
      *
@@ -68,7 +82,7 @@ class MyProducts
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -165,21 +179,5 @@ class MyProducts
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * @param Products $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-    }
-
-    /**
-     * @return Products
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 }

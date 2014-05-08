@@ -30,20 +30,7 @@ class MyProductsController extends Controller
             ->getForm()
             ->handleRequest($request);
 
-
-        $aa = new MyProducts();
-        $aa->setProductId(1);
-        $aa->setUserId(1);
-        $aa->setQuantity(1);
-        $aa->setEndDate(1);
-
-        print_r($aa);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($aa);
-        $em->flush();
-
-        /*if ($addProductForm->isValid()) {
+        if ($addProductForm->isValid()) {
             $productData = $addProductForm->getData();
             $product = new MyProducts();
             $product->setEndDate(strtotime($productData->getEndDate()))
@@ -56,7 +43,8 @@ class MyProductsController extends Controller
 
             $em->persist($product);
             $em->flush();
-        }*/
+        }
+
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $session->getId()));

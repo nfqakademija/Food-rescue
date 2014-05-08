@@ -71,6 +71,7 @@ a.logo, a.fb-login, a.gplus-login{
 }
 
 .jumbo1 {
+    height: 165px !important;
     min-height: 100px !important;
     padding-left: 35px !important;
     padding-right: 35px !important;
