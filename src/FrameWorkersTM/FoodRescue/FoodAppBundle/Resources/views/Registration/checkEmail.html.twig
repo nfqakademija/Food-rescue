@@ -1,0 +1,9 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Registracija {% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock body %}
