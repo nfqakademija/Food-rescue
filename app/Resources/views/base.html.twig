@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Sveiki!{% endblock %}</title>
+        <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %} 
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/foodrescue.css') }}" />
@@ -41,7 +41,7 @@
                         <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu nav nav-pills pull-right">
                                 <li><a href="{{ path('fos_user_security_login') }}">Prisijungti </a></li>
-                                <li><a href="{{ path('fos_user_security_register') }}">Registruotis</a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}">Registruotis</a></li>
                             </ul>
                         </div>
                     {% endif %}
