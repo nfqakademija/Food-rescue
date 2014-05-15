@@ -21,157 +21,175 @@ class RecipesController extends Controller
     }
     
     public function indexAction(Request $request)
-    {   
+    {
+        /* deprecated
         $session = $request->getSession();
         $array['logged'] = $session->get('logged');
-
-/*
-        $aa = new MyProducts();
-        $aa->setProductId(1);
-        $aa->setUserId(1);
-        $aa->setQuantity(1);
-        $aa->setEndDate(1);
-
-        print_r($aa);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($aa);
-        $em->flush();
-*/
-
-       // $recipe->setDescribtion('cia apibudinimas');
-        //$recipe->setImageName('cia kelias');
-
-
-        // testitnis isvedimas is serviso
-        $greeter = $this->get('recipeservice');
-        echo $greeter->greet('rolkis');
-
-
-
-        $userid = 1;  // user id
-        $quantity =2; // 2 - reiskia kad turim tureti bent puse produktu ieinanciu i recepta kad ji paselectinti
-
-        /* Receptu paemimas, kai turim bent puse receptui reikalingu produktu */
-        /* blogai supranta query kur in array naudojama, todel neteisingai grazina receptus
-
-        $em = $this->getDoctrine()->getManager();
-        $recipes = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-           ->findRecipesByUser($userid, $quantity);
-
-        foreach ($recipes as $key=>$recipe){
-           echo $key." ".$recipe->getId()." ".$recipe->getName()."<br/>";
-           //$recipeProducts =$recipe->getProducts();
-           //$name = $recipeProducts['0']->getProduct();
-          // print_r($name->getName()); echo "<br/>";
-
-        }
-        echo "<hr/>";
         */
 
-        //native query teisingai grazina receptus
-        $em = $this->getDoctrine()->getManager();
-        $recipes = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findRecipesByUserNativeSQL($userid, $quantity);
-/*
-        if ($recipes){
-            foreach ($recipes as $key=>$recipe){
-                echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
-            }
+        //get logged user id
+        $usr= $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.'){
+            //cia tures eiti neprisijungusio vartotojo receptu atvaizdavimas pagal pridetus produktus
+            //$userid = 0;
+            $recipes = '';
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes));
         }
-*/
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes));
+        else{
+            $userid = $usr->getId();
+
+            /* testitnis isvedimas is serviso
+            $greeter = $this->get('recipeservice');
+            echo $greeter->greet('rolkis');
+            */
+
+            $seperator =2; // 2 - reiskia kad turim tureti bent puse produktu ieinanciu i recepta kad ji paselectinti
+
+            /* deprecated
+            blogai supranta query kur in array naudojama, todel neteisingai grazina receptus
+            Receptu paemimas, kai turim bent puse receptui reikalingu produktu
+
+            $em = $this->getDoctrine()->getManager();
+            $recipes = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+               ->findRecipesByUser($userid, $quantity);
+
+            foreach ($recipes as $key=>$recipe){
+               echo $key." ".$recipe->getId()." ".$recipe->getName()."<br/>";
+               //$recipeProducts =$recipe->getProducts();
+               //$name = $recipeProducts['0']->getProduct();
+              // print_r($name->getName()); echo "<br/>";
+
+            }
+            echo "<hr/>";
+            */
+
+            //native query teisingai grazina receptus
+            $em = $this->getDoctrine()->getManager();
+            $recipes = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+                ->findRecipesByUserNativeSQL($userid, $seperator);
+
+            /* test spausdinimas
+            if ($recipes){
+                foreach ($recipes as $key=>$recipe){
+                    echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
+                }
+            }
+            */
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes));
+        }
     }
     
     public function RecipieViewAction(Request $request, $recipeid){
+        /* derpecated
         $session = $request->getSession();
         $array['logged'] = $session->get('logged');
-
-        //$recipe = $this->getDoctrine()
-        //    ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-        //    ->findOneById($recipeid);
-
-        $userid = 1;
-
-        //get recipe
-        $em = $this->getDoctrine()->getManager();
-        $recipe = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findRecipeNativeSQL($userid, $recipeid);
-
-        //get recipe products from service
-        $recipeProducts = $this->get('recipeservice')->findRecipeProducts($recipeid);
-        /* paprastas budas
-         * //get recipe products
-        $em = $this->getDoctrine()->getManager();
-        $recipeProducts = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findRecipeProductsNativeSQL($recipeid);
         */
 
-        //get user accepted products for recipe
-        $acceptedProductsNr = 0;
-        //add products to form
-        $formBuilder = $this->createFormBuilder($recipeProducts);
-//formos generavimas
-//formos seivinimas turi eiti i servisa
-        foreach($recipeProducts as $key=>$product){
-            $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
 
-            if ( $product['myproduct'] != null ){
-
-                $acceptedProductsNr++;
-            }
+        //get logged user id
+        $usr= $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.'){
+            //cia tures eiti neprisijungusio vartotojo receptu atvaizdavimas pagal pridetus produktus
+            //kolkas ikeltas norecipe.
+            //$userid = 0;
+            //$recipes = '';
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:norecipe.html.twig');
         }
-        $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau'));
-        $form = $formBuilder->getForm();
+        else{
+            $userid = $usr->getId();
 
-        $form->handleRequest($request);
+            //deprecated
+            //$recipe = $this->getDoctrine()
+            //    ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+            //    ->findOneById($recipeid);
 
-        //update product quantities
-        if ($form->isValid()) {
+            //$userid = 1;
 
-            $myproducts = $form->getData();
-            foreach($myproducts as $key=>$myproduct){
-                if (isset($myproduct['id'])){
-                    //echo $key."<br/>";
-                    echo $myproduct['id']." ".$myproduct['name']." ".$myproduct['quantity']." ".$myproduct['myproduct']." ";
+            //get recipe
+            $em = $this->getDoctrine()->getManager();
+            $recipe = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+                ->findRecipeNativeSQL($userid, $recipeid);
 
-                    //if product with product_id exist in myproduct table
-                    if($myproduct['myproduct']){
-                        echo "turim";
-                        $prod = $this->getDoctrine()
-                            ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-                            ->findOneByProductId($myproduct['id']);
+            /* DEPRECTAED
+             * get recipe products paprastas budas
+             $em = $this->getDoctrine()->getManager();
+             $recipeProducts = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+                 ->findRecipeProductsNativeSQL($recipeid);
+             */
+
+            //get recipe products from service
+            $recipeProducts = $this->get('recipeservice')->findRecipeProducts($recipeid);
 
 
-                        $oldQuantity  = $prod->getQuantity();
-                        $usedQuantity = $myproduct['quantity'];
-                        $newQuantity  = $oldQuantity - $usedQuantity;
-                        echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." ";
-                            if ($newQuantity > 0){
-                                echo " dar turim";
-                            }
-                            else{
-                                echo " nebeliko ";
-                            }
+            //get user accepted products for recipe
+            $acceptedProductsNr = 0;
+            //add products to form
+            $formBuilder = $this->createFormBuilder($recipeProducts);
+        //formos generavimas
+        //formos seivinimas turi eiti i servisa
+            foreach($recipeProducts as $key=>$product){
+                $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
 
-                        //$myprod->setQuantity(123);
-                        //$em2 = $this->getDoctrine()->getManager();
-                        //$em2->persist($prod);
-                        //$em2->flush();
+                if ( $product['myproduct'] != null ){
 
-                     }
-                    echo "<br/>";
+                    $acceptedProductsNr++;
                 }
             }
-            echo "<br/>";
+            $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau'));
+            $form = $formBuilder->getForm();
 
-            //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
+            $form->handleRequest($request);
+
+            //update product quantities
+            if ($form->isValid()) {
+
+                $myproducts = $form->getData();
+                foreach($myproducts as $key=>$myproduct){
+                    if (isset($myproduct['id'])){
+                        //echo $key."<br/>";
+                        echo $myproduct['id']." ".$myproduct['name']." ".$myproduct['quantity']." ".$myproduct['myproduct']." ";
+
+                        //if product with product_id exist in myproduct table - update quantities
+                        if($myproduct['myproduct']){
+                            echo "turim";
+                            $prod = $this->getDoctrine()
+                                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
+                                ->findOneByProductId($myproduct['id']);
+
+
+                            $oldQuantity  = $prod->getQuantity();
+                            $usedQuantity = $myproduct['quantity'];
+                            $newQuantity  = $oldQuantity - $usedQuantity;
+
+                            echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." ";
+                                if ($newQuantity > 0){
+                                    echo " dar turim";
+                                }
+                                else{
+                                    //set product quantity  0
+                                    echo " nebeliko ";
+                                    $newQuantity = 0;
+                                }
+                            //irasome nauja quantity
+                            //$prod->setQuantity($newQuantity);
+                            //$em2 = $this->getDoctrine()->getManager();
+                            //$em2->persist($prod);
+                            //$em2->flush();
+
+                         }
+                        echo "<br/>";
+                    }
+                }
+                echo "<br/>";
+                //kur redirektinsim po pagaminimo ?
+                //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
+            }
+
+
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
+                array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)
+            );
         }
-
-
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
-            array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)
-        );
 
     }
     
