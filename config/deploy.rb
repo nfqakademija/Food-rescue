@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'Food-rescue'
-set :repo_url, 'https://github.com/nfqakademija/Food-rescue'
+set :repo_url, 'https://github.com/nfqakademija/Food-rescue.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
