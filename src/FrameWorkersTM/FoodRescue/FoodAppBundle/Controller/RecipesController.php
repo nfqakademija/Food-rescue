@@ -20,7 +20,7 @@ class RecipesController extends Controller
         
     }
     
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $limit=null)
     {
         /* deprecated
         $session = $request->getSession();
@@ -48,7 +48,7 @@ class RecipesController extends Controller
             $seperator = 2;
 
             //get recipe from service
-            $recipes = $this->get('recipeservice')->findRecipes($userid, $seperator);
+            $recipes = $this->get('recipeservice')->findRecipes($userid, $seperator, $limit);
 
             /* DEPRECTAED. get recipes regular way
             $em = $this->getDoctrine()->getManager();
@@ -64,7 +64,7 @@ class RecipesController extends Controller
             }
             */
 
-            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes));
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit ));
         }
     }
     

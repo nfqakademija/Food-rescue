@@ -13,7 +13,11 @@ frame_workers_tm_food_rescue_food_app_my_products:
 frame_workers_tm_food_rescue_food_app_recipes:
     pattern:  /recipes/
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index }
-    
+
+frame_workers_tm_food_rescue_food_app_recipes_limit:
+    pattern:  /recipes/{limit}
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index }
+
 frame_workers_tm_food_rescue_food_app_recipe:
     pattern: /recipes/view/{recipeid}
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:Recipes:RecipieView }
