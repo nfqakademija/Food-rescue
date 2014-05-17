@@ -112,7 +112,7 @@ class RecipesController extends Controller
             // generate recipe products form
             $form = $this->get('recipeservice')->buildMyProductsForm($this->createFormBuilder($recipeProducts),$recipeProducts,$recipe['id']);
 
-/* perkelta i servisa
+/* DEPRECATED. perkelta i servisa
             //get user accepted products for recipe
             $acceptedProductsNr = 0;
 
@@ -136,8 +136,9 @@ class RecipesController extends Controller
             //on cooked product - update my products quantities
             if ($form->isValid()) {
                 $usedproducts = $form->getData();
+
                 //update my products quantities
-                $this->get('recipeservice')->updateMyProductsAfterCooked($usedproducts);
+                $this->get('recipeservice')->updateMyProductsAfterCooked($userid, $usedproducts);
 
 /* DEPRECATED. old way to update quantities
                 $usedproducts = $form->getData();
@@ -176,7 +177,7 @@ echo "<br/>";
  */
 
                 //redirect after cooked
-                return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
+                //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
 
             }
 
