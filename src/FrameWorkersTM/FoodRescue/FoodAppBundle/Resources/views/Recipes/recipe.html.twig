@@ -53,23 +53,43 @@
         
         <div class="jumbotron col-lg-4 col-md-12 col-sm-12 coocing_table">
            <h4>Receptui panaudota</h4>  
-        <form action="#" method="post">
-           <table class="table table-striped">
-               {% for product in recipe_products  %}
-                   <tr>
-                      <td>{{ product.name }}</td>
-                      <td><input type="text" value="{{ product.quantity }}" /></td>
-                      <td>{{ product.unit }}</td>
-                   </tr>
-               {% endfor %}
-           </table>
-           <a class="btn btn-success" href="{{ asset('recipes/') }}">Pagaminau!</a>
-           <!-- <button class="btn btn-success" value="1" name="done">Pagaminau!</button> -->
-          </form>
 
-            {{ form(form) }}
-pazymeti ar patiko <br/>
-palaikinti fb?
+            {#
+            <form action="#" method="post">
+                <table class="table table-striped">
+                   {% for product in recipe_products  %}
+                       <tr>
+                          <td>{{ product.name }}</td>
+                          <td><input type="text" value="{{ product.quantity }}" /></td>
+                          <td>{{ product.unit }}</td>
+                       </tr>
+                   {% endfor %}
+                 </table>
+                <a class="btn btn-success" href="{{ asset('recipes/') }}">Pagaminau!</a>
+                <!-- <button class="btn btn-success" value="1" name="done">Pagaminau!</button> -->
+             </form>
+            #}
+
+{#
+regular form template
+{{ form(form) }}
+#}
+
+            {{ form_start(form) }}
+            <table>
+                {% for child in form.children %}
+                <tr>
+                    <td>
+                        {% if loop.last == false  %}
+                            {{ form_label(child) }}
+                        {% endif %}
+                    </td>
+                    <td>{{ form_widget(child) }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {{ form_end(form) }}
+
 
         </div>
         

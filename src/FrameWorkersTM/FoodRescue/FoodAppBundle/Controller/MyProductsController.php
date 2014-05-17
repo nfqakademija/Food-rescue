@@ -58,7 +58,8 @@ class MyProductsController extends Controller
 
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-            ->findBy(array("userId" => $session->getId()));
+//            ->findBy(array("userId" => $session->getId()));
+            ->findBy(array("userId" => '1'));
 
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;

@@ -42,10 +42,17 @@
                          </div>
                      </div>
                  </div>
-
              {% endfor %}
 
+             <div class="pagination">
+                 {%  if limit == 0 %}
+                     <a href="30">Daugiau</a>
+                 {% elseif recipes|length == limit %}
+                     <a href="{{ limit + 15 }}">Daugiau</a>
+                 {% endif %}
+             </div>
          </div>
+
      </div>
  
  </div>
