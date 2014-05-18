@@ -33,30 +33,39 @@ class RecipesController extends Controller
             //cia tures eiti neprisijungusio vartotojo receptu atvaizdavimas pagal pridetus produktus
             //$userid = 0;
             $recipes = '';
-            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes));
+            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit));
         }
         else{
             $userid = $usr->getId();
 
-            /* testitnis isvedimas is serviso
-            $greeter = $this->get('recipeservice');
-            echo $greeter->greet('rolkis');
-            */
+//this should go on user login or acces index page
+//get trashed products
+$this->get('recipeservice')->findTrashedProducts($userid);
 
-            // seperator = 2 means we must have at least half products for recipe
-            // this variable is divided from recipe product's number, so 2 means f.e. 8/2 - half products user must have
-            $seperator = 2;
+//this should be done in adding a product, chaging quantities in myproducts page, and whe nrecipe is cooked.
+//update available recipes
+$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
+
+/* moved to service
+        //find available user recipes (on update insert remove)
+        $availableRecipes = $this->get('recipeservice')->findAvailableUserRecipes($userid);
+
+        //serialize data
+        $serializedRecipes = serialize($availableRecipes);
+
+        //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
+        //echo $serializedRecipes;
+
+        //save available user recipes
+        $this->get('recipeservice')->saveAvailableUserRecipes($userid, $serializedRecipes);
+*/
 
             //get recipe from service
-            $recipes = $this->get('recipeservice')->findRecipes($userid, $seperator, $limit);
+            $recipes = $this->get('recipeservice')->findRecipes($userid, $limit);
+            //old way
+            //$recipes = $this->get('recipeservice')->findRecipesOldWay($userid, 2, $limit);
 
-            /* DEPRECTAED. get recipes regular way
-            $em = $this->getDoctrine()->getManager();
-            $recipes = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-                ->findRecipesByUserNativeSQL($userid, $seperator);
-            */
-
-            /* test spausdinimas
+            /*
             if ($recipes){
                 foreach ($recipes as $key=>$recipe){
                     echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
@@ -74,7 +83,6 @@ class RecipesController extends Controller
         $array['logged'] = $session->get('logged');
         */
 
-
         //get logged user id
         $usr= $this->get('security.context')->getToken()->getUser();
         if ($usr == 'anon.'){
@@ -86,50 +94,18 @@ class RecipesController extends Controller
         }
         else{
             $userid = $usr->getId();
-/* DEPRECATED get recipe and recipe products regular way
 
-            $em = $this->getDoctrine()->getManager();
-            $recipe = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-                ->findRecipeNativeSQL($userid, $recipeid);
-
-            //escape special chars.
-            $recipe['describtion'] = html_entity_decode($recipe['describtion'] );
-
-             $em = $this->getDoctrine()->getManager();
-             $recipeProducts = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-                 ->findRecipeProductsNativeSQL($recipeid);
-
-*/
-            //get recipe from service
+            //get recipe
             $recipe = $this->get('recipeservice')->findRecipe($userid, $recipeid);
 
-            //get recipe products from service
+            //get recipe products
             $recipeProducts = $this->get('recipeservice')->findRecipeProducts($userid, $recipeid);
 
             //get user accepted products for recipe
             $acceptedProductsNr = $this->get('recipeservice')->getAcceptedProducts($recipeProducts);
 
-            // generate recipe products form
+            //generate recipe products form
             $form = $this->get('recipeservice')->buildMyProductsForm($this->createFormBuilder($recipeProducts),$recipeProducts,$recipe['id']);
-
-/* DEPRECATED. perkelta i servisa
-            //get user accepted products for recipe
-            $acceptedProductsNr = 0;
-
-            //add products to form
-            $formBuilder = $this->createFormBuilder($recipeProducts);
-
-            foreach($recipeProducts as $key=>$product){
-               //print_r($product); echo "<br/>";
-                $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
-
-                if ( $product['my_product_id'] != null ){
-                    $acceptedProductsNr++;
-                }
-            }
-            $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau'));
-            $form = $formBuilder->getForm();
-*/
 
             $form->handleRequest($request);
 
@@ -140,47 +116,12 @@ class RecipesController extends Controller
                 //update my products quantities
                 $this->get('recipeservice')->updateMyProductsAfterCooked($userid, $usedproducts);
 
-/* DEPRECATED. old way to update quantities
-                $usedproducts = $form->getData();
-                foreach($usedproducts as $key=>$usedproduct){
-                    if (isset($usedproduct['id'])){
- print_r($usedproduct); echo "<br/>";
-                        //update quantity of products that i have
-                        if($usedproduct['my_product_id']){
- echo "turim ";
-                            $myproduct = $this->getDoctrine()
-                                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-                                ->findOneById($usedproduct['my_product_id']);
+                //update available recipes for a user
+                $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
 
-                            $oldQuantity  = $myproduct->getQuantity();
-                            $usedQuantity = $usedproduct['quantity'];
-                            $newQuantity  = $oldQuantity - $usedQuantity;
-
-echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." ";
-if ($newQuantity > 0){     echo " dar turim"; }
-else{     echo " nebeliko "; }
-
-                            if ($newQuantity < 1){
-                                $newQuantity = 0;
-                            }
-
-                            //atnaujiname my_products lentos produktus
-                            $myproduct->setQuantity($newQuantity);
-                            $em2 = $this->getDoctrine()->getManager();
-                            $em2->persist($myproduct);
-                            $em2->flush();
-                         }
- echo "<br/>";
-                    }
-                }
-echo "<br/>";
- */
-
-                //redirect after cooked
+                //redirect after cooked ?
                 //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
-
             }
-
 
             return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
                 array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)

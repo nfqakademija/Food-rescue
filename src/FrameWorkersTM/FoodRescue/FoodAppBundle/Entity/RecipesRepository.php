@@ -3,7 +3,7 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
+#use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * RecipesRepository
@@ -14,7 +14,58 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class RecipesRepository extends EntityRepository
 {
 
-    // get recipes by user products
+    // get trashed products and write them to trashed products table
+    public function findTrashedProductsNativeSQL($userid){
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+            SELECT product_id, quantity
+            FROM my_products
+            WHERE end_date < UNIX_TIMESTAMP(NOW()) AND user_id = :userid
+        ");
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    // get recipes, when a user have minimum half products for them.
+    public function findAvailableUserRecipesNativeSQL($userid, $quantity)
+    {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+                 SELECT DISTINCT(a.id), a.name, a.image_name, a.products_nr,
+                 (  SELECT COUNT(e.product_id)
+                     FROM recipes_products e
+                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     AND e.recipe_id = a.id
+                 ) as products_accepted,
+                 f.cooked, f.liked
+
+                 FROM recipes as a
+                 LEFT JOIN recipes_products as b ON b.recipe_id = a.id
+                 LEFT JOIN products as d ON d.id = b.product_id
+                 LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+                 WHERE (SELECT COUNT(e.product_id)
+                     FROM recipes_products e
+                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     AND e.recipe_id = a.id
+                     ) >= a.products_nr/:quantity
+
+                 ORDER BY a.id ASC
+                  ;
+        ");
+        $statement->bindValue('quantity', $quantity);
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
+    // DEPRECATED - get recipes (realtime calculation - not effective) (recipes page)
+    /*
     public function findRecipesByUserNativeSQL($userid, $quantity, $limit = null)
     {
         if (!empty($limit)){
@@ -58,8 +109,9 @@ class RecipesRepository extends EntityRepository
         $results = $statement->fetchAll();
         return $results;
     }
+    */
 
-    // get recipe with info if it was cooked and liked
+    // get recipe with info if it was cooked and liked (recipe page)
     public function findRecipeNativeSQL($userid, $recipeid)
     {
         $em = $this->getEntityManager();
@@ -79,7 +131,7 @@ class RecipesRepository extends EntityRepository
         return $results;
     }
 
-    // get recipe products with quantity required and products nr i have for recipe
+    // get recipe products with quantity required and products nr i have for recipe (recipe page)
     public function findRecipeProductsNativeSQL($userid, $recipeid)
     {
         $em = $this->getEntityManager();

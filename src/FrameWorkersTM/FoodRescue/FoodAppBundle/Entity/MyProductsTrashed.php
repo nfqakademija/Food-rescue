@@ -24,9 +24,16 @@ class MyProductsTrashed
     /**
      * @var integer
      *
-     * @ORM\Column(name="my_product_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $myProductId;
+    private $userId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="product_id", type="integer")
+     */
+    private $productId;
 
     /**
      * @var string
@@ -34,10 +41,6 @@ class MyProductsTrashed
      * @ORM\Column(name="quantity", type="decimal", precision=45, scale=0, nullable=false)
      */
     private $quantity;
-
-
-
-
 
 
     /**
@@ -51,26 +54,49 @@ class MyProductsTrashed
     }
 
     /**
-     * Set myProductId
+     * Set userId
      *
-     * @param integer $myProductId
+     * @param integer $userId
      * @return MyProductsTrashed
      */
-    public function setMyProductId($myProductId)
+    public function setUserId($userId)
     {
-        $this->myProductId = $myProductId;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get myProductId
+     * Get userId
      *
      * @return integer 
      */
-    public function getMyProductId()
+    public function getUserId()
     {
-        return $this->myProductId;
+        return $this->userId;
+    }
+
+    /**
+     * Set productId
+     *
+     * @param integer $productId
+     * @return MyProductsTrashed
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return integer 
+     */
+    public function getProductId()
+    {
+        return $this->productId;
     }
 
     /**

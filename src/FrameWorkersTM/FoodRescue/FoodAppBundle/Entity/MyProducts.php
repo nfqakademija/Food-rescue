@@ -146,4 +146,3 @@ class MyProducts
         return $this->product;
     }
 }
-

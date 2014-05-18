@@ -24,12 +24,14 @@
                          <!--<p>
                              pienas 100ml, kiausiniai 6vnt, druska ziupsnelis, citrina 1skiltele, kiauliena 50g, aliejus saukstelis
                          </p>-->
+  {#
                          {% if recipe.products_nr == recipe.products_accepted  %}
                          <div class="rec_stats">
                              <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
                              <span>Turi visus produktus - kodėl nepasigaminus šio patiekalo?</span>
                          </div>
                          {% endif %}
+   #}
                          <div class="rec_fav">
 
                              {% if recipe.cooked %}
@@ -46,9 +48,9 @@
 
              <div class="pagination">
                  {%  if limit == 0 %}
-                     <a href="30">Daugiau</a>
+                     <a href="30">Daugiau receptų</a>
                  {% elseif recipes|length == limit %}
-                     <a href="{{ limit + 15 }}">Daugiau</a>
+                     <a href="{{ limit + 15 }}">Daugiau receptų</a>
                  {% endif %}
              </div>
          </div>

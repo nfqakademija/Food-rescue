@@ -286,4 +286,37 @@ class Products
     {
         return $this->products;
     }
+
+    /**
+     * Add myProducts
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
+     * @return Products
+     */
+    public function addMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
+    {
+        $this->myProducts[] = $myProducts;
+
+        return $this;
+    }
+
+    /**
+     * Remove myProducts
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
+     */
+    public function removeMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
+    {
+        $this->myProducts->removeElement($myProducts);
+    }
+
+    /**
+     * Get myProducts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMyProducts()
+    {
+        return $this->myProducts;
+    }
 }

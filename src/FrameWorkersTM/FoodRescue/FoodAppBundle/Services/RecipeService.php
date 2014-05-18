@@ -2,7 +2,9 @@
 namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 #use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProductsTrashed;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\UsersRecipes;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\UsersAvailableRecipes;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RecipeService
@@ -14,21 +16,118 @@ class RecipeService
         $this->doctrine = $doctrine;
     }
 
-    /* DEPRECATED. for testing only */
-    public function greet($name)
-    {
-        //return $this->greeting . ' ' . $name;
-        return $name;
+    // get trashed products and write them to trashed products table
+    public function findTrashedProducts($userid){
+        $trashedProducts = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+            ->findTrashedProductsNativeSQL($userid);
+        if ($trashedProducts){
+
+            foreach($trashedProducts as $trashedProduct){
+                $product = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProductsTrashed')
+                    ->findOneBy(array('userId' => $userid, 'productId' => $trashedProduct['product_id']));
+
+                if ($product){
+                    //update trashed product
+                    $oldQuantity = $product->getQuantity();
+                    $newQuantity = $oldQuantity + $trashedProduct['quantity'];
+                    $product->setQuantity($newQuantity);
+                    self::insertUpdateTable($product);
+                }
+                else{
+                    //insert new trashed product
+                    $product = new MyProductsTrashed();
+                    $product->setUserId($userid);
+                    $product->setProductId($trashedProduct['product_id']);
+                    $product->setQuantity($trashedProduct['quantity']);
+                    self::insertUpdateTable($product);
+                }
+
+                // remove product from my_products table;
+                $myproduct = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
+                    ->findOneBy(array('userId' => $userid, 'product' => $trashedProduct['product_id']));
+                if ($myproduct){
+                    self::deleteRowFromTable($myproduct);
+                }
+
+            }
+        }
     }
 
-    //get recipes
-    public function findRecipes($userid, $seperator, $limit=null){
+    // find and save available user recipes
+    public function findAndSaveAvailableUserRecipes($userid){
+        //find available user recipes
+        $availableRecipes = self::findAvailableUserRecipes($userid);
+
+        //serialize data
+        $serializedRecipes = serialize($availableRecipes);
+
+        //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
+        //echo $serializedRecipes;
+
+        //save available user recipes
+        self::saveAvailableUserRecipes($userid, $serializedRecipes);
+    }
+
+    // count available recipes for user
+    public function findAvailableUserRecipes($userid){
+        // seperator = 2 means we must have at least half products for recipe
+        // this variable is divided from recipe product's number, so 2 means f.e. 8/2 - half products user must have
+        $seperator = 2;
+        $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+            ->findAvailableUserRecipesNativeSQL($userid, $seperator);
+        return $recipes;
+    }
+
+    // save user available recipes
+    public function saveAvailableUserRecipes($userid, $data){
+        $userAvailableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
+            ->findOneByUserId($userid);
+
+        if ($userAvailableRecipes){
+            //update recipe ids
+            $userAvailableRecipes->setRecipesId($data);
+        }
+        else{
+            //insert new row
+            $userAvailableRecipes = new UsersAvailableRecipes();
+            $userAvailableRecipes->setUserId($userid);
+            $userAvailableRecipes->setRecipesId($data);
+        }
+        self::insertUpdateTable($userAvailableRecipes);
+    }
+
+
+    // get saved available user recipes (recipes page)
+    public function findRecipes($userid, $limit=null){
+        $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
+            ->findOneByUserId($userid);
+        if ($availableRecipes){
+            $availableRecipes = unserialize($availableRecipes->getRecipesId());
+//foreach($availableRecipes as $key=>$r){ echo $key." "; print_r($r); echo "<br/>"; }
+            if (!empty($limit)){
+                $recipes = array_slice($availableRecipes, 0, $limit);
+            }
+            else{
+                $recipes = array_slice($availableRecipes, 0, 15);
+            }
+            return $recipes;
+        }
+        else{
+            return null;
+        }
+    }
+
+    // DEPRECATED - get available recipes (bad way cause of making calculations)(recipes page)
+    /*
+    public function findRecipesOldWay($userid, $seperator, $limit=null){
         $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipesByUserNativeSQL($userid, $seperator, $limit);
         return $recipes;
     }
+    */
 
-    // get recipe
+
+    // get recipe (recipe page)
     public function findRecipe($userid, $recipeid){
         $recipe = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipeNativeSQL($userid, $recipeid);
@@ -39,14 +138,14 @@ class RecipeService
         return $recipe;
     }
 
-    // get recipe products
+    // get recipe products (recipe page)
     public function findRecipeProducts($userid, $recipeid){
         $recipeProducts = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipeProductsNativeSQL($userid, $recipeid);
         return $recipeProducts;
     }
 
-    // get accepted products
+    // get accepted products (recipe page)
     public function getAcceptedProducts($recipeProducts){
         $acceptedProductsNr = 0;
         foreach($recipeProducts as $product){
@@ -57,7 +156,7 @@ class RecipeService
         return $acceptedProductsNr;
     }
 
-    // generate recipe products form with quantities (for updating)
+    // generate recipe products form with quantities (recipe page)
     public function buildMyProductsForm(FormBuilderInterface $formBuilder, $recipeProducts, $recipeid){
         foreach($recipeProducts as $key=>$product){
             $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
@@ -68,81 +167,35 @@ class RecipeService
         return $formBuilder->getForm();
     }
 
-    // update my_products products quantities and user_recipes cooked,liked
+    // update 'my_products' products quantities and 'user_recipes' cooked, liked
     public function updateMyProductsAfterCooked($userid, $usedproducts){
         foreach($usedproducts as $key=>$usedproduct){
             if (isset($usedproduct['id'])){
                 //update quantity of products that i have
                 if($usedproduct['my_product_id']){
+print_r($usedproduct); echo " ";
 
-print_r($usedproduct); echo "<br/>";
+                    $liked = 0;
+                    if (!empty($usedproducts['recipe_liked'])){
+                        $liked = 1;
+                    }
 
                     // update product quantity
                     self::updateProductQuantity($usedproduct['my_product_id'], $usedproduct['quantity'] );
 
                     //update users_recipes table, set recipe as cooked and/or liked
-                    self::updateUsersRecipes($userid, $usedproducts['recipe_id'], $usedproducts['recipe_liked'] );
-
-/* DEPRECATED. old way. too long
-                   $myproduct = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-                       ->findOneById($usedproduct['my_product_id']);
-
-                   $oldQuantity  = $myproduct->getQuantity();
-                   $usedQuantity = $usedproduct['quantity'];
-                   $newQuantity  = $oldQuantity - $usedQuantity;
-
-print_r($usedproduct); echo "<br/>";
-echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." ";
-
-                   if ($newQuantity < 1){
-                       $newQuantity = 0;
-                   }
-
-                   $myproduct->setQuantity($newQuantity);
-
-                   //update product quantities
-                   self::insertUpdateTable($myproduct);
-*/
-
- /* DEPRECATED.
-
-                    $rep = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersRecipes');
-                    $userRecipe = $rep->findOneBy(
-                        array('usersId' => $userid, 'recipesId' => $usedproducts['recipe_id']));
-
-                    if ($userRecipe){
-                        //update existing user recipe
-echo "update userRecipe<br/>";
-                        if ($usedproducts['recipe_liked'] == true){
-                            $userRecipe->setLiked('1');
-                        }
-                    }
-                    else{
-                        //insert new user recipe
- echo "insert userRecipe<br/>";
-                        $userRecipe = new UsersRecipes();
-                        $userRecipe->setUsersId($userid);
-                        $userRecipe->setRecipesId($usedproducts['recipe_id']);
-                        $userRecipe->setCooked('1');
-                        if ($usedproducts['recipe_liked'] == true){
-                            $userRecipe->setLiked('1');
-                        }
-                    }
-                    //update userRecipes table. set recipe as cooked and/or liked
-                    self::insertUpdateTable($userRecipe);
-*/
+                    self::updateUsersRecipes($userid, $usedproducts['recipe_id'], $liked );
                 }
             }
         }
     }
 
-    // update product quantity in db
+    // update product quantity
     public function updateProductQuantity($product_id, $usedQuantity){
         $myproduct = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findOneById($product_id);
 
         $oldQuantity  = $myproduct->getQuantity();
-        //$usedQuantity = $usedproduct['quantity'];
         $newQuantity  = $oldQuantity - $usedQuantity;
 
 echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." <br/>";
@@ -159,12 +212,10 @@ echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." <br/>
 
     }
 
-    // update user recipe cooked and/or liked in db
-    public function updateUsersRecipes($userid, $recipeid, $liked){
-
-        $rep = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersRecipes');
-        $userRecipe = $rep->findOneBy(
-            array('usersId' => $userid, 'recipesId' => $recipeid));
+    // update user recipe cooked and/or liked
+    public function updateUsersRecipes($userid, $recipeid, $liked=false){
+        $userRecipe = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersRecipes')
+            ->findOneBy(array('usersId' => $userid, 'recipesId' => $recipeid));
 
         if ($userRecipe){
             //update existing user recipe
@@ -180,6 +231,8 @@ echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." <br/>
             $userRecipe->setCooked('1');
             if ($liked == true){
                 $userRecipe->setLiked('1');
+            }else{
+                $userRecipe->setLiked('0');
             }
         }
         //update userRecipes table. set recipe as cooked and/or liked
