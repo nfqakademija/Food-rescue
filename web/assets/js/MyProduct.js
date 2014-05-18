@@ -1,5 +1,5 @@
 $.ajax({
-    url: "/app.php/productslist/",
+    url: "/app_dev.php/productslist/",
     contentType: "JSON",
     success: function(result) {
         $("#addProductForm_productName").autocomplete({

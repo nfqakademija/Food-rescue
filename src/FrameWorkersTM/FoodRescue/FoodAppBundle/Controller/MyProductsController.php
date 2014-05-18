@@ -14,7 +14,6 @@ class MyProductsController extends Controller
 {
     public function indexAction(Request $request)
     {
-
         $session = $request->getSession();
         $array['logged']= $session->get('logged');
 
@@ -58,8 +57,8 @@ class MyProductsController extends Controller
 
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-//            ->findBy(array("userId" => $session->getId()));
-            ->findBy(array("userId" => '1'));
+            ->findBy(array("userId" => $session->getId()));
+
 
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
