@@ -3,7 +3,6 @@
 .vagrant/*
 .DS_Store
 /web/bundles/
-/web/phpMyAdmin/
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
