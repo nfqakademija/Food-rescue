@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 class MyProductsController extends Controller
 {
@@ -52,6 +53,9 @@ class MyProductsController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
+
+            //update available recipes
+            //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
 
@@ -75,19 +79,29 @@ class MyProductsController extends Controller
         if ($usr == 'anon.') $userId = 0; //neprisijunges
         else $userId = $usr->getId();
 
-        if (array_key_exists('id', $_POST)) {
+        if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
+            $errors = array();
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
+            if (! is_numeric($quantity)) $errors[] = 'Blogai įvestas kiekis!';
             $endDate = strtotime($_POST['endDate']);
-            $repository = $this->getDoctrine()
-                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
-            $product = $repository->findOneById($id);
-            $product->setQuantity($quantity)->setEndDate($endDate);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+            if ($endDate < time()) $errors[] = 'Data negali būti senesnė nei šios dienos!';
 
-        }
-        return new Response(null);
+            if (count($errors) < 1) {
+                $repository = $this->getDoctrine()
+                    ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
+                $product = $repository->findOneById($id);
+                $product->setQuantity($quantity)->setEndDate($endDate);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+
+                //update available recipes
+                //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+                return new Response(null);
+            } else return new Response(json_encode($errors));
+
+
+        } else return new Response('BAD POST MESSAGE');
     }
 }

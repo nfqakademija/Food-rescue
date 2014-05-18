@@ -50,10 +50,21 @@ $(".editable_tr").click(function() {
             url: '/' + window.location.pathname.split('/')[1] + '/myproductsedit/',
             data: dataString,
             cache: false,
-            success: function(html)
+            success: function(_result)
             {
-                $("#pro_quantity_"+ID).html(quantity);
-                $("#pro_end_date_"+ID).html(endDate);
+
+                if(_result.length < 1) {
+                    $('#edit_table_errors').html('');
+                    $("#pro_quantity_"+ID).html(quantity);
+                    $("#pro_end_date_"+ID).html(endDate);
+                } else {
+                    var result = jQuery.parseJSON(_result);
+                    var errorString = "";
+                    result.forEach(function(err) {
+                       errorString = errorString + " " + err;
+                    });
+                    $('#edit_table_errors').html(errorString);
+                }
             }
         });
     }
