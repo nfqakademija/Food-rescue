@@ -62,6 +62,7 @@ $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
 
             //get recipe from service
             $recipes = $this->get('recipeservice')->findRecipes($userid, $limit);
+
             //old way
             //$recipes = $this->get('recipeservice')->findRecipesOldWay($userid, 2, $limit);
 
