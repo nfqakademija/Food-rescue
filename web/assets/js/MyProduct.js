@@ -21,7 +21,14 @@ $.ajax({
 });
 $('#addProductForm_endDate').datepicker({
     monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
-    dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S']
+    dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
+    dateFormat: 'yy/mm/dd'
+});
+
+$(".edit-endDate").datepicker({
+    monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
+    dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
+    dateFormat: 'yy/mm/dd'
 });
 
 
@@ -75,5 +82,5 @@ function timestapmToDate(timestamp) {
     var year = date.getFullYear();
     var month = date.getMonth();
     var day = date.getDay();
-    return year + '-' + month + '-' + day;
+    return year + '/' + month + '/' + day;
 };

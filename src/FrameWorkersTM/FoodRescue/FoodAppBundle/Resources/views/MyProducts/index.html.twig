@@ -94,8 +94,8 @@
                         <span id="pro_unit_{{ product.id }}"> {{ product.product.unit }}</span>
                     </td>
                     <td class="editable_td">
-                        <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ product.endDate }}</span>
-                        <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ product.endDate }}" class="edit-input form-control">
+                        <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ productEndDates[product.id] }}</span>
+                        <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ productEndDates[product.id] }}" class="edit-input edit-endDate form-control">
                     </td>
                 </tr>
             {% endfor %}

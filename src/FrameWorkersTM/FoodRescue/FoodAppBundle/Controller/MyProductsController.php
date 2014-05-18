@@ -58,9 +58,14 @@ class MyProductsController extends Controller
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
+        $productEndDates = array();
+        foreach ($myProducts as $product) {
+            $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
+        }
 
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
+        $array['productEndDates'] = $productEndDates;
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }
@@ -73,7 +78,7 @@ class MyProductsController extends Controller
         if (array_key_exists('id', $_POST)) {
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
-            $endDate = $_POST['endDate'];
+            $endDate = strtotime($_POST['endDate']);
             $repository = $this->getDoctrine()
                 ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
             $product = $repository->findOneById($id);
