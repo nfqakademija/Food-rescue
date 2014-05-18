@@ -9,14 +9,18 @@ use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 class MyProductsController extends Controller
 {
     public function indexAction(Request $request)
     {
-
         $session = $request->getSession();
         $array['logged']= $session->get('logged');
+
+        $usr = $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.') $userId = 0; //neprisijunges
+        else $userId = $usr->getId();
 
         $addNewProduct = new AddMyProduct();
         $addProductFormBuilder = $this->container
@@ -36,18 +40,13 @@ class MyProductsController extends Controller
 
             $productData = $addProductForm->getData();
 
-            //$em = $this->getDoctrine()->getManager();
-           // $a = $em->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
-            //    ->findOneById(1);
-            //print_r($a->getName()); die();
-
             $product = new MyProducts();
             $prod = $repository = $this->getDoctrine()
                 ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
                 ->findOneById($productData->getProductId());
             $product->setEndDate(strtotime($productData->getEndDate()))
                 ->setQuantity($productData->getQuantity())
-                ->setUserId($session->getId())
+                ->setUserId($userId)
                 ->setProduct($prod);
 
             $em = $this->getDoctrine()->getManager();
@@ -58,12 +57,32 @@ class MyProductsController extends Controller
 
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
-//            ->findBy(array("userId" => $session->getId()));
-            ->findBy(array("userId" => '1'));
+            ->findBy(array("userId" => $userId));
 
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
+    }
+    public function editAction(Request $request) {
+
+        $usr = $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.') $userId = 0; //neprisijunges
+        else $userId = $usr->getId();
+
+        if (array_key_exists('id', $_POST)) {
+            $id = $_POST['id'];
+            $quantity = $_POST['quantity'];
+            $endDate = $_POST['endDate'];
+            $repository = $this->getDoctrine()
+                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
+            $product = $repository->findOneById($id);
+            $product->setQuantity($quantity)->setEndDate($endDate);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+
+        }
+        return new Response(null);
     }
 }
