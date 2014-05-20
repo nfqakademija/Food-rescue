@@ -1,4 +1,5 @@
-var productListUrl = '/' + window.location.pathname.split('/')[1] + '/productslist/'
+var appUrl = '/' + window.location.pathname.split('/')[1];
+var productListUrl = appUrl + '/productslist/'
 $.ajax({
     url: productListUrl,
     contentType: "JSON",
@@ -10,9 +11,10 @@ $.ajax({
                 console.log("prodId " + ui.item.value);
                 $("#addProductForm_productId").val(ui.item.value);
                 $("#addMyProductUnits").html(ui.item.units);
-                $("#addProductForm_endDate").val(timestapmToDate(ui.item.endDate))
-                console.log(ui.item);
-                console.log(timestapmToDate(ui.item.endDate))
+                $("#addProductForm_endDate").val(ui.item.endDate);
+                $("#addProductForm_quantity").val(ui.item.quantity);
+//                console.log(ui.item);
+//                console.log(ui.item.quantity);
                 return false;
             },
             minLength: 2
@@ -47,7 +49,7 @@ $(".editable_tr").click(function() {
     if (quantity.length > 0 && endDate.length > 0) {
         $.ajax( {
             type: "POST",
-            url: '/' + window.location.pathname.split('/')[1] + '/myproductsedit/',
+            url: appUrl + '/myproductsedit/',
             data: dataString,
             cache: false,
             success: function(_result)
@@ -91,24 +93,16 @@ $('.ui-icon-trash').click(function() {
    var name= $('#pro_name_' + ID).text();
     console.log(ID);
    if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
-        var url = '/' + window.location.pathname.split('/')[1] + '/myproductsdelete/';
        $.ajax({
-          url: url,
+          url: appUrl + '/myproductsdelete/',
           type: 'POST',
           data:'id=' + ID,
           success: function(response) {
               if (response == 'deleted'){
-                  $('#'+ ID).hide();
+                  $('#'+ ID).slideUp();
               }
           }
        });
    }
 });
 
-function timestapmToDate(timestamp) {
-    var date = new Date(timestamp * 1000);
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var day = date.getDay();
-    return year + '/' + month + '/' + day;
-};
