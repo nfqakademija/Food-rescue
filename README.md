@@ -1,1 +1,1 @@
-:]
+Food-rescue projektas! Išgelbėsim pasaulį nuo gendančio maisto!
