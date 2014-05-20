@@ -30,6 +30,13 @@ class RecipesRepository extends EntityRepository
     }
 
     // get recipes, when a user have minimum half products for them.
+//SUMAZINTI UZKLAUSA!!! :
+//isimti distinct
+//perdaryti SELECT product_id FROM my_products WHERE user_id = :userid i variabla
+//galima isimti products accepted (bet tada is twigo reikia irgi, nebus info kai turim visus produktus)
+//leftjoin recipes_products
+//leftjoin products
+
     public function findAvailableUserRecipesNativeSQL($userid, $quantity)
     {
         $em = $this->getEntityManager();
@@ -64,8 +71,117 @@ class RecipesRepository extends EntityRepository
         return $results;
     }
 
-    // DEPRECATED - get recipes (realtime calculation - not effective) (recipes page)
+/* trinti*/
+public function findAvailableUserRecipesNativeSQL2($userid, $quantity)
+{
+$time1 = microtime(true);
+
+    // find my products
+    $em = $this->getEntityManager();
+    $connection = $em->getConnection();
+    $statement = $connection->prepare("SELECT product_id FROM my_products WHERE user_id = :userid;");
+    $statement->bindValue('userid', $userid);
+    $statement->execute();
+    $myproducts = $statement->fetchAll();
+
+    //my products for IN quaery
+    foreach($myproducts as $key=>$p){
+        $a[$key] = $p['product_id'];
+    }
+
+    $b = implode(',',$a);
+    print_r($b);
+
+
+    //get data
+    $em = $this->getEntityManager();
+    $connection = $em->getConnection();
+    $statement = $connection->prepare("
+             SELECT a.id, a.name, a.image_name,
+             f.cooked, f.liked
+
+             FROM recipes as a
+             LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+             WHERE (SELECT COUNT(e.product_id)
+                 FROM recipes_products e
+                 WHERE e.product_id in ($b)
+                 AND e.recipe_id = a.id
+                 ) >= a.products_nr/2
+
+             ORDER BY a.id ASC
+             LIMIT 30
+             ;
+    ");
+    //$statement->bindValue('quantity', $quantity);
+    $statement->bindValue('userid', $userid);
+    $statement->execute();
+    $results = $statement->fetchAll();
+
+   // foreach($results as $key=>$p){
+      //print_r($p); echo "<br/>";
+   // }
+
     /*
+    $em = $this->getEntityManager();
+    $connection = $em->getConnection();
+    $statement = $connection->prepare("
+             SELECT DISTINCT(a.id)
+
+             FROM recipes as a
+
+             WHERE (SELECT COUNT(e.product_id)
+                 FROM recipes_products e
+                 WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                 AND e.recipe_id = a.id
+                 ) >= a.products_nr/:quantity
+
+             ORDER BY a.id ASC
+             LIMIT 1
+              ;
+    ");
+    $statement->bindValue('quantity', $quantity);
+    $statement->bindValue('userid', $userid);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    */
+$time2 = microtime(true);
+$t1 = ($time2 - $time1);
+ echo "query taimas: ".number_format($t1,3)."<br/>";
+    return $results;
+}
+/* trinti*/
+public function findNeeded($userid, $recipesIds)
+{
+   // echo implode(",",$recipesIds); die();
+    $em = $this->getEntityManager();
+    $connection = $em->getConnection();
+    $statement = $connection->prepare("
+         SELECT DISTINCT(a.id), a.name, a.image_name, a.products_nr,
+                 (  SELECT COUNT(e.product_id)
+                     FROM recipes_products e
+                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     AND e.recipe_id = a.id
+                 ) as products_accepted,
+                 f.cooked, f.liked
+
+         FROM recipes as a
+         LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+         WHERE a.id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+
+         ORDER BY a.id ASC
+
+          ;
+");
+    //$statement->bindValue('quantity', $quantity);
+    $statement->bindValue('userid', $userid);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    return $results;
+}
+
+    // DEPRECATED - get recipes (realtime calculation - not effective) (recipes page)
     public function findRecipesByUserNativeSQL($userid, $quantity, $limit = null)
     {
         if (!empty($limit)){
@@ -109,7 +225,7 @@ class RecipesRepository extends EntityRepository
         $results = $statement->fetchAll();
         return $results;
     }
-    */
+
 
     // get recipe with info if it was cooked and liked (recipe page)
     public function findRecipeNativeSQL($userid, $recipeid)

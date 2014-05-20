@@ -81,12 +81,23 @@
                 </tr>
             </thead>
             <tbody>
+
             {% for product in myProducts %}
-                <tr>
-                    <td> {{ product.product.name }}</td>
-                    <td> {{ product.quantity }}</td>
-                    <td> {{ product.product.unit }}</td>
-                    <td> {{ product.endDate }}</td>
+                <tr class="editable_tr" id="{{ product.id }}">
+                    <td>
+                        <span id="pro_name_{{ product.id }}"> {{ product.product.name }}</span>
+                    </td>
+                    <td class="editable_td">
+                        <span id="pro_quantity_{{ product.id }}" class="edit-text"> {{ product.quantity }}</span>
+                        <input id="pro_quantity_input_{{ product.id }}" type="text" value="{{ product.quantity }}" class="edit-input form-control">
+                    </td>
+                    <td>
+                        <span id="pro_unit_{{ product.id }}"> {{ product.product.unit }}</span>
+                    </td>
+                    <td class="editable_td">
+                        <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ product.endDate }}</span>
+                        <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ product.endDate }}" class="edit-input form-control">
+                    </td>
                 </tr>
             {% endfor %}
 

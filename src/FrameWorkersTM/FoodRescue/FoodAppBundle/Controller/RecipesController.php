@@ -38,26 +38,37 @@ class RecipesController extends Controller
         else{
             $userid = $usr->getId();
 
-//this should go on user login or acces index page
+//this should go on user login or access index page
 //get trashed products
-$this->get('recipeservice')->findTrashedProducts($userid);
+//$this->get('recipeservice')->findTrashedProducts($userid);
 
-//this should be done in adding a product, chaging quantities in myproducts page, and whe nrecipe is cooked.
 //update available recipes
 $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
 
-/* moved to service
+/* update available recipes */
+/*
+$time1 = microtime(true);
         //find available user recipes (on update insert remove)
-        $availableRecipes = $this->get('recipeservice')->findAvailableUserRecipes($userid);
-
+//        $availableRecipes = $this->get('recipeservice')->findAvailableUserRecipes($userid);
+//        $availableRecipes = $this->get('recipeservice')->findAvailableUserRecipes2($userid);
+$time2 = microtime(true);
         //serialize data
-        $serializedRecipes = serialize($availableRecipes);
-
+//        $serializedRecipes = serialize($availableRecipes);
+$time3 = microtime(true);
         //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
         //echo $serializedRecipes;
 
         //save available user recipes
-        $this->get('recipeservice')->saveAvailableUserRecipes($userid, $serializedRecipes);
+//        $this->get('recipeservice')->saveAvailableUserRecipes($userid, $serializedRecipes);
+$time4 = microtime(true);
+
+$t1 = ($time2 - $time1) * 1000;
+$t2 = ($time3 - $time2) * 1000;
+$t3 = ($time4 - $time3) * 1000;
+echo "regular microtimes: <br/>";
+echo "find available recipes: ".$t1."<br/>";
+echo "serialize recipes: ".$t2."<br/>";
+echo "save recipes: ".$t3."<br/>";
 */
 
             //get recipe from service
