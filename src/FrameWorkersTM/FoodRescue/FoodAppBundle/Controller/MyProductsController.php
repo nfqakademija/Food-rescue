@@ -55,7 +55,7 @@ class MyProductsController extends Controller
             $em->flush();
 
             //update available recipes
-            //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+            $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
 
@@ -118,6 +118,10 @@ class MyProductsController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($product);
                 $em->flush();
+
+                //update available recipes
+                $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+                
                 return new Response('deleted');
             } else return new Response('Not your product!');
         } else return new Response('Bad request');
