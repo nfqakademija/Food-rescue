@@ -26,7 +26,7 @@
                         {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="form-small-margin col-lg-1">
-                        <label>Vnt</label>
+                        <label>Vnt</label> <br/>
                         <label id="addMyProductUnits"></label>
                     </div>
                     <div class="form-small-margin col-lg-2">
@@ -98,6 +98,10 @@
                         <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ productEndDates[product.id] }}</span>
                         <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ productEndDates[product.id] }}" class="edit-input edit-endDate form-control">
                     </td>
+                    <td>
+                        <span class="ui-icon ui-icon-trash" id="trash_{{ product.id }}"></span>
+                    </td>
+
                 </tr>
             {% endfor %}
 

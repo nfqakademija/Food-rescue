@@ -28,7 +28,7 @@ class MyProductsController extends Controller
             ->get('form.factory')
             ->createNamedBuilder('addProductForm', 'form', $addNewProduct, array('validation_groups' => array()))
             ->add('productName', 'text')
-            ->add('productId', 'number')
+            ->add('productId', 'hidden')
             ->add('quantity', 'number')
             ->add('endDate', 'text')
             ->add('submit', 'submit');
@@ -103,5 +103,24 @@ class MyProductsController extends Controller
 
 
         } else return new Response('BAD POST MESSAGE');
+    }
+    public function deleteAction(Request $request) {
+        $usr = $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.') $userId = 0; //neprisijunges
+        else $userId = $usr->getId();
+
+        if (array_key_exists('id', $_POST)) {
+            $id = $_POST['id'];
+            $repository = $this->getDoctrine()
+                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
+            $product = $repository->findOneById($id);
+            if ($product->getUserId() == $userId) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($product);
+                $em->flush();
+                return new Response('deleted');
+            } else return new Response('Not your product!');
+        } else return new Response('Bad request');
+
     }
 }

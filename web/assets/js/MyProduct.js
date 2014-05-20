@@ -9,7 +9,7 @@ $.ajax({
                 $("#addProductForm_productName").val(ui.item.label);
                 console.log("prodId " + ui.item.value);
                 $("#addProductForm_productId").val(ui.item.value);
-                $("#addMyProductUnits").val(ui.item.units);
+                $("#addMyProductUnits").html(ui.item.units);
                 $("#addProductForm_endDate").val(timestapmToDate(ui.item.endDate))
                 console.log(ui.item);
                 console.log(timestapmToDate(ui.item.endDate))
@@ -86,7 +86,24 @@ $(document).ready(function()
     $(".edit-input").hide();
     $(".edit-text").show();
 });
-
+$('.ui-icon-trash').click(function() {
+   var ID = $(this).attr('id').split('_')[1];
+   var name= $('#pro_name_' + ID).text();
+    console.log(ID);
+   if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
+        var url = '/' + window.location.pathname.split('/')[1] + '/myproductsdelete/';
+       $.ajax({
+          url: url,
+          type: 'POST',
+          data:'id=' + ID,
+          success: function(response) {
+              if (response == 'deleted'){
+                  $('#'+ ID).hide();
+              }
+          }
+       });
+   }
+});
 
 function timestapmToDate(timestamp) {
     var date = new Date(timestamp * 1000);
