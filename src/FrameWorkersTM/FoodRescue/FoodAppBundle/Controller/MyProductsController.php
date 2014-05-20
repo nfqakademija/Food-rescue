@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Response;
+use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 class MyProductsController extends Controller
 {
@@ -27,7 +28,7 @@ class MyProductsController extends Controller
             ->get('form.factory')
             ->createNamedBuilder('addProductForm', 'form', $addNewProduct, array('validation_groups' => array()))
             ->add('productName', 'text')
-            ->add('productId', 'number')
+            ->add('productId', 'hidden')
             ->add('quantity', 'number')
             ->add('endDate', 'text')
             ->add('submit', 'submit');
@@ -52,15 +53,23 @@ class MyProductsController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
+
+            //update available recipes
+            //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
 
         $myProducts = $repository = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
+        $productEndDates = array();
+        foreach ($myProducts as $product) {
+            $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
+        }
 
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
+        $array['productEndDates'] = $productEndDates;
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }
@@ -70,19 +79,48 @@ class MyProductsController extends Controller
         if ($usr == 'anon.') $userId = 0; //neprisijunges
         else $userId = $usr->getId();
 
-        if (array_key_exists('id', $_POST)) {
+        if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
+            $errors = array();
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
-            $endDate = $_POST['endDate'];
+            if (! is_numeric($quantity)) $errors[] = 'Blogai įvestas kiekis!';
+            $endDate = strtotime($_POST['endDate']);
+            if ($endDate < time()) $errors[] = 'Data negali būti senesnė nei šios dienos!';
+
+            if (count($errors) < 1) {
+                $repository = $this->getDoctrine()
+                    ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
+                $product = $repository->findOneById($id);
+                $product->setQuantity($quantity)->setEndDate($endDate);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+
+                //update available recipes
+                //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+                return new Response(null);
+            } else return new Response(json_encode($errors));
+
+
+        } else return new Response('BAD POST MESSAGE');
+    }
+    public function deleteAction(Request $request) {
+        $usr = $this->get('security.context')->getToken()->getUser();
+        if ($usr == 'anon.') $userId = 0; //neprisijunges
+        else $userId = $usr->getId();
+
+        if (array_key_exists('id', $_POST)) {
+            $id = $_POST['id'];
             $repository = $this->getDoctrine()
                 ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');
             $product = $repository->findOneById($id);
-            $product->setQuantity($quantity)->setEndDate($endDate);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+            if ($product->getUserId() == $userId) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($product);
+                $em->flush();
+                return new Response('deleted');
+            } else return new Response('Not your product!');
+        } else return new Response('Bad request');
 
-        }
-        return new Response(null);
     }
 }
