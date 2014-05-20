@@ -51,6 +51,7 @@ class RecipeService
                 }
 
             }
+//NEED A MESSAGE
             //find available recipes
             self::findAndSaveAvailableUserRecipes($userid);
         }
@@ -62,9 +63,11 @@ $time1 = microtime(true);
         //find available user recipes
         $availableRecipes = self::findAvailableUserRecipes($userid);
 $time2 = microtime(true);
+
         //serialize data
        $serializedRecipes = serialize($availableRecipes);
 $time3 = microtime(true);
+
         //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
         //echo $serializedRecipes;
 
@@ -72,42 +75,15 @@ $time3 = microtime(true);
         self::saveAvailableUserRecipes($userid, $serializedRecipes);
 $time4 = microtime(true);
 
-/*
-$time1 = microtime(true);
-        $seperator = 2;
-        $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findAvailableUserRecipesNativeSQL($userid, $seperator);
-$time2 = microtime(true);
-        $serializedRecipes = serialize($availableRecipes);
-$time3 = microtime(true);
-        $userAvailableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
-            ->findOneByUserId($userid);
-$time4 = microtime(true);
-        if ($userAvailableRecipes){
-            //update recipe ids
-            $userAvailableRecipes->setRecipesId($serializedRecipes);
-        }
-        else{
-            //insert new row
-            $userAvailableRecipes = new UsersAvailableRecipes();
-            $userAvailableRecipes->setUserId($userid);
-            $userAvailableRecipes->setRecipesId($serializedRecipes);
-        }
+$t1 = ($time2 - $time1);
+$t2 = ($time3 - $time2);
+$t3 = ($time4 - $time3);
 
-        self::insertUpdateTable($userAvailableRecipes);
-$time5 = microtime(true);
-*/
-        $t1 = ($time2 - $time1);
-        $t2 = ($time3 - $time2);
-        $t3 = ($time4 - $time3);
-       // $t4 = ($time5 - $time4);
 
 echo "find and save available recipes service: <br/>";
 echo "find available recipes: ".number_format($t1,3)."<br/>";
 echo "serialize recipes: ".number_format($t2,3)."<br/>";
 echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
-//echo "get existing serialized user recipes from db: ".number_format($t3,3)."<br/>";
-//echo "save recipes: ".number_format($t4,3)."<br/>";
 
     }
 
@@ -121,7 +97,7 @@ echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
 
         return $recipes;
     }
-/* trinti */
+/* trinti
 public function findAvailableUserRecipes2($userid){
     // seperator = 2 means we must have at least half products for recipe
     // this variable is divided from recipe product's number, so 2 means f.e. 8/2 - half products user must have
@@ -131,6 +107,7 @@ public function findAvailableUserRecipes2($userid){
 
     return $recipes;
 }
+*/
 
     // save user available recipes
     public function saveAvailableUserRecipes($userid, $data){
@@ -170,7 +147,7 @@ public function findAvailableUserRecipes2($userid){
         }
     }
 
-/*trinti*/
+/*trinti
 public function findRecipes2($userid, $limit=null){
     $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
         ->findOneByUserId($userid);
@@ -192,6 +169,7 @@ public function findRecipes2($userid, $limit=null){
         return null;
     }
 }
+*/
 
     // DEPRECATED - get available recipes (bad way cause of making calculations)(recipes page)
     public function findRecipesOldWay($userid, $seperator, $limit=null){
