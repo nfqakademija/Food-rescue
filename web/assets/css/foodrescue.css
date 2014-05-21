@@ -122,6 +122,12 @@ body{
 .ingredients{
 
 }
+.ingredients li{
+    color:red;
+}
+.ingredients li.available{
+    color:green;
+}
 .ingredients h4{
     text-align: center;
 }

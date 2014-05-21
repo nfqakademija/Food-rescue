@@ -97,17 +97,6 @@ echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
 
         return $recipes;
     }
-/* trinti
-public function findAvailableUserRecipes2($userid){
-    // seperator = 2 means we must have at least half products for recipe
-    // this variable is divided from recipe product's number, so 2 means f.e. 8/2 - half products user must have
-    $seperator = 2;
-    $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-        ->findAvailableUserRecipesNativeSQL2($userid, $seperator);
-
-    return $recipes;
-}
-*/
 
     // save user available recipes
     public function saveAvailableUserRecipes($userid, $data){
@@ -146,30 +135,6 @@ public function findAvailableUserRecipes2($userid){
             return null;
         }
     }
-
-/*trinti
-public function findRecipes2($userid, $limit=null){
-    $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
-        ->findOneByUserId($userid);
-    if ($availableRecipes){
-        $availableRecipes = unserialize($availableRecipes->getRecipesId());
-//foreach($availableRecipes as $key=>$r){ echo $key." "; print_r($r); echo "<br/>"; }
-        if (!empty($limit)){
-            $recipes = array_slice($availableRecipes, 0, $limit);
-        }
-        else{
-            $recipes = array_slice($availableRecipes, 0, 15);
-        }
-        $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findNeeded($userid, $recipes);
-
-        return $recipes;
-    }
-    else{
-        return null;
-    }
-}
-*/
 
     // DEPRECATED - get available recipes (bad way cause of making calculations)(recipes page)
     public function findRecipesOldWay($userid, $seperator, $limit=null){
