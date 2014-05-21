@@ -41,7 +41,7 @@
                             {% set idbefore = 0 %}
                             {% for product in recipe_products  %}
                                 {% if idbefore != product.id %}
-                                    <li class="{% if product.my_product_id %}available{% endif %}"> {{ product.name }} {{ product.quantity }}{{ product.unit }}</li>
+                                    <li class="{% if product.my_product_id %}available{% endif %}"> {% if product.my_product_quantity >= product.quantity  %} turim kiek reik! {% endif %} {{ product.name }} {{ product.quantity }}{{ product.unit }}</li>
                                     {% set idbefore = product.id %}
                                 {% endif %}
                             {% endfor %}

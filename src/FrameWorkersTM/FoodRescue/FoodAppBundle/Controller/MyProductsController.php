@@ -16,12 +16,8 @@ class MyProductsController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $session = $request->getSession();
-        $array['logged']= $session->get('logged');
 
-        $usr = $this->get('security.context')->getToken()->getUser();
-        if ($usr == 'anon.') $userId = 0; //neprisijunges
-        else $userId = $usr->getId();
+        $userId = $this->get('recipeservice')->findUser($request->getSession());
 
         $addNewProduct = new AddMyProduct();
         $addProductFormBuilder = $this->container

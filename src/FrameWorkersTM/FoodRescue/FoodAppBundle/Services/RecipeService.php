@@ -11,9 +11,68 @@ class RecipeService
 {
     protected $doctrine;
 
-    public function __construct($doctrine)
+    protected $context;
+    protected $user_manager;
+    protected $encoder_factory;
+
+    public function __construct($doctrine,$context,$user_manager,$encoder_factory)
     {
         $this->doctrine = $doctrine;
+        $this->context = $context;
+        $this->user_manager = $user_manager;
+        $this->encoder_factory = $encoder_factory;
+    }
+
+    //get user id
+    // return user_id if logged in
+    // return guest_user_id if exist in cookies
+    // return created guest_user_id and set it in cookies
+    public function findUser($request){
+        $usr = $this->context->getToken()->getUser();
+        if ($usr == 'anon.') {
+            //user is not logged
+            $session = $request; //$request->getSession();
+            $guestUser= $session->get('guest_user_id');
+            if (!($guestUser)){
+                //not logged in, no guest user found in cookies - create a demo user
+
+                //generate demo user info
+                $random_number = mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9);
+                $username = $random_number;
+                $email    = $random_number;
+                $password = $random_number;
+
+                $userManager = $this->user_manager; //$this->get('fos_user.user_manager');
+                $user = $userManager->createUser();
+                $user->setUsername($username);
+                $user->setEmail($email);
+
+                //encode password
+                $encoder_service = $this->encoder_factory; //$this->get('security.encoder_factory');
+                $encoder = $encoder_service->getEncoder($user);
+                $encoded_pass = $encoder->encodePassword($password, $user->getSalt());
+                $user->setPlainPassword($encoded_pass);
+
+                //save user
+                $userManager->updateUser($user);
+
+                //set cookie
+                $session->set('guest_user_id', $user->getId());
+echo "naujas demo vartotojas. user_id: ".$user->getId()."<br/>";
+
+                //new guest user
+                return $user->getId();
+            }
+            else{
+echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
+                //guest user exist
+                return $guestUser;
+            }
+        }
+        else{
+            //user is logged in
+            return $usr->getId();
+        }
     }
 
     // get trashed products and write them to trashed products table
