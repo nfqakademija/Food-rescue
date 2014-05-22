@@ -41,6 +41,7 @@ class RecipesRepository extends EntityRepository
         $myproducts = $statement->fetchAll();
 
         //prepare my products for query
+        $temp = array();
         foreach($myproducts as $key=>$myproduct){
             $temp[$key] = $myproduct['product_id'];
         }

@@ -11,6 +11,7 @@ class DashboardController extends Controller
 {
     public function indexAction(Request $request)
     {
+        $array = array();
         $session = $request->getSession();
         $array['logged']= $session->get('logged');
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Dashboard:index.html.twig',$array);

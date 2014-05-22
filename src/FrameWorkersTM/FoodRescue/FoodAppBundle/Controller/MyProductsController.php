@@ -63,6 +63,7 @@ class MyProductsController extends Controller
             $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
         }
 
+        $array = array();
         $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
