@@ -6,34 +6,18 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes;
-use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
-use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts;
-use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
+#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes;
+#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
+#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts;
+#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 
 class RecipesController extends Controller
 {
-    //TODO: Pasiklaust dėl login kūrimo
-    public function __construct(){
-        
-    }
-    
+
     public function indexAction(Request $request, $limit=null)
     {
-
-        //get logged user id
-        /* moved to service
-        $usr= $this->get('security.context')->getToken()->getUser();
-        if ($usr == 'anon.'){
-            //cia tures eiti neprisijungusio vartotojo receptu atvaizdavimas pagal pridetus produktus
-            //$userid = 0;
-            $recipes = '';
-            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit));
-        }
-        */
-        //    $userid = $usr->getId();
 
         $userid = $this->get('recipeservice')->findUser($request->getSession());
 
@@ -57,17 +41,6 @@ class RecipesController extends Controller
     
     public function RecipieViewAction(Request $request, $recipeid){
 
-        //get logged user id
-        /* moved to service
-        $usr= $this->get('security.context')->getToken()->getUser();
-        if ($usr == 'anon.'){
-            //cia tures eiti neprisijungusio vartotojo receptu atvaizdavimas pagal pridetus produktus
-            //kolkas ikeltas norecipe.
-            //$userid = 0;
-            //$recipes = '';
-            return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:norecipe.html.twig');
-        }
-        */
         //$userid = $usr->getId();
         $userid = $this->get('recipeservice')->findUser($request->getSession());
 
@@ -102,7 +75,6 @@ class RecipesController extends Controller
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
             array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)
         );
-
 
     }
     

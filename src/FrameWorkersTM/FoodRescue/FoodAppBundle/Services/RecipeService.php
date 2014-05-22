@@ -58,13 +58,13 @@ class RecipeService
 
                 //set cookie
                 $session->set('guest_user_id', $user->getId());
-echo "naujas demo vartotojas. user_id: ".$user->getId()."<br/>";
+//echo "naujas demo vartotojas. user_id: ".$user->getId()."<br/>";
 
                 //new guest user
                 return $user->getId();
             }
             else{
-echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
+//echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
                 //guest user exist
                 return $guestUser;
             }
@@ -125,31 +125,30 @@ echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
 
     // find and save available user recipes
     public function findAndSaveAvailableUserRecipes($userid){
-$time1 = microtime(true);
+//$time1 = microtime(true);
         //find available user recipes
         $availableRecipes = self::findAvailableUserRecipes($userid);
-$time2 = microtime(true);
+//$time2 = microtime(true);
         if ($availableRecipes){
             //serialize data
             $serializedRecipes = serialize($availableRecipes);
-$time3 = microtime(true);
+//$time3 = microtime(true);
 
             //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
             //echo $serializedRecipes;
 
             //save available user recipes
             self::saveAvailableUserRecipes($userid, $serializedRecipes);
-$time4 = microtime(true);
+//$time4 = microtime(true);
 
-$t1 = ($time2 - $time1);
-$t2 = ($time3 - $time2);
-$t3 = ($time4 - $time3);
+//$t1 = ($time2 - $time1);
+//$t2 = ($time3 - $time2);
+//$t3 = ($time4 - $time3);
 
-
-echo "find and save available recipes service: <br/>";
-echo "find available recipes: ".number_format($t1,3)."<br/>";
-echo "serialize recipes: ".number_format($t2,3)."<br/>";
-echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
+//echo "find and save available recipes service: <br/>";
+//echo "find available recipes: ".number_format($t1,3)."<br/>";
+//echo "serialize recipes: ".number_format($t2,3)."<br/>";
+//echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
         }
         else{
             //if user have no more products

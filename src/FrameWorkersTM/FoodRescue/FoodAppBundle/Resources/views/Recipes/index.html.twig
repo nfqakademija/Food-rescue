@@ -20,18 +20,17 @@
                               width="100" height="100" />
                      </div>
                      <div class="rec_descr">
-                         <h4><a href="view/{{  recipe.id }}">{{ recipe.name }}</a></h4>
-                         <!--<p>
-                             pienas 100ml, kiausiniai 6vnt, druska ziupsnelis, citrina 1skiltele, kiauliena 50g, aliejus saukstelis
-                         </p>-->
-  {#
+
+                         <h4><a href="recipes/view/{{  recipe.id }}">{{ recipe.name }}</a></h4>
+
+
                          {% if recipe.products_nr == recipe.products_accepted  %}
                          <div class="rec_stats">
                              <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
                              <span>Turi visus produktus - kodėl nepasigaminus šio patiekalo?</span>
                          </div>
                          {% endif %}
-   #}
+
                          <div class="rec_fav">
 
                              {% if recipe.cooked %}
@@ -49,7 +48,7 @@
              <div class="pagination">
                  {%  if limit == 0 %}
                      {% if recipes|length == 15 %}
-                        <a href="30">Daugiau receptų</a>
+                        <a href="recipes/30">Daugiau receptų</a>
                      {% endif %}
                  {% elseif recipes|length == limit %}
                      {% if recipes|length != 45 %}

@@ -5,7 +5,9 @@
 {% block body %}
 
 <h4>Gaminam receptą!</h4>
-<a href="{{ asset('recipies') }}">Grįžti atgal</a>
+
+ <input type="button" onclick="history.back();" value="Grįžti atgal">
+
  <div class="container">
     <div class="row">
         <div class="jumbotron col-lg-7 col-md-12 col-sm-12 ">
@@ -58,27 +60,6 @@
         <div class="jumbotron col-lg-4 col-md-12 col-sm-12 coocing_table">
            <h4>Receptui panaudota</h4>  
 
-            {#
-            <form action="#" method="post">
-                <table class="table table-striped">
-                   {% for product in recipe_products  %}
-                       <tr>
-                          <td>{{ product.name }}</td>
-                          <td><input type="text" value="{{ product.quantity }}" /></td>
-                          <td>{{ product.unit }}</td>
-                       </tr>
-                   {% endfor %}
-                 </table>
-                <a class="btn btn-success" href="{{ asset('recipes/') }}">Pagaminau!</a>
-                <!-- <button class="btn btn-success" value="1" name="done">Pagaminau!</button> -->
-             </form>
-            #}
-
-{#
-regular form template
-{{ form(form) }}
-#}
-
             {{ form_start(form) }}
             <table>
                 {% for child in form.children %}
@@ -100,11 +81,17 @@ regular form template
     </div>
  </div>
 
-    <script type="text/javascript">
-       var $s = jQuery.noConflict();
-        $s(document).ready(function(){
-            $s("label[for=form_recipe_id]").hide();
-        });
-    </script>
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script type="text/javascript">
+            var $s = jQuery.noConflict();
+            $s(document).ready(function(){
+                $s("label[for=form_recipe_id]").hide();
+            });
+        </script>
+
+    {% endblock %}
+
 
 {% endblock %}

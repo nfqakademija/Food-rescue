@@ -4,8 +4,6 @@
 var appUrl = window.location.origin + window.location.pathname.split('myproducts/')[0];
 var productListUrl = appUrl + 'productslist/';
 
-console.log(appUrl+' '+productListUrl);
-
 $.ajax({
     url: productListUrl,
     contentType: "JSON",
@@ -61,7 +59,6 @@ $(".editable_tr").click(function() {
             cache: false,
             success: function(_result)
             {
-
                 if(_result.length < 1) {
                     $('#edit_table_errors').html('');
                     $("#pro_quantity_"+ID).html(quantity);
@@ -102,7 +99,7 @@ $(document).ready(function()
 $('.ui-icon-trash').click(function() {
     var ID = $(this).attr('id').split('_')[1];
     var name= $('#pro_name_' + ID).text();
-    console.log(ID);
+console.log(ID);
     if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
         $.ajax({
             url: appUrl + 'myproductsdelete/',
