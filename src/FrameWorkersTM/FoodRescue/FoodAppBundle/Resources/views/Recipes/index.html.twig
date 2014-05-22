@@ -48,9 +48,13 @@
 
              <div class="pagination">
                  {%  if limit == 0 %}
-                     <a href="30">Daugiau receptų</a>
+                     {% if recipes|length == 15 %}
+                        <a href="30">Daugiau receptų</a>
+                     {% endif %}
                  {% elseif recipes|length == limit %}
-                     <a href="{{ limit + 15 }}">Daugiau receptų</a>
+                     {% if recipes|length != 45 %}
+                         <a href="{{ limit + 15 }}">Daugiau receptų</a>
+                     {% endif %}
                  {% endif %}
              </div>
          </div>

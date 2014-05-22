@@ -84,4 +84,4 @@ services:
     recipeservice:
         class:        "%recipeservice.class%"
         #arguments:    ["%cvuorinen_example.greeter.greeting%"]
-        arguments: [ @doctrine ]
+        arguments: [ @doctrine, @security.context, @fos_user.user_manager, @security.encoder_factory ]

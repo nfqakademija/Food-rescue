@@ -11,9 +11,68 @@ class RecipeService
 {
     protected $doctrine;
 
-    public function __construct($doctrine)
+    protected $context;
+    protected $user_manager;
+    protected $encoder_factory;
+
+    public function __construct($doctrine,$context,$user_manager,$encoder_factory)
     {
         $this->doctrine = $doctrine;
+        $this->context = $context;
+        $this->user_manager = $user_manager;
+        $this->encoder_factory = $encoder_factory;
+    }
+
+    //get user id
+    // return user_id if logged in
+    // return guest_user_id if exist in cookies
+    // return created guest_user_id and set it in cookies
+    public function findUser($request){
+        $usr = $this->context->getToken()->getUser();
+        if ($usr == 'anon.') {
+            //user is not logged
+            $session = $request; //$request->getSession();
+            $guestUser= $session->get('guest_user_id');
+            if (!($guestUser)){
+                //not logged in, no guest user found in cookies - create a demo user
+
+                //generate demo user info
+                $random_number = mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9).mt_rand(0,9);
+                $username = $random_number;
+                $email    = $random_number;
+                $password = $random_number;
+
+                $userManager = $this->user_manager; //$this->get('fos_user.user_manager');
+                $user = $userManager->createUser();
+                $user->setUsername($username);
+                $user->setEmail($email);
+
+                //encode password
+                $encoder_service = $this->encoder_factory; //$this->get('security.encoder_factory');
+                $encoder = $encoder_service->getEncoder($user);
+                $encoded_pass = $encoder->encodePassword($password, $user->getSalt());
+                $user->setPlainPassword($encoded_pass);
+
+                //save user
+                $userManager->updateUser($user);
+
+                //set cookie
+                $session->set('guest_user_id', $user->getId());
+echo "naujas demo vartotojas. user_id: ".$user->getId()."<br/>";
+
+                //new guest user
+                return $user->getId();
+            }
+            else{
+echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
+                //guest user exist
+                return $guestUser;
+            }
+        }
+        else{
+            //user is logged in
+            return $usr->getId();
+        }
     }
 
     // get trashed products and write them to trashed products table
@@ -42,30 +101,49 @@ class RecipeService
                     self::insertUpdateTable($product);
                 }
 
-                // remove product from my_products table;
+                // remove product from my_products table
                 $myproduct = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
                     ->findOneBy(array('userId' => $userid, 'product' => $trashedProduct['product_id']));
                 if ($myproduct){
                     self::deleteRowFromTable($myproduct);
+
                 }
 
             }
+//NEED A MESSAGE
+            //find available recipes
+            self::findAndSaveAvailableUserRecipes($userid);
         }
     }
 
     // find and save available user recipes
     public function findAndSaveAvailableUserRecipes($userid){
+$time1 = microtime(true);
         //find available user recipes
         $availableRecipes = self::findAvailableUserRecipes($userid);
+$time2 = microtime(true);
 
         //serialize data
-        $serializedRecipes = serialize($availableRecipes);
+       $serializedRecipes = serialize($availableRecipes);
+$time3 = microtime(true);
 
         //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
         //echo $serializedRecipes;
 
         //save available user recipes
         self::saveAvailableUserRecipes($userid, $serializedRecipes);
+$time4 = microtime(true);
+
+$t1 = ($time2 - $time1);
+$t2 = ($time3 - $time2);
+$t3 = ($time4 - $time3);
+
+
+echo "find and save available recipes service: <br/>";
+echo "find available recipes: ".number_format($t1,3)."<br/>";
+echo "serialize recipes: ".number_format($t2,3)."<br/>";
+echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
+
     }
 
     // count available recipes for user
@@ -75,6 +153,7 @@ class RecipeService
         $seperator = 2;
         $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findAvailableUserRecipesNativeSQL($userid, $seperator);
+
         return $recipes;
     }
 
@@ -95,7 +174,6 @@ class RecipeService
         }
         self::insertUpdateTable($userAvailableRecipes);
     }
-
 
     // get saved available user recipes (recipes page)
     public function findRecipes($userid, $limit=null){
@@ -118,14 +196,11 @@ class RecipeService
     }
 
     // DEPRECATED - get available recipes (bad way cause of making calculations)(recipes page)
-    /*
     public function findRecipesOldWay($userid, $seperator, $limit=null){
         $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findRecipesByUserNativeSQL($userid, $seperator, $limit);
         return $recipes;
     }
-    */
-
 
     // get recipe (recipe page)
     public function findRecipe($userid, $recipeid){

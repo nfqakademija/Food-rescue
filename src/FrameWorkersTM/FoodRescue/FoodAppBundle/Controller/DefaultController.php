@@ -9,17 +9,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
-    /* deprecated
-    public function indexAction($name)
-    {
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig', array('name' => $name));
-    }
-    */
-
     public function indexAction(Request $request)
     {
-        $session = $request->getSession();
-        $array['logged']= $session->get('logged');
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig',$array);
+         $this->get('recipeservice')->findUser($request->getSession());
+
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig');
     }
 }

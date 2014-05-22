@@ -32,30 +32,44 @@ class RecipesRepository extends EntityRepository
     // get recipes, when a user have minimum half products for them.
     public function findAvailableUserRecipesNativeSQL($userid, $quantity)
     {
+        // find my products
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT product_id FROM my_products WHERE user_id = :userid;");
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $myproducts = $statement->fetchAll();
+
+        //prepare my products for query
+        $temp = array();
+        foreach($myproducts as $key=>$myproduct){
+            $temp[$key] = $myproduct['product_id'];
+        }
+
+        $myProdsIds = implode(',',$temp);
+print_r($myProdsIds);
+
         $statement = $connection->prepare("
-                 SELECT DISTINCT(a.id), a.name, a.image_name, a.products_nr,
+                 SELECT a.id, a.name, a.image_name, a.products_nr,
                  (  SELECT COUNT(e.product_id)
                      FROM recipes_products e
-                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     WHERE e.product_id in (".$myProdsIds.")
                      AND e.recipe_id = a.id
                  ) as products_accepted,
                  f.cooked, f.liked
 
                  FROM recipes as a
-                 LEFT JOIN recipes_products as b ON b.recipe_id = a.id
-                 LEFT JOIN products as d ON d.id = b.product_id
                  LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
 
                  WHERE (SELECT COUNT(e.product_id)
                      FROM recipes_products e
-                     WHERE e.product_id in (SELECT product_id FROM my_products WHERE user_id = :userid)
+                     WHERE e.product_id in (".$myProdsIds.")
                      AND e.recipe_id = a.id
                      ) >= a.products_nr/:quantity
 
                  ORDER BY a.id ASC
-                  ;
+                 LIMIT 45
+                 ;
         ");
         $statement->bindValue('quantity', $quantity);
         $statement->bindValue('userid', $userid);
@@ -65,7 +79,6 @@ class RecipesRepository extends EntityRepository
     }
 
     // DEPRECATED - get recipes (realtime calculation - not effective) (recipes page)
-    /*
     public function findRecipesByUserNativeSQL($userid, $quantity, $limit = null)
     {
         if (!empty($limit)){
@@ -109,7 +122,7 @@ class RecipesRepository extends EntityRepository
         $results = $statement->fetchAll();
         return $results;
     }
-    */
+
 
     // get recipe with info if it was cooked and liked (recipe page)
     public function findRecipeNativeSQL($userid, $recipeid)
@@ -134,14 +147,30 @@ class RecipesRepository extends EntityRepository
     // get recipe products with quantity required and products nr i have for recipe (recipe page)
     public function findRecipeProductsNativeSQL($userid, $recipeid)
     {
+// my_product_quantity nepanaudotas kolkas.
+// cia tipo paziurejimui ar ne tik turime produkta,
+// bet ir ar jo kiekis atitinka.
+
+//taciau kadangi zemiau esanti sql ima 2x ta pati produkta jeigu mes turime 2x vienodus suvede
+//tai nera mum naudinga
+
+//jeigu padarau atskirai paemima tik ieinanciu i recepta
+//ir paemima tik savo turimu kurie atitinka
+//ir padarau kad savo dublikuojancius sudetu.
+
+//tada reik daryti sutikrinima
+
+ //recepto panaudotu prod formoje. jei reikejo 400ml peino. o panaudojo po 200ml tai reikia kazkaip kad isskirty formoje???
+
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare("
-                 SELECT a.id, a.name, a.unit, b.quantity, d.id as my_product_id
+                 SELECT a.id, a.name, a.unit, b.quantity, d.quantity as my_product_quantity, d.id as my_product_id
                  FROM products a
                  LEFT JOIN recipes_products b on b.product_id = a.id
                  LEFT JOIN my_products d on d.product_id = a.id AND d.user_id = :user_id
                  WHERE b.recipe_id = :recipe_id
+                 ORDER BY a.id ASC
                  ;
         ");
         $statement->bindValue('recipe_id', $recipeid);
@@ -150,4 +179,5 @@ class RecipesRepository extends EntityRepository
         $results = $statement->fetchAll();
         return $results;
     }
+
 }
