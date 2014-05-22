@@ -63,7 +63,7 @@ $(".editable_tr").click(function() {
                     var result = jQuery.parseJSON(_result);
                     var errorString = "";
                     result.forEach(function(err) {
-                       errorString = errorString + " " + err;
+                        errorString = errorString + " " + err;
                     });
                     $('#edit_table_errors').html(errorString);
                 }
@@ -89,20 +89,19 @@ $(document).ready(function()
     $(".edit-text").show();
 });
 $('.ui-icon-trash').click(function() {
-   var ID = $(this).attr('id').split('_')[1];
-   var name= $('#pro_name_' + ID).text();
+    var ID = $(this).attr('id').split('_')[1];
+    var name= $('#pro_name_' + ID).text();
     console.log(ID);
-   if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
-       $.ajax({
-          url: appUrl + '/myproductsdelete/',
-          type: 'POST',
-          data:'id=' + ID,
-          success: function(response) {
-              if (response == 'deleted'){
-                  $('#'+ ID).slideUp();
-              }
-          }
-       });
-   }
+    if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
+        $.ajax({
+            url: appUrl + '/myproductsdelete/',
+            type: 'POST',
+            data:'id=' + ID,
+            success: function(response) {
+                if (response == 'deleted'){
+                    $('#'+ ID).slideUp();
+                }
+            }
+        });
+    }
 });
-
