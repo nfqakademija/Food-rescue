@@ -86,6 +86,8 @@ class Products
         $this->recipes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+
     /**
      * Get id
      *
@@ -212,6 +214,39 @@ class Products
     }
 
     /**
+     * Add myProducts
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
+     * @return Products
+     */
+    public function addMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
+    {
+        $this->myProducts[] = $myProducts;
+
+        return $this;
+    }
+
+    /**
+     * Remove myProducts
+     *
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
+     */
+    public function removeMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
+    {
+        $this->myProducts->removeElement($myProducts);
+    }
+
+    /**
+     * Get myProducts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMyProducts()
+    {
+        return $this->myProducts;
+    }
+
+    /**
      * Add recipes
      *
      * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts $recipes
@@ -245,36 +280,26 @@ class Products
     }
 
     /**
-     * Add product
+     * Add products
      *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $products
      * @return Products
      */
-    public function addProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product)
+    public function addProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $products)
     {
-        $this->product[] = $product;
+        $this->products[] = $products;
 
         return $this;
     }
 
     /**
-     * Remove product
+     * Remove products
      *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product
+     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $products
      */
-    public function removeProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $product)
+    public function removeProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $products)
     {
-        $this->product->removeElement($product);
-    }
-
-    /**
-     * Get product
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProduct()
-    {
-        return $this->product;
+        $this->products->removeElement($products);
     }
 
     /**
@@ -285,38 +310,5 @@ class Products
     public function getProducts()
     {
         return $this->products;
-    }
-
-    /**
-     * Add myProducts
-     *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
-     * @return Products
-     */
-    public function addMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
-    {
-        $this->myProducts[] = $myProducts;
-
-        return $this;
-    }
-
-    /**
-     * Remove myProducts
-     *
-     * @param \FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts
-     */
-    public function removeMyProduct(\FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts $myProducts)
-    {
-        $this->myProducts->removeElement($myProducts);
-    }
-
-    /**
-     * Get myProducts
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMyProducts()
-    {
-        return $this->myProducts;
     }
 }

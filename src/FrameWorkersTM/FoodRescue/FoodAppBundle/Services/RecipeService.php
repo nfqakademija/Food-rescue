@@ -192,22 +192,18 @@ echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
         $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
             ->findOneByUserId($userid);
 
-        if ($availableRecipes){
-            // additional check (if all user products was deleted, then this field is empty)
-            if (!empty($availableRecipes->getRecipesId())){
-                $availableRecipes = unserialize($availableRecipes->getRecipesId());
+        if (!$availableRecipes){ return; }
+        // additional check (if all user products was deleted, then this field is empty)
+        if (!empty($availableRecipes->getRecipesId())){
+            $availableRecipes = unserialize($availableRecipes->getRecipesId());
 //foreach($availableRecipes as $key=>$r){ echo $key." "; print_r($r); echo "<br/>"; }
-                if (!empty($limit)){
-                    $recipes = array_slice($availableRecipes, 0, $limit);
-                }
-                else{
-                    $recipes = array_slice($availableRecipes, 0, 15);
-                }
-                return $recipes;
+            if (!empty($limit)){
+                $recipes = array_slice($availableRecipes, 0, $limit);
             }
-        }
-        else{
-            return null;
+            else{
+                $recipes = array_slice($availableRecipes, 0, 15);
+            }
+            return $recipes;
         }
     }
 
