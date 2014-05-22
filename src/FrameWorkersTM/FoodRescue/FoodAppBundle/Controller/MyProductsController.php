@@ -42,7 +42,7 @@ class MyProductsController extends Controller
             $productData = $addProductForm->getData();
 
             $product = new MyProducts();
-            $prod = $repository = $this->getDoctrine()
+            $prod = $this->getDoctrine()
                 ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
                 ->findOneById($productData->getProductId());
             $product->setEndDate(strtotime($productData->getEndDate()))
@@ -59,7 +59,7 @@ class MyProductsController extends Controller
         }
 
 
-        $myProducts = $repository = $this->getDoctrine()
+        $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
         $productEndDates = array();
@@ -121,7 +121,7 @@ class MyProductsController extends Controller
 
                 //update available recipes
                 $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
-                
+
                 return new Response('deleted');
             } else return new Response('Not your product!');
         } else return new Response('Bad request');
