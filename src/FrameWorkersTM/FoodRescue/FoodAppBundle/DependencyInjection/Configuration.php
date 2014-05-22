@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('frame_workers_tm_food_rescue_food_app');
+        $treeBuilder->root('frame_workers_tm_food_rescue_food_app');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
