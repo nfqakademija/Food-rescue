@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <base href="" />
         {% block stylesheets %} 
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/foodrescue.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />

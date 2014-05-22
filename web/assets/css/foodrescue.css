@@ -8,6 +8,8 @@ body{
     display: block;
     margin: 20px 0;
 }
+
+
 a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
@@ -143,4 +145,7 @@ body{
 }
 .jumbo2{
     height: auto !important;
+}
+label[for=form_recipe_id]{
+    display: none;
 }

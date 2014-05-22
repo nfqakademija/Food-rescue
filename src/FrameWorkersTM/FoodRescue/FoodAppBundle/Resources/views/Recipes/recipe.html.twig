@@ -99,4 +99,12 @@ regular form template
         
     </div>
  </div>
+
+    <script type="text/javascript">
+       var $s = jQuery.noConflict();
+        $s(document).ready(function(){
+            $s("label[for=form_recipe_id]").hide();
+        });
+    </script>
+
 {% endblock %}
