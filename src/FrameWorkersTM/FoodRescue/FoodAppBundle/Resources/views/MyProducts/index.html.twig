@@ -5,6 +5,10 @@
 
 {% block title %} Mano produktai {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css') }}" />
+{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -120,4 +124,12 @@
 
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-1.10.2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/MyProduct.js') }}"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 {% endblock %}

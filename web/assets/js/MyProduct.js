@@ -1,5 +1,11 @@
-var appUrl = '/' + window.location.pathname.split('/')[1];
-var productListUrl = appUrl + '/productslist/'
+//var appUrl = '/' + window.location.pathname.split('/')[1];
+//var productListUrl = appUrl + '/productslist/';
+
+var appUrl = window.location.origin + window.location.pathname.split('myproducts/')[0];
+var productListUrl = appUrl + 'productslist/';
+
+console.log(appUrl+' '+productListUrl);
+
 $.ajax({
     url: productListUrl,
     contentType: "JSON",
@@ -21,6 +27,7 @@ $.ajax({
         })
     }
 });
+
 $('#addProductForm_endDate').datepicker({
     monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
     dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
@@ -49,7 +56,7 @@ $(".editable_tr").click(function() {
     if (quantity.length > 0 && endDate.length > 0) {
         $.ajax( {
             type: "POST",
-            url: appUrl + '/myproductsedit/',
+            url: appUrl + 'myproductsedit/',
             data: dataString,
             cache: false,
             success: function(_result)
@@ -71,6 +78,7 @@ $(".editable_tr").click(function() {
         });
     }
 });
+
 // Edit input box click action
 $(".edit-input").mouseup(function()
 {
@@ -83,18 +91,21 @@ $(document).mouseup(function()
     $(".edit-input").hide();
     $(".edit-text").show();
 });
+
 $(document).ready(function()
 {
     $(".edit-input").hide();
     $(".edit-text").show();
 });
+
+//remove product
 $('.ui-icon-trash').click(function() {
     var ID = $(this).attr('id').split('_')[1];
     var name= $('#pro_name_' + ID).text();
     console.log(ID);
     if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
         $.ajax({
-            url: appUrl + '/myproductsdelete/',
+            url: appUrl + 'myproductsdelete/',
             type: 'POST',
             data:'id=' + ID,
             success: function(response) {

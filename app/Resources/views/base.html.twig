@@ -3,23 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <base href="" />
+        <base href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" />
         {% block stylesheets %} 
             <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/foodrescue.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ asset('jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css') }}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-
-        
-        
     </head>
     <body>
         <div class="header" style="background-color:#8CD968;">
             <div class="container">
                 {% block headblock %}
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-8"><a href="/" class="logo">Food Rescue</a></div>
+                    <div class="col-lg-2 col-md-2 col-sm-8"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" class="logo">Food Rescue</a></div>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <div class="col-lg-10 col-md-10 col-sm-2">
                             <ul class="navmenu user-settings nav nav-pills pull-right">
@@ -46,16 +42,8 @@
             </div>
         </div>
             <div class="container">
-                {% block body %}
-
-                {% endblock %}
-
-                {% block javascripts %}
-                    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-1.10.2.js') }}"></script>
-                    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
-                    <script type="text/javascript" src="{{ asset('assets/js/MyProduct.js') }}"></script>
-                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-                {% endblock %}
+                {% block body %} {% endblock %}
+                {% block javascripts %} {% endblock %}
             </div>
     </body>
 </html>
