@@ -76,12 +76,12 @@ echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
     }
 
     // get trashed products and write them to trashed products table
-    public function findTrashedProducts($userid){
+    public function findTrashedProducts($userid,$request){
         $trashedProducts = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
             ->findTrashedProductsNativeSQL($userid);
         if ($trashedProducts){
-
-            foreach($trashedProducts as $trashedProduct){
+            $namesArray = array();
+            foreach($trashedProducts as $key=>$trashedProduct){
                 $product = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProductsTrashed')
                     ->findOneBy(array('userId' => $userid, 'productId' => $trashedProduct['product_id']));
 
@@ -106,14 +106,21 @@ echo "demo vartotojas egzsituoja. user_id: ".$guestUser."<br/>";
                     ->findOneBy(array('userId' => $userid, 'product' => $trashedProduct['product_id']));
                 if ($myproduct){
                     self::deleteRowFromTable($myproduct);
-
                 }
 
+                //get trashed product name
+                $prod = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
+                    ->findOneById($trashedProduct['product_id']);
+                $namesArray[$key] = $prod->getName();
             }
-//NEED A MESSAGE
+            //set message
+            $request->getSession()->getFlashBag()->set('notice', 'Pasibaigė šių produktų galiojimo laikas: '.implode(',',$namesArray));
+
             //find available recipes
             self::findAndSaveAvailableUserRecipes($userid);
         }
+
+
     }
 
     // find and save available user recipes
@@ -122,16 +129,16 @@ $time1 = microtime(true);
         //find available user recipes
         $availableRecipes = self::findAvailableUserRecipes($userid);
 $time2 = microtime(true);
-
-        //serialize data
-       $serializedRecipes = serialize($availableRecipes);
+        if ($availableRecipes){
+            //serialize data
+            $serializedRecipes = serialize($availableRecipes);
 $time3 = microtime(true);
 
-        //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
-        //echo $serializedRecipes;
+            //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
+            //echo $serializedRecipes;
 
-        //save available user recipes
-        self::saveAvailableUserRecipes($userid, $serializedRecipes);
+            //save available user recipes
+            self::saveAvailableUserRecipes($userid, $serializedRecipes);
 $time4 = microtime(true);
 
 $t1 = ($time2 - $time1);
@@ -143,6 +150,11 @@ echo "find and save available recipes service: <br/>";
 echo "find available recipes: ".number_format($t1,3)."<br/>";
 echo "serialize recipes: ".number_format($t2,3)."<br/>";
 echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
+        }
+        else{
+            //if user have no more products
+            self::saveAvailableUserRecipes($userid, '');
+        }
 
     }
 
@@ -179,16 +191,20 @@ echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
     public function findRecipes($userid, $limit=null){
         $availableRecipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:UsersAvailableRecipes')
             ->findOneByUserId($userid);
+
         if ($availableRecipes){
-            $availableRecipes = unserialize($availableRecipes->getRecipesId());
+            // additional check (if all user products was deleted, then this field is empty)
+            if (!empty($availableRecipes->getRecipesId())){
+                $availableRecipes = unserialize($availableRecipes->getRecipesId());
 //foreach($availableRecipes as $key=>$r){ echo $key." "; print_r($r); echo "<br/>"; }
-            if (!empty($limit)){
-                $recipes = array_slice($availableRecipes, 0, $limit);
+                if (!empty($limit)){
+                    $recipes = array_slice($availableRecipes, 0, $limit);
+                }
+                else{
+                    $recipes = array_slice($availableRecipes, 0, 15);
+                }
+                return $recipes;
             }
-            else{
-                $recipes = array_slice($availableRecipes, 0, 15);
-            }
-            return $recipes;
         }
         else{
             return null;

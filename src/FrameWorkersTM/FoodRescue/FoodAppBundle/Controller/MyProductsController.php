@@ -17,7 +17,12 @@ class MyProductsController extends Controller
     public function indexAction(Request $request)
     {
 
+
+
         $userId = $this->get('recipeservice')->findUser($request->getSession());
+
+        // check for ended products
+        $this->get('recipeservice')->findTrashedProducts($userId,$request);
 
         $addNewProduct = new AddMyProduct();
         $addProductFormBuilder = $this->container

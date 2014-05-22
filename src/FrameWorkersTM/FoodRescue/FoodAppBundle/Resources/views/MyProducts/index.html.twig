@@ -8,6 +8,15 @@
 
 {% block body %}
     <div class="row">
+
+        {# show a message if there is trashed products #}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="jumbo1 jumbotron">
                 <h4>Pridėti produktą</h4>
@@ -43,7 +52,7 @@
                 {{ form_end(addProductForm) }}
             </div>
         </div>
-
+{#
         <div class="col-lg-6 col-md-6 col-sm-6 clearfix">
             <div class="jumbotron jumbo1 jumbo2">
 {% for i in 1..2 %}
@@ -65,7 +74,7 @@
 {% endfor %}
             </div>
         </div>
-
+#}
 
     </div>
 
