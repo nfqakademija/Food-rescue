@@ -13,6 +13,8 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
+                always_use_default_target_path: false
+                default_target_path: frame_workers_tm_food_rescue_food_app_my_products
             logout:       true
             anonymous:    true
              
