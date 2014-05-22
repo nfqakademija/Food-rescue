@@ -40,41 +40,46 @@ class RecipesRepository extends EntityRepository
         $statement->execute();
         $myproducts = $statement->fetchAll();
 
-        //prepare my products for query
-        $temp = array();
-        foreach($myproducts as $key=>$myproduct){
-            $temp[$key] = $myproduct['product_id'];
+        if ($myproducts){
+            //prepare my products for query
+            $temp = array();
+            foreach($myproducts as $key=>$myproduct){
+                $temp[$key] = $myproduct['product_id'];
+            }
+
+            $myProdsIds = implode(',',$temp);
+    print_r($myProdsIds);
+
+            $statement = $connection->prepare("
+                     SELECT a.id, a.name, a.image_name, a.products_nr,
+                     (  SELECT COUNT(e.product_id)
+                         FROM recipes_products e
+                         WHERE e.product_id in (".$myProdsIds.")
+                         AND e.recipe_id = a.id
+                     ) as products_accepted,
+                     f.cooked, f.liked
+
+                     FROM recipes as a
+                     LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+                     WHERE (SELECT COUNT(e.product_id)
+                         FROM recipes_products e
+                         WHERE e.product_id in (".$myProdsIds.")
+                         AND e.recipe_id = a.id
+                         ) >= a.products_nr/:quantity
+
+                     ORDER BY a.id ASC
+                     LIMIT 45
+                     ;
+            ");
+            $statement->bindValue('quantity', $quantity);
+            $statement->bindValue('userid', $userid);
+            $statement->execute();
+            $results = $statement->fetchAll();
         }
-
-        $myProdsIds = implode(',',$temp);
-print_r($myProdsIds);
-
-        $statement = $connection->prepare("
-                 SELECT a.id, a.name, a.image_name, a.products_nr,
-                 (  SELECT COUNT(e.product_id)
-                     FROM recipes_products e
-                     WHERE e.product_id in (".$myProdsIds.")
-                     AND e.recipe_id = a.id
-                 ) as products_accepted,
-                 f.cooked, f.liked
-
-                 FROM recipes as a
-                 LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
-
-                 WHERE (SELECT COUNT(e.product_id)
-                     FROM recipes_products e
-                     WHERE e.product_id in (".$myProdsIds.")
-                     AND e.recipe_id = a.id
-                     ) >= a.products_nr/:quantity
-
-                 ORDER BY a.id ASC
-                 LIMIT 45
-                 ;
-        ");
-        $statement->bindValue('quantity', $quantity);
-        $statement->bindValue('userid', $userid);
-        $statement->execute();
-        $results = $statement->fetchAll();
+        else{
+            $results= false;
+        }
         return $results;
     }
 
