@@ -6,10 +6,6 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Recipes;
-#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
-#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\RecipesProducts;
-#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 
@@ -18,7 +14,6 @@ class RecipesController extends Controller
 
     public function indexAction(Request $request, $limit=null)
     {
-
         $userid = $this->get('recipeservice')->findUser($request->getSession());
 
         //get recipe from service
@@ -28,20 +23,16 @@ class RecipesController extends Controller
         //$recipes = $this->get('recipeservice')->findRecipesOldWay($userid, 2, $limit);
 
         /*
-        if ($recipes){
-            foreach ($recipes as $key=>$recipe){
+        if ($recipes){ foreach ($recipes as $key=>$recipe){
                 echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
-            }
-        }
+        } }
         */
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit ));
-
     }
     
-    public function RecipieViewAction(Request $request, $recipeid){
-
-        //$userid = $usr->getId();
+    public function RecipieViewAction(Request $request, $recipeid)
+    {
         $userid = $this->get('recipeservice')->findUser($request->getSession());
 
         //get recipe
@@ -75,7 +66,6 @@ class RecipesController extends Controller
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',
             array('form' => $form->createView(), 'recipe' =>$recipe, 'recipe_products' => $recipeProducts, 'acceptedProdsNr' => $acceptedProductsNr)
         );
-
     }
     
 }
