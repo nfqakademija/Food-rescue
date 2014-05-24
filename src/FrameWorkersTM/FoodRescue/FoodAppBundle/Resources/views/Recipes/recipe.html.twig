@@ -3,11 +3,9 @@
 {% extends '::base.html.twig' %}
 {% block title %} Receptas - {{ recipe.name }} {% endblock %}
 {% block body %}
-
-<h4>Gaminam receptą!</h4>
-
+<div class="page-recipes">
  <input type="button" onclick="history.back();" value="Grįžti atgal">
-
+<div class="page-recipe">
  <div class="container">
     <div class="row">
         <div class="jumbotron col-lg-7 col-md-12 col-sm-12 ">
@@ -93,5 +91,6 @@
 
     {% endblock %}
 
-
+</div>
+</div>
 {% endblock %}

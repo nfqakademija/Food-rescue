@@ -6,60 +6,93 @@
 {% block title %} Receptai {% endblock %}
 
 {% block body %}
-<h4>Ką pasigaminti?</h4>
- <div class="container">
 
-     <div class="row">
-         <div class="jumbotron col-lg-12 col-md-12 col-sm-12 ">
-             {% for recipe in recipes  %}
+    <div class="page-recipes">
 
-                 <div class="rec_wrap clearfix">
-                     <div class="rec_image">
+        <div class="container">
 
-                         <img src="{{ asset('assets/images/recipes/') }}{{ recipe.image_name}}"
-                              width="100" height="100" />
-                     </div>
-                     <div class="rec_descr">
+            <div class="row">
 
-                         <h4><a href="recipes/view/{{  recipe.id }}">{{ recipe.name }}</a></h4>
+                {% for recipe in recipes  %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+
+                            <img src="{{ asset('assets/images/recipes/') }}{{ recipe.image_name}}" width="300" height="300" />
+
+                            <div class="caption">
+                                <h3><a href="recipes/view/{{  recipe.id }}">{{ recipe.name }}</a></h3>
+                                {% if recipe.products_nr != recipe.products_accepted  %}
+                                    <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>Turi visus reikiamus produktus !</span></p>
+                                {% endif %}
+                                {#<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                #}
+                                <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>gamintas</span></p>
+                                <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>pamegtas</span></p>
+
+                                {% if recipe.cooked %}
+                                    <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>gamintas</span></p>
+                                {% endif %}
+                                {% if recipe.liked %}
+                                    <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>pamegtas</span></p>
+                                {% endif %}
 
 
-                         {% if recipe.products_nr == recipe.products_accepted  %}
-                         <div class="rec_stats">
-                             <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
-                             <span>Turi visus produktus - kodėl nepasigaminus šio patiekalo?</span>
-                         </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="jumbotron col-lg-12 col-md-12 col-sm-12 ">
+                    {% for recipe in recipes  %}
+                        <div class="rec_wrap clearfix">
+                            <div class="rec_image">
+
+                                <img src="{{ asset('assets/images/recipes/') }}{{ recipe.image_name}}"
+                                     width="100" height="100" />
+                            </div>
+                            <div class="rec_descr">
+
+                                <h4><a href="recipes/view/{{  recipe.id }}">{{ recipe.name }}</a></h4>
+
+
+                                {% if recipe.products_nr == recipe.products_accepted  %}
+                                    <div class="rec_stats">
+                                        <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
+                                        <span>Turi visus produktus - kodėl nepasigaminus šio patiekalo?</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="rec_fav">
+
+                                    {% if recipe.cooked %}
+                                        <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" />
+                                    {% endif %}
+                                    {% if recipe.liked %}
+                                        <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                 <div class="pagination">
+                     {%  if limit == 0 %}
+                         {% if recipes|length == 15 %}
+                            <a href="recipes/30">Daugiau receptų</a>
                          {% endif %}
-
-                         <div class="rec_fav">
-
-                             {% if recipe.cooked %}
-                                 <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" />
-                             {% endif %}
-                             {% if recipe.liked %}
-                                 <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
-                             {% endif %}
-
-                         </div>
-                     </div>
+                     {% elseif recipes|length == limit %}
+                         {% if recipes|length != 45 %}
+                             <a href="{{ limit + 15 }}">Daugiau receptų</a>
+                         {% endif %}
+                     {% endif %}
                  </div>
-             {% endfor %}
 
-             <div class="pagination">
-                 {%  if limit == 0 %}
-                     {% if recipes|length == 15 %}
-                        <a href="recipes/30">Daugiau receptų</a>
-                     {% endif %}
-                 {% elseif recipes|length == limit %}
-                     {% if recipes|length != 45 %}
-                         <a href="{{ limit + 15 }}">Daugiau receptų</a>
-                     {% endif %}
-                 {% endif %}
-             </div>
-         </div>
+            </div>
 
-     </div>
- 
- </div>
+        </div>
 
+    </div>
 {% endblock %}

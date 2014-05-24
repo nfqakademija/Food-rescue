@@ -11,7 +11,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div class="header" style="background-color:#8CD968;">
+        <div class="header">
             <div class="container">
                 {% block headblock %}
                 <div class="row">
@@ -41,13 +41,13 @@
                 {% endblock %}
             </div>
         </div>
-            <div class="container">
-                {% block body %} {% endblock %}
-                {% block javascripts %}
-                    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-1.10.2.js') }}"></script>
-                    <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
-                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-                {% endblock %}
-            </div>
+
+            {% block body %} {% endblock %}
+
+            {% block javascripts %}
+                <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-1.10.2.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js') }}"></script>
+                <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            {% endblock %}
     </body>
 </html>

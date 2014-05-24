@@ -160,8 +160,7 @@ class RecipesRepository extends EntityRepository
     public function findRecipeProductsNativeSQL($userid, $recipeid)
     {
 // my_product_quantity nepanaudotas kolkas.
-// cia tipo paziurejimui ar ne tik turime produkta,
-// bet ir ar jo kiekis atitinka.
+// cia tipo paziurejimui ar ne tik turime produkta, bet ir ar jo kiekis atitinka.
 
 //taciau kadangi zemiau esanti sql ima 2x ta pati produkta jeigu mes turime 2x vienodus suvede
 //tai nera mum naudinga

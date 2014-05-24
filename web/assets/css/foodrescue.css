@@ -8,16 +8,29 @@ body{
     display: block;
     margin: 20px 0;
 }
-
-
 a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
+
+/* BACKGROUNDS */
+.page-home, .page-settings{
+    background-color:white;
+}
+.page-recipes, .page-recipe, .page-myproducts{
+    background-image: url("../images/bg.png");
+    background-color: #FAFAFA;
+}
+
 .container{
-    margin-top:50px;
+    padding-top:50px;
+}
+
+/* HEADER */
+.header{
+    background-color: #282828;
 }
 .header .container{
-    margin-top:0;
+    padding-top:0;
 }
 .header .nav{
     margin:10px 0;
@@ -44,10 +57,13 @@ a.logo, a.fb-login, a.gplus-login{
 .navmenu .logout a, .navmenu .logout a:hover{
     background-color:transparent;
 }
+
+/* HOMEPAGE */
 .advertisement{
     text-align:center;
     float:none;
     margin:0 auto;
+    background-color: transparent;
 }
 .fb-login{
     display:block;
@@ -89,7 +105,7 @@ a.logo, a.fb-login, a.gplus-login{
 }
 
 body{
-    background: #fff !important;
+   /* background: #fff !important;*/
 }
 .rec_wrap{
     border: 1px solid black;

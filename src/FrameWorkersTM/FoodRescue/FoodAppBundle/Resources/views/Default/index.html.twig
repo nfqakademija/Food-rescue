@@ -6,20 +6,24 @@
 {% block title %} Pradinis {% endblock %}
 
 {% block body %}
+    <div class="page-home">
+        <div class="container">
 
-    <div class="advertisement jumbotron col-lg-8 col-md-8">
-        <h3>Pamiršti, kad baigiasi tavo produktų galiojimas?</h3>
-        <h3>Pamiršti ką turi savo šaldytuve?</h3>
-        <!--<h3>Nežinai ką skanaus šį vakarą pasigaminti?</h3>-->
+            <div class="advertisement jumbotron col-lg-8 col-md-8">
+                <h3>Pamiršti, kad baigiasi tavo produktų galiojimas?</h3>
+                <h3>Pamiršti ką turi savo šaldytuve?</h3>
+                <!--<h3>Nežinai ką skanaus šį vakarą pasigaminti?</h3>-->
 
-        <p><img src="{{ asset('bootstrap/images/maistas.jpg') }}" alt="maistas"/></p>
+                <p><img src="{{ asset('bootstrap/images/maistas.jpg') }}" alt="maistas"/></p>
 
-        <h4>Daugiau neišmesk produktų!</h4>
-        <h4 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h4>
+                <h4>Daugiau neišmesk produktų!</h4>
+                <h4 style="margin-top:50px;">Food Rescue primins Jums apie produktus, kurių galiojimo laikas netrukus baigsis.</h4>
 
-        <h4 style="margin-top:50px;">Food Rescue aplikacijos vartotojai per mėnesį sutaupo 129 LITUS !</h4>
+                <h4 style="margin-top:50px;">Food Rescue aplikacijos vartotojai per mėnesį sutaupo 129 LITUS !</h4>
 
-        <p style="margin-top:50px;"><a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-lg btn-success">Išbandyk</a></p>
+                <p style="margin-top:50px;"><a role="button" href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-primary btn-lg">Išbandyk</a></p>
+            </div>
+
+        </div>
     </div>
-
 {% endblock %}

@@ -5,7 +5,7 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\AddMyProduct;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
-use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
+#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,7 +16,6 @@ class MyProductsController extends Controller
 {
     public function indexAction(Request $request)
     {
-
         $userId = $this->get('recipeservice')->findUser($request->getSession());
 
         // check for ended products
@@ -74,11 +73,6 @@ class MyProductsController extends Controller
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }
     public function editAction(Request $request) {
-
-        //$usr = $this->get('security.context')->getToken()->getUser();
-        //if ($usr == 'anon.') $userId = 0; //neprisijunges
-        //else $userId = $usr->getId();
-
         if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
             $errors = array();
             $id = $_POST['id'];
@@ -105,9 +99,6 @@ class MyProductsController extends Controller
         } else return new Response('BAD POST MESSAGE');
     }
     public function deleteAction(Request $request) {
-        //$usr = $this->get('security.context')->getToken()->getUser();
-        //if ($usr == 'anon.') $userId = 0; //neprisijunges
-        //else $userId = $usr->getId();
         $userId = $this->get('recipeservice')->findUser($request->getSession());
 
         if (array_key_exists('id', $_POST)) {
