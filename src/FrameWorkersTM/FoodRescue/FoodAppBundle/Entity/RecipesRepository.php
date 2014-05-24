@@ -14,6 +14,20 @@ use Doctrine\ORM\EntityRepository;
 class RecipesRepository extends EntityRepository
 {
 
+    // move demo user products to registered user
+    public function addNewUserProductsFromDemoNativeSQL($userid,$guestid){
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+            UPDATE my_products
+            SET user_id = :userid
+            WHERE user_id = :guestid
+        ");
+        $statement->bindValue('userid', $userid);
+        $statement->bindValue('guestid', $guestid);
+        $statement->execute();
+    }
+
     // get trashed products and write them to trashed products table
     public function findTrashedProductsNativeSQL($userid){
         $em = $this->getEntityManager();

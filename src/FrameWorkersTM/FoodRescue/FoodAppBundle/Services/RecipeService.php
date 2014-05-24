@@ -23,6 +23,12 @@ class RecipeService
         $this->encoder_factory = $encoder_factory;
     }
 
+    // move demo user products to registered user
+    public function addNewUserProductsFromDemo($userid, $guestUserId){
+       $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+            ->addNewUserProductsFromDemoNativeSQL($userid, $guestUserId);
+    }
+
     //get user id
     // return user_id if logged in
     // return guest_user_id if exist in cookies

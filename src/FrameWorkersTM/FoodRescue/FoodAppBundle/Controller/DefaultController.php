@@ -11,7 +11,7 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
-         $this->get('recipeservice')->findUser($request->getSession());
+        $this->get('recipeservice')->findUser($request->getSession());
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Default:index.html.twig');
     }
