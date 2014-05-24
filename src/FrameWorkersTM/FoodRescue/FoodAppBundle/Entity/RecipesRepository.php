@@ -140,8 +140,8 @@ class RecipesRepository extends EntityRepository
     public function findRecipeNativeSQL($userid, $recipeid)
     {
         $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare("
+        $conn = $em->getConnection();
+        $state = $conn->prepare("
              SELECT a.id, a.name, a.describtion, a.image_name, a.products_nr,
              b.cooked, b.liked
              FROM recipes a
@@ -149,10 +149,10 @@ class RecipesRepository extends EntityRepository
              WHERE a.id = :recipe_id
              ;
         ");
-        $statement->bindValue('user_id', $userid);
-        $statement->bindValue('recipe_id', $recipeid);
-        $statement->execute();
-        $res = $statement->fetch();
+        $state->bindValue('user_id', $userid);
+        $state->bindValue('recipe_id', $recipeid);
+        $state->execute();
+        $res = $state->fetch();
         return $res;
     }
 
@@ -174,8 +174,8 @@ class RecipesRepository extends EntityRepository
  //recepto panaudotu prod formoje. jei reikejo 400ml peino. o panaudojo po 200ml tai reikia kazkaip kad isskirty formoje???
 
         $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare("
+        $con = $em->getConnection();
+        $st = $con->prepare("
              SELECT a.id, a.name, a.unit, b.quantity, d.quantity as my_product_quantity, d.id as my_product_id
              FROM products a
              LEFT JOIN recipes_products b on b.product_id = a.id
@@ -184,10 +184,10 @@ class RecipesRepository extends EntityRepository
              ORDER BY a.id ASC
              ;
         ");
-        $statement->bindValue('recipe_id', $recipeid);
-        $statement->bindValue('user_id', $userid);
-        $statement->execute();
-        $result = $statement->fetchAll();
+        $st->bindValue('recipe_id', $recipeid);
+        $st->bindValue('user_id', $userid);
+        $st->execute();
+        $result = $st->fetchAll();
         return $result;
     }
 
