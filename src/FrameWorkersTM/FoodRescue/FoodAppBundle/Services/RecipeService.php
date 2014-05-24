@@ -222,7 +222,7 @@ class RecipeService
     // get recipe (recipe page)
     public function findRecipe($userid, $recipeid){
         $recipe = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
-            ->findA($userid, $recipeid);
+            ->findRecipeNativeSQL($userid, $recipeid);
 
         //escape special chars like &amp;
         $recipe['describtion'] = html_entity_decode($recipe['describtion'] );
