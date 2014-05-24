@@ -152,8 +152,8 @@ class RecipesRepository extends EntityRepository
         $statement->bindValue('user_id', $userid);
         $statement->bindValue('recipe_id', $recipeid);
         $statement->execute();
-        $results = $statement->fetch();
-        return $results;
+        $res = $statement->fetch();
+        return $res;
     }
 
     // get recipe products with quantity required and products nr i have for recipe (recipe page)
@@ -187,8 +187,8 @@ class RecipesRepository extends EntityRepository
         $statement->bindValue('recipe_id', $recipeid);
         $statement->bindValue('user_id', $userid);
         $statement->execute();
-        $results = $statement->fetchAll();
-        return $results;
+        $result = $statement->fetchAll();
+        return $result;
     }
 
 }
