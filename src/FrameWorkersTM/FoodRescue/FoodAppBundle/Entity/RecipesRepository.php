@@ -139,7 +139,6 @@ class RecipesRepository extends EntityRepository
     // get recipe with info if it was cooked and liked (recipe page)
     public function findRecipeNativeSQL($userid, $recipeid)
     {
-        // get recipe info
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare("
