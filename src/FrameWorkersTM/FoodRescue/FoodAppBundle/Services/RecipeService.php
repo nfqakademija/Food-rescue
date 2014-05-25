@@ -131,14 +131,14 @@ class RecipeService
 
     // find and save available user recipes
     public function findAndSaveAvailableUserRecipes($userid){
-$time1 = microtime(true);
+//$time1 = microtime(true);
         //find available user recipes
         $availableRecipes = self::findAvailableUserRecipes($userid);
-$time2 = microtime(true);
+//$time2 = microtime(true);
         if ($availableRecipes){
             //serialize data
             $serializedRecipes = serialize($availableRecipes);
-$time3 = microtime(true);
+//$time3 = microtime(true);
 
             //foreach ($availableRecipes as $key=>$a) { echo $key." "; print_r($a); echo "<br/>"; }
             //echo $serializedRecipes;
@@ -146,16 +146,16 @@ $time3 = microtime(true);
             //save available user recipes
             self::saveAvailableUserRecipes($userid, $serializedRecipes);
 
-$time4 = microtime(true);
+//$time4 = microtime(true);
 
-$t1 = ($time2 - $time1);
-$t2 = ($time3 - $time2);
-$t3 = ($time4 - $time3);
+//$t1 = ($time2 - $time1);
+//$t2 = ($time3 - $time2);
+//$t3 = ($time4 - $time3);
 
-echo "find and save available recipes service: <br/>";
-echo "find available recipes: ".number_format($t1,3)."<br/>";
-echo "serialize recipes: ".number_format($t2,3)."<br/>";
-echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
+//echo "find and save available recipes service: <br/>";
+//echo "find available recipes: ".number_format($t1,3)."<br/>";
+//echo "serialize recipes: ".number_format($t2,3)."<br/>";
+//echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
 
         }
         else{
