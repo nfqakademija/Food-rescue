@@ -36,6 +36,9 @@ frame_workers_tm_food_rescue_food_my_products_edit:
 frame_workers_tm_food_rescue_food_my_products_delete:
     pattern: /myproductsdelete/
     defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:delete }
+frame_workers_tm_food_rescue_food_my_products_table_view:
+    pattern: /myproductstable/
+    defaults: { _controller: FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:tableView }
 
 
 
