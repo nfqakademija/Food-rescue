@@ -43,16 +43,101 @@ class RecipesRepository extends EntityRepository
         return $results;
     }
 
+
+    public function findUserProductsIds($userid){
+        //paimam pirmus 10 produktu.
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+            SELECT product_id,end_date
+            FROM my_products
+            WHERE user_id =:userid
+            ORDER BY end_date ASC
+            LIMIT 10
+        ;
+        ");
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $myproducts = $statement->fetchAll();
+
+        if (!$myproducts){return;}
+        $cc = count($myproducts);
+        $firstDayOrigin = $myproducts['0']['end_date'];
+        $lastDayOrigin = $myproducts[$cc-1]['end_date'];
+        $firstDay= date('Y/m/d',$firstDayOrigin);
+        $lastDay = date('Y/m/d',$lastDayOrigin);
+        echo $cc."<br/>";
+        echo $firstDay."<br/>";
+        echo $lastDay."<br/>";
+        //randam dienu skirtuma tarp 1mo ir paskutinio produkto
+        $firstDay = strtotime($firstDay);
+        $lastDay = strtotime($lastDay);
+        $datediff = $lastDay - $firstDay;
+        $daysDiff = floor($datediff/(60*60*24));
+
+
+
+ //   echo $daysDiff." days difference<br/>";
+
+        // jei skirtumas <3 dienos, tai imam
+        // imam visus firstDay + 3 days
+        //if ($daysDiff < 4 ){
+        if ($daysDiff > 4 ){
+            //print_r($myproducts);
+           // return $myproducts;
+//echo " > <br/>";
+            $statement = $connection->prepare("
+                SELECT product_id
+                FROM my_products
+                WHERE user_id =:userid
+                AND end_date <= :lastday
+                ORDER BY end_date ASC
+            ;
+            ");
+            $statement->bindValue('userid', $userid);
+            $statement->bindValue('lastday', $lastDayOrigin);
+            $statement->execute();
+            $results= $statement->fetchAll();
+
+ //            print_r($results);
+            return $results;
+        }else{
+ //echo " < <br/>";
+            $statement = $connection->prepare("
+                SELECT product_id
+                FROM my_products
+                WHERE user_id =:userid
+                AND end_date <= :firstday + 60 * 60 * 24 * 3
+                ORDER BY end_date ASC
+            ;
+            ");
+            $statement->bindValue('userid', $userid);
+            $statement->bindValue('firstday', $firstDayOrigin);
+            $statement->execute();
+            $results= $statement->fetchAll();
+
+ //           print_r($results);
+            return $results;
+        }
+
+    }
+
     // get recipes, when a user have minimum half products for them.
     public function findAvailableUserRecipesNativeSQL($userid, $quantity)
     {
+
         // find my products
+        /*
         $em = $this->getEntityManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare("SELECT product_id FROM my_products WHERE user_id = :userid;");
         $statement->bindValue('userid', $userid);
         $statement->execute();
         $myproducts = $statement->fetchAll();
+        */
+        // find my products
+        $myproducts = self::findUserProductsIds($userid);
+
 
         //if user have no product return false
         if (!$myproducts){ return; }
@@ -65,9 +150,10 @@ class RecipesRepository extends EntityRepository
 
         $myProdsIds = implode(',',$temp);
 
-//echo "My products:<br/>";
-//print_r($myProdsIds);
-
+//echo "My productsz:<br/>";
+print_r($myProdsIds);
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
         $statement = $connection->prepare("
              SELECT a.id, a.name, a.image_name, a.products_nr,
              (  SELECT COUNT(e.product_id)
