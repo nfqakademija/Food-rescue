@@ -35,7 +35,6 @@ class MyProductsController extends Controller
             ->getForm()
             ->handleRequest($request);
 
-
         if ($addProductForm->isValid()) {
 
             $productData = $addProductForm->getData();
@@ -57,14 +56,6 @@ class MyProductsController extends Controller
             $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
-        $array = array();
-        $array['addProductForm'] = $addProductForm->createView();
-
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
-    }
-    public function tableViewAction(Request $request) {
-        $userId = $this->get('recipeservice')->findUser($request->getSession());
-
         $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
@@ -75,14 +66,17 @@ class MyProductsController extends Controller
         foreach ($myProducts as $product) {
             $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
         }
+
         $array = array();
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
+        $array['addProductForm'] = $addProductForm->createView();
 
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:myProductsTable.html.twig', $array);
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }
     public function editAction(Request $request) {
         if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
+            $userId = $this->get('recipeservice')->findUser($request->getSession());
             $errors = array();
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
@@ -100,7 +94,7 @@ class MyProductsController extends Controller
                 $em->flush();
 
                 //update available recipes
-                //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+                $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
                 return new Response(null);
             } else return new Response(json_encode($errors));
 
@@ -108,9 +102,8 @@ class MyProductsController extends Controller
         } else return new Response('BAD POST MESSAGE');
     }
     public function deleteAction(Request $request) {
-        $userId = $this->get('recipeservice')->findUser($request->getSession());
-
         if (array_key_exists('id', $_POST)) {
+            $userId = $this->get('recipeservice')->findUser($request->getSession());
             $id = $_POST['id'];
             $repository = $this->getDoctrine()
                 ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts');

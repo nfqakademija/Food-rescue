@@ -25,12 +25,10 @@ class RecipesController extends Controller
         /*
          if ($recipes){
              foreach ($recipes as $key=>$recipe){
-                 //$recipes[$key]['describtion'] = html_entity_decode($recipe['describtion'] );
 //echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
              }
          }
         */
-
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit ));
     }
