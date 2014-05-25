@@ -56,14 +56,6 @@ class MyProductsController extends Controller
             $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
-        $array = array();
-        $array['addProductForm'] = $addProductForm->createView();
-
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
-    }
-    public function tableViewAction(Request $request) {
-        $userId = $this->get('recipeservice')->findUser($request->getSession());
-
         $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
@@ -74,11 +66,13 @@ class MyProductsController extends Controller
         foreach ($myProducts as $product) {
             $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
         }
+
         $array = array();
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
+        $array['addProductForm'] = $addProductForm->createView();
 
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:myProductsTable.html.twig', $array);
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }
     public function editAction(Request $request) {
         if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {

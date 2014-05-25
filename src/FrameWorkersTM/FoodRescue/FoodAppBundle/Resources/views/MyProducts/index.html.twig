@@ -60,7 +60,46 @@
         </div>
     </div>
 
-    <div class="jumbotron" id="myProductsTable"></div>
+    <div class="jumbotron" id="myProductsTable">
+        <h4>Turimi produktai</h4>
+        <span id="edit_table_errors"></span>
+        <table id="myProductsTable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Pavadinimas</th>
+                <th>Kiekis</th>
+                <th>vnt.</th>
+                <th>Suges</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for product in myProducts %}
+                <tr class="editable_tr" id="{{ product.id }}">
+                    <td>
+                        <span id="pro_name_{{ product.id }}"> {{ product.product.name }}</span>
+                    </td>
+                    <td class="editable_td">
+                        <span id="pro_quantity_{{ product.id }}" class="edit-text"> {{ product.quantity }}</span>
+                        <input id="pro_quantity_input_{{ product.id }}" type="text" value="{{ product.quantity }}" class="edit-input form-control">
+                    </td>
+                    <td>
+                        <span id="pro_unit_{{ product.id }}"> {{ product.product.unit }}</span>
+                    </td>
+                    <td class="editable_td">
+                        <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ productEndDates[product.id] }}</span>
+                        <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ productEndDates[product.id] }}" class="edit-input edit-endDate form-control">
+                    </td>
+                    <td>
+                        <span class="ui-icon ui-icon-trash" id="trash_{{ product.id }}"></span>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
 </div>
     </div>
 {% endblock %}

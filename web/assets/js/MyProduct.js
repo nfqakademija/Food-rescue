@@ -25,18 +25,6 @@ $.ajax({
         })
     }
 });
-function refreshMyProducts() {
-    $.ajax({
-        url: appUrl + 'myproductstable/',
-        contentType: "HTML",
-        success: function(result){
-            $("#myProductsTable").html(result);
-            $(".edit-input").hide();
-            $(".edit-text").show();
-            setupEditableTable();
-        }
-    });
-}
 function setupEditableTable() {
     $(".editable_tr").click(function() {
         var ID=$(this).attr('id');
@@ -99,7 +87,9 @@ function setupEditableTable() {
 };
 
 $(document).ready(function() {
-    refreshMyProducts();
+    $(".edit-input").hide();
+    $(".edit-text").show();
+    setupEditableTable();
 });
 
 
