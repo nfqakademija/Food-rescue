@@ -145,6 +145,7 @@ $time3 = microtime(true);
 
             //save available user recipes
             self::saveAvailableUserRecipes($userid, $serializedRecipes);
+
 $time4 = microtime(true);
 
 $t1 = ($time2 - $time1);
@@ -155,6 +156,7 @@ echo "find and save available recipes service: <br/>";
 echo "find available recipes: ".number_format($t1,3)."<br/>";
 echo "serialize recipes: ".number_format($t2,3)."<br/>";
 echo "save serialized user recipes to db: ".number_format($t3,3)."<br/>";
+
         }
         else{
             //if user have no more products
