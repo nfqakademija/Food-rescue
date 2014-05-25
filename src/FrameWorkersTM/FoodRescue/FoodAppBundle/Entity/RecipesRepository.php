@@ -31,15 +31,15 @@ class RecipesRepository extends EntityRepository
     // get trashed products and write them to trashed products table
     public function findTrashedProductsNativeSQL($userid){
         $em = $this->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare("
+        $connection1 = $em->getConnection();
+        $statement1 = $connection1->prepare("
             SELECT product_id, quantity
             FROM my_products
             WHERE end_date < UNIX_TIMESTAMP(NOW()) AND user_id = :userid
         ");
-        $statement->bindValue('userid', $userid);
-        $statement->execute();
-        $results = $statement->fetchAll();
+        $statement1->bindValue('userid', $userid);
+        $statement1->execute();
+        $results = $statement1->fetchAll();
         return $results;
     }
 
