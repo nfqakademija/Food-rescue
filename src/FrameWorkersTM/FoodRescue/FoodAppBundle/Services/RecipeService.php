@@ -251,11 +251,11 @@ class RecipeService
     // generate recipe products form with quantities (recipe page)
     public function buildMyProductsForm(FormBuilderInterface $formBuilder, $recipeProducts, $recipeid){
         foreach($recipeProducts as $key=>$product){
-            $formBuilder->add('prod_name_'.$key, 'text', array('label' => $product['name'].'('.$product['unit'].')', 'data' => $product['quantity']));
+            $formBuilder->add('prod_name_'.$key, 'number', array('label' => $product['name'].' ('.$product['unit'].')', 'data' => $product['quantity']));
         }
         $formBuilder->add('recipe_id', 'hidden', array('label' => 'recipe_id', 'data' => $recipeid));
         $formBuilder->add('recipe_liked', 'checkbox', array('label' => 'Click if you liked it', 'required' => false));
-        $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau'));
+        $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau', 'attr' => array('class' => 'btn btn-primary btn-md')));
         return $formBuilder->getForm();
     }
 
@@ -266,14 +266,13 @@ class RecipeService
                 //update quantity of products that i have
                 if($usedproduct['my_product_id']){
 print_r($usedproduct); echo " ";
-
                     $liked = 0;
                     if (!empty($usedproducts['recipe_liked'])){
                         $liked = 1;
                     }
 
                     // update product quantity
-                    self::updateProductQuantity($usedproduct['my_product_id'], $usedproduct['quantity'] );
+                    self::updateProductQuantity($usedproduct['my_product_id'], $usedproducts['prod_name_'.$key] );
 
                     //update users_recipes table, set recipe as cooked and/or liked
                     self::updateUsersRecipes($userid, $usedproducts['recipe_id'], $liked );

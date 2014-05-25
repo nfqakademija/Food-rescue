@@ -30,17 +30,17 @@ class RecipesRepository extends EntityRepository
 
     // get trashed products and write them to trashed products table
     public function findTrashedProductsNativeSQL($userid){
-        $e = $this->getEntityManager();
-        $c = $e->getConnection();
-        $s = $c->prepare("
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
             SELECT product_id, quantity
             FROM my_products
             WHERE end_date < UNIX_TIMESTAMP(NOW()) AND user_id = :userid
         ");
-        $s->bindValue('userid', $userid);
-        $s->execute();
-        $r = $s->fetchAll();
-        return $r;
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
     }
 
     // get recipes, when a user have minimum half products for them.
@@ -140,8 +140,8 @@ class RecipesRepository extends EntityRepository
     public function findRecipeNativeSQL($userid, $recipeid)
     {
         $em = $this->getEntityManager();
-        $conn = $em->getConnection();
-        $state = $conn->prepare("
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
              SELECT a.id, a.name, a.describtion, a.image_name, a.products_nr,
              b.cooked, b.liked
              FROM recipes a
@@ -149,34 +149,20 @@ class RecipesRepository extends EntityRepository
              WHERE a.id = :recipe_id
              ;
         ");
-        $state->bindValue('user_id', $userid);
-        $state->bindValue('recipe_id', $recipeid);
-        $state->execute();
-        $res = $state->fetch();
-        return $res;
+        $statement->bindValue('user_id', $userid);
+        $statement->bindValue('recipe_id', $recipeid);
+        $statement->execute();
+        $results = $statement->fetch();
+        return $results;
     }
 
     // get recipe products with quantity required and products nr i have for recipe (recipe page)
     public function findRecipeProductsNativeSQL($userid, $recipeid)
     {
-// my_product_quantity nepanaudotas kolkas.
-// cia tipo paziurejimui ar ne tik turime produkta, bet ir ar jo kiekis atitinka.
-
-//taciau kadangi zemiau esanti sql ima 2x ta pati produkta jeigu mes turime 2x vienodus suvede
-//tai nera mum naudinga
-
-//jeigu padarau atskirai paemima tik ieinanciu i recepta
-//ir paemima tik savo turimu kurie atitinka
-//ir padarau kad savo dublikuojancius sudetu.
-
-//tada reik daryti sutikrinima
-
- //recepto panaudotu prod formoje. jei reikejo 400ml peino. o panaudojo po 200ml tai reikia kazkaip kad isskirty formoje???
-
         $em = $this->getEntityManager();
-        $con = $em->getConnection();
-        $st = $con->prepare("
-             SELECT a.id, a.name, a.unit, b.quantity, d.quantity as my_product_quantity, d.id as my_product_id
+        $connection = $em->getConnection();
+        $statement= $connection->prepare("
+             SELECT a.id, a.name, a.unit, b.quantity, d.id as my_product_id
              FROM products a
              LEFT JOIN recipes_products b on b.product_id = a.id
              LEFT JOIN my_products d on d.product_id = a.id AND d.user_id = :user_id
@@ -184,10 +170,10 @@ class RecipesRepository extends EntityRepository
              ORDER BY a.id ASC
              ;
         ");
-        $st->bindValue('recipe_id', $recipeid);
-        $st->bindValue('user_id', $userid);
-        $st->execute();
-        $result = $st->fetchAll();
+        $statement->bindValue('recipe_id', $recipeid);
+        $statement->bindValue('user_id', $userid);
+        $statement->execute();
+        $result = $statement->fetchAll();
         return $result;
     }
 

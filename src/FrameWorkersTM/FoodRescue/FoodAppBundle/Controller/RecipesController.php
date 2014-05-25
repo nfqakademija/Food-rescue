@@ -23,10 +23,14 @@ class RecipesController extends Controller
         //$recipes = $this->get('recipeservice')->findRecipesOldWay($userid, 2, $limit);
 
         /*
-        if ($recipes){ foreach ($recipes as $key=>$recipe){
-                echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
-        } }
+         if ($recipes){
+             foreach ($recipes as $key=>$recipe){
+                 //$recipes[$key]['describtion'] = html_entity_decode($recipe['describtion'] );
+//echo $key." ".$recipe['id']." ".$recipe['name']." ".$recipe['products_nr']." ".$recipe['products_accepted']."<br/>";
+             }
+         }
         */
+
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:index.html.twig', array('recipes' => $recipes, 'limit' => $limit ));
     }

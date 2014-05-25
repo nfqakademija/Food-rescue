@@ -3,33 +3,34 @@
 {% extends '::base.html.twig' %}
 {% block title %} Receptas - {{ recipe.name }} {% endblock %}
 {% block body %}
-<div class="page-recipes">
- <input type="button" onclick="history.back();" value="Grįžti atgal">
+
+
 <div class="page-recipe">
  <div class="container">
-    <div class="row">
+     <input class="btn btn-primary btn-sm atgal" type="button" onclick="history.back();" value="Grįžti atgal">
+     <div class="row">
         <div class="jumbotron col-lg-7 col-md-12 col-sm-12 ">
             <div class="rec_wrap clearfix"> 
                 <div class="recip_top clearfix">
                     <div class="rec_image">
-                        <img src="{{ asset('assets/images/recipes/') }}{{ recipe.image_name }}"
-                             width="100" height="100" />
+                        <img style="max-width:100%; height:auto;border: 1px solid #CCCCCC;" src="{{ asset('assets/images/recipes/') }}{{ recipe.image_name }}"
+                             width="250" height="250" />
                     </div>
                         <div class="rec_descr">
-                            <h4><a href="view/omleto-receptas">{{ recipe.name }}</a></h4>
-
+                            <h4>{{ recipe.name }}</h4>
+                            <p></p>
+                            <p>
                             {% if recipe.products_nr == acceptedProdsNr  %}
-                            <div class="rec_view_stat">
-                                <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" />
-                                <span>Turi visus produktus!</span>    
-                            </div>
+                                <img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>Turi visus produktus!</span>
                             {% endif %}
+                            </p>
+                            <p></p>
                             <div class="view_icons">
                                 {% if recipe.cooked %}
-                                    <img src="{{ asset('bootstrap/images/ic_pot.png') }}" height="30" title="Jau gaminau!" />
+                                    <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>gamintas</span></p>
                                 {% endif %}
                                 {% if recipe.liked %}
-                                    <img src="{{ asset('bootstrap/images/star.png') }}" height="30" title="Mėgstamas patiekalas" />
+                                    <p><img src="{{ asset('bootstrap/images/tick.png') }}" height="20" /><span>pamėgtas</span></p>
                                 {% endif %}
                             </div>
                         </div>
@@ -41,7 +42,7 @@
                             {% set idbefore = 0 %}
                             {% for product in recipe_products  %}
                                 {% if idbefore != product.id %}
-                                    <li class="{% if product.my_product_id %}available{% endif %}"> {% if product.my_product_quantity >= product.quantity  %} turim kiek reik! {% endif %} {{ product.name }} {{ product.quantity }}{{ product.unit }}</li>
+                                    <li class="{% if product.my_product_id %}available{% endif %}"> {{ product.name }} {{ product.quantity }}{{ product.unit }}</li>
                                     {% set idbefore = product.id %}
                                 {% endif %}
                             {% endfor %}
@@ -92,5 +93,5 @@
     {% endblock %}
 
 </div>
-</div>
+
 {% endblock %}
