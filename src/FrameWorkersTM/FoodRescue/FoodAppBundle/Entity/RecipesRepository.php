@@ -76,7 +76,7 @@ class RecipesRepository extends EntityRepository
         $datediff = $lastDay - $firstDay;
         $daysDiff = floor($datediff/(60*60*24));
 
-//echo $daysDiff." days difference<br/>";
+echo $daysDiff." days difference<br/>";
 
         //if end date difference between 10 products is more than 3 days,
         //then get all products ids till last known end date
@@ -86,7 +86,7 @@ class RecipesRepository extends EntityRepository
         if ($daysDiff > 3 ){
             //print_r($myproducts);
            // return $myproducts;
-//echo " > <br/>";
+echo " > <br/>";
             $statement = $connection->prepare("
                 SELECT product_id
                 FROM my_products
@@ -108,12 +108,13 @@ class RecipesRepository extends EntityRepository
                 SELECT product_id
                 FROM my_products
                 WHERE user_id =:userid
-                AND end_date <= :firstday + 60 * 60 * 24 * 3
+                AND end_date <= :firstday + 60 * 60 * 24 * :days
                 ORDER BY end_date ASC
             ;
             ");
             $statement->bindValue('userid', $userid);
             $statement->bindValue('firstday', $firstDayOrigin);
+            $statement->bindValue('days', 3);
             $statement->execute();
             $results= $statement->fetchAll();
 
