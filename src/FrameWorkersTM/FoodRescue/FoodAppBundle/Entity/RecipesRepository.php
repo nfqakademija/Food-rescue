@@ -43,7 +43,7 @@ class RecipesRepository extends EntityRepository
         return $results;
     }
 
-
+    // get user products that will end soon
     public function findUserProductsIds($userid){
         //paimam pirmus 10 produktu.
         $em = $this->getEntityManager();
@@ -66,26 +66,27 @@ class RecipesRepository extends EntityRepository
         $lastDayOrigin = $myproducts[$cc-1]['end_date'];
         $firstDay= date('Y/m/d',$firstDayOrigin);
         $lastDay = date('Y/m/d',$lastDayOrigin);
-        echo $cc."<br/>";
-        echo $firstDay."<br/>";
-        echo $lastDay."<br/>";
+echo $cc."<br/>";
+echo $firstDay."<br/>";
+echo $lastDay."<br/>";
         //randam dienu skirtuma tarp 1mo ir paskutinio produkto
         $firstDay = strtotime($firstDay);
         $lastDay = strtotime($lastDay);
+
         $datediff = $lastDay - $firstDay;
         $daysDiff = floor($datediff/(60*60*24));
 
+echo $daysDiff." days difference<br/>";
+
+        //if end date difference between 10 products is more than 3 days,
+        //then get all products ids till last known end date
+        //otherwise get all products ids from  up to 3 days after first end date
 
 
- //   echo $daysDiff." days difference<br/>";
-
-        // jei skirtumas <3 dienos, tai imam
-        // imam visus firstDay + 3 days
-        //if ($daysDiff < 4 ){
-        if ($daysDiff > 4 ){
+        if ($daysDiff > 3 ){
             //print_r($myproducts);
            // return $myproducts;
-//echo " > <br/>";
+echo " > <br/>";
             $statement = $connection->prepare("
                 SELECT product_id
                 FROM my_products
@@ -99,10 +100,10 @@ class RecipesRepository extends EntityRepository
             $statement->execute();
             $results= $statement->fetchAll();
 
- //            print_r($results);
+ //print_r($results);
             return $results;
         }else{
- //echo " < <br/>";
+echo " < <br/>";
             $statement = $connection->prepare("
                 SELECT product_id
                 FROM my_products
@@ -116,7 +117,7 @@ class RecipesRepository extends EntityRepository
             $statement->execute();
             $results= $statement->fetchAll();
 
- //           print_r($results);
+ //print_r($results);
             return $results;
         }
 

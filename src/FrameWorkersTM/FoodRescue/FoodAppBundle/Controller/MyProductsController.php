@@ -100,7 +100,7 @@ class MyProductsController extends Controller
                 $em->flush();
 
                 //update available recipes
-                //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+                $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
                 return new Response(null);
             } else return new Response(json_encode($errors));
 
