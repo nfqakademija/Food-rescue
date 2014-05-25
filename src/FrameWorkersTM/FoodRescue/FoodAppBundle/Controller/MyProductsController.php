@@ -14,6 +14,7 @@ use FrameWorkersTM\FoodRescue\FoodAppBundle\Services;
 
 class MyProductsController extends Controller
 {
+
     public function indexAction(Request $request)
     {
         $userId = $this->get('recipeservice')->findUser($request->getSession());
@@ -55,28 +56,36 @@ class MyProductsController extends Controller
             $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
+        $array = array();
+        $array['addProductForm'] = $addProductForm->createView();
+
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
+    }
+    public function tableViewAction(Request $request) {
+        $userId = $this->get('recipeservice')->findUser($request->getSession());
 
         $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
+        usort($myProducts, function ($a, $b) {
+            return $a->getEndDate() > $b->getEndDate();
+        });
         $productEndDates = array();
         foreach ($myProducts as $product) {
             $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
         }
-
         $array = array();
-        $array['addProductForm'] = $addProductForm->createView();
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
 
-        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
+        return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:myProductsTable.html.twig', $array);
     }
     public function editAction(Request $request) {
         if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
             $errors = array();
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
-            if (! is_numeric($quantity)) $errors[] = 'Blogai įvestas kiekis!';
+            if (! is_numeric($quantity) || $quantity <= 0) $errors[] = 'Blogai įvestas kiekis!';
             $endDate = strtotime($_POST['endDate']);
             if ($endDate < time()) $errors[] = 'Data negali būti senesnė nei šios dienos!';
 

@@ -146,11 +146,11 @@ class RecipeService
             //save available user recipes
             self::saveAvailableUserRecipes($userid, $serializedRecipes);
 //$time4 = microtime(true);
-
+//
 //$t1 = ($time2 - $time1);
 //$t2 = ($time3 - $time2);
 //$t3 = ($time4 - $time3);
-
+//
 //echo "find and save available recipes service: <br/>";
 //echo "find available recipes: ".number_format($t1,3)."<br/>";
 //echo "serialize recipes: ".number_format($t2,3)."<br/>";
