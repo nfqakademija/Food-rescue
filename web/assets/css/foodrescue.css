@@ -21,6 +21,7 @@ a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
 
+
 /* BACKGROUNDS */
 .page-home, .page-settings{
     background-color:white;
@@ -34,7 +35,6 @@ a.logo, a.fb-login, a.gplus-login{
 .page-recipe{
     height:100%;
 }
-
 .container{
     padding-top:50px;
 }
@@ -44,6 +44,11 @@ a.logo, a.fb-login, a.gplus-login{
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
     border: 1px solid #DDDDDD;
 }
+.container .jumbotron {
+    min-height: 440px;
+}
+
+
 /* HEADER */
 .header{
     background-color: #282828;
@@ -77,6 +82,7 @@ a.logo, a.fb-login, a.gplus-login{
     background-color:transparent;
 }
 
+
 /* HOMEPAGE */
 .advertisement{
     text-align:center;
@@ -91,48 +97,7 @@ a.logo, a.fb-login, a.gplus-login{
 .advertisement strong{
     color: #3E3E3E;
 }
-.fb-login{
-    display:block;
-    background:#35589A;
-    padding: 5px 0;
-    text-align: center;
-    margin: 45px 0 0;
-}
-.gplus-login{
-    display:block;
-    background:#D64136;
-    padding: 5px 0;
-    text-align: center;
-    margin: 10px 0 0;
-}
-.form-signin{
-    min-height: 360px;
-    position: relative;
-}
-.form-signin button{
-     bottom: 0;
-    position: absolute;
-}
 
-.jumbo1 {
-    height: 165px !important;
-    min-height: 100px !important;
-    padding-left: 35px !important;
-    padding-right: 35px !important;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-.form-small-margin {
-    margin: 1px;
-    padding: 3px;
-}
-.container .jumbotron {
-    min-height: 440px;
-}
-
-body{
-   /* background: #fff !important;*/
-}
 
 /* RECIPES */
 .thumbnail{
@@ -152,23 +117,21 @@ body{
     text-align:center;
    /* border: 1px solid red;*/
 }
-
 .cookedliked{
     height: 30px;
     /*border: 1px solid red;*/
 }
-
 .cookedliked .cooked{
     float:left;
     text-align:center;
     width:50%;
 }
-
 .cookedliked .liked{
     float:right;
     text-align:center;
     width:50%;
 }
+
 
 /* RECIPE */
 .page-recipe .container{
@@ -177,10 +140,23 @@ body{
 .atgal{
     margin-bottom:10px;
 }
+.rec_image img{
+    max-width:100%;
+    height:auto;
+    border: 1px solid #CCCCCC;
+}
+.rec_descr h4{
+    margin: 0;
+    color: #428BCA;
+}
+.recip_top{
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+}
 
 
 .rec_wrap{
-
     padding: 8px;
 }
 .rec_image{
@@ -189,10 +165,7 @@ body{
 .rec_image,.rec_descr,.rec_stats{
     float: left;
 }
-.rec_descr h4{
-    margin: 0;
-    color: #428BCA;
-}
+
 .rec_descr p{
     font-size: 13px;
 }
@@ -205,11 +178,7 @@ body{
 .rec_view_stat,.view_icons{
     margin-top: 15px;
 }
-.recip_top{
-    border-bottom: 1px solid #cccccc;
-    padding-bottom: 6px;
-    margin-bottom: 6px;
-}
+
 .ingredients{
 
 }
@@ -241,13 +210,53 @@ label[for=form_recipe_id]{
 
 
 
+.fb-login{
+    display:block;
+    background:#35589A;
+    padding: 5px 0;
+    text-align: center;
+    margin: 45px 0 0;
+}
+.gplus-login{
+    display:block;
+    background:#D64136;
+    padding: 5px 0;
+    text-align: center;
+    margin: 10px 0 0;
+}
+.form-signin{
+    min-height: 360px;
+    position: relative;
+}
+.form-signin button{
+    bottom: 0;
+    position: absolute;
+}
+
+.jumbo1 {
+    height: 165px !important;
+    min-height: 100px !important;
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.form-small-margin {
+    margin: 1px;
+    padding: 3px;
+}
+
+
+
+
+/* FOR SMALL WINDOW FIXES */
 @media (max-width: 300px) {
+    /* HEADER */
     .navmenu .username {
         margin-left: 0px;
     }
 
     /* RECIPES */
-
     .caption h3{
        margin:0;
     }
