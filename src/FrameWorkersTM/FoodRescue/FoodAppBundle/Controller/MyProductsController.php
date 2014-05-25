@@ -34,7 +34,6 @@ class MyProductsController extends Controller
             ->getForm()
             ->handleRequest($request);
 
-
         if ($addProductForm->isValid()) {
 
             $productData = $addProductForm->getData();
