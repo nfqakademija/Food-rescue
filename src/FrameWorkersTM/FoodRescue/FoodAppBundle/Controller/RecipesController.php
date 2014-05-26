@@ -61,8 +61,11 @@ class RecipesController extends Controller
             //update available recipes for a user
             $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
 
+            //set message
+            $request->getSession()->getFlashBag()->set('notice', 'Receptas pagamintas !');
+
             //redirect after cooked ?
-            //return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_my_products'));
+            return $this->redirect($this->generateUrl('frame_workers_tm_food_rescue_food_app_recipes'));
         }
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:Recipes:recipe.html.twig',

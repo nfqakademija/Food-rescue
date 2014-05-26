@@ -22,8 +22,6 @@ class RegistrationController extends BaseController
 //        $response = parent::registerAction($request);
 //        return $response;
 
- echo "custom FOS registration form <br/>";
-
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */

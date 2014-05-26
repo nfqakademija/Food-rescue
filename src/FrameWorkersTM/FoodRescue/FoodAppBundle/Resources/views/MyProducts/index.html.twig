@@ -22,8 +22,7 @@
             </div>
         {% endfor %}
 
-
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="jumbo1 jumbotron">
                 <h4>Pridėti produktą</h4>
                 {{ form_start(addProductForm) }}
@@ -35,7 +34,7 @@
                         {{ form_errors(addProductForm.productName) }}
                         {{ form_widget(addProductForm.productName, {'attr': {'class': 'form-control ui-autocomplete-input'}}) }}
                     </div>
-                    <div class="form-small-margin col-lg-2">
+                    <div class="form-small-margin col-lg-1">
                         {{ form_label(addProductForm.quantity, 'Kiekis') }}
                         {{ form_errors(addProductForm.quantity) }}
                         {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control'}}) }}
@@ -44,12 +43,12 @@
                         <label>Vnt</label> <br/>
                         <label id="addMyProductUnits"></label>
                     </div>
-                    <div class="form-small-margin col-lg-3">
+                    <div class="form-small-margin col-lg-2">
                         {{ form_label(addProductForm.endDate, 'Suges') }}
                         {{ form_errors(addProductForm.endDate) }}
                         {{ form_widget(addProductForm.endDate, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="form-small-margin col-lg-1">
+                    <div class="form-small-margin col-lg-2">
                         <label> </label>
                         {{ form_widget(addProductForm.submit, {'attr': {'class': 'form-control', 'value': 'Išsaugoti'}, 'label': 'Išsaugoti'}) }}
                     </div>
@@ -59,6 +58,8 @@
             </div>
         </div>
     </div>
+
+        <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
 
     <div class="jumbotron" id="myProductsTable">
         <h4>Turimi produktai</h4>
@@ -70,6 +71,7 @@
                 <th>Kiekis</th>
                 <th>vnt.</th>
                 <th>Suges</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -100,6 +102,9 @@
             </tbody>
         </table>
     </div>
+
+    <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
+
 </div>
     </div>
 {% endblock %}

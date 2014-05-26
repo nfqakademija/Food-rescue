@@ -154,7 +154,19 @@ a.logo, a.fb-login, a.gplus-login{
     padding-bottom: 6px;
     margin-bottom: 6px;
 }
-
+.used_ingr_title{
+    padding-bottom: 20px;
+    text-align: center;
+}
+.coocing_table #form_save{
+    margin-top:20px;
+}
+.coocing_table table{
+    width: 100%;
+}
+#form_recipe_liked{
+    margin-left: 10px;
+}
 
 .rec_wrap{
     padding: 8px;
@@ -234,8 +246,8 @@ label[for=form_recipe_id]{
 }
 
 .jumbo1 {
-    height: 165px !important;
-    min-height: 100px !important;
+    /*height: 165px !important;*/
+    min-height: 165px !important;
     padding-left: 35px !important;
     padding-right: 35px !important;
     padding-bottom: 10px;
@@ -248,8 +260,49 @@ label[for=form_recipe_id]{
 
 
 
+.flash-notice{
+    background-color: #E7746F;
+    border-color: #E7746F;
+    color:white;
+    padding:10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.ccenter{
+    text-align:center;
+    margin-top: 20px;
+}
+.center{
+    text-align:center;
+    margin-bottom: 20px;
+}
+#myProductsTable{
+
+}
+#addProductForm_submit{
+    margin-top:5px;
+}
+.login-form, #fos_user_registration_form, .fos_user_registration_register{
+    float: none;
+    margin: 0 auto;
+    width: 400px;
+}
+.login-form table, .fos_user_registration_register table{
+  width:87%;
+}
+
+
+
+
 
 /* FOR SMALL WINDOW FIXES */
+@media (max-width: 770px) {
+    .coocing_table{
+        float:none;
+    }
+
+}
+
 @media (max-width: 300px) {
     /* HEADER */
     .navmenu .username {

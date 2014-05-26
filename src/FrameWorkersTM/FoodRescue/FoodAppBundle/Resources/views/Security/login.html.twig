@@ -10,26 +10,31 @@
   <div class="container">
     <div class="row">
         <div class="col-lg-2 col-md-2"> </div>
-        <div class="col-lg-4 col-md-4">
+        <div class="login-form col-lg-4 col-md-4">
             {% if error %}
                 <div>{{ error|trans }}</div>
             {% endif %}
             <form action="{{ path("fos_user_security_check") }}" method="post">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                <table class="">
+                    <tr>
+                        <td><label for="username">Prisijungimo vardas </label></td>
+                        <td><input type="text" id="username" name="_username" value="{{ last_username }}" required="required" /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password">Slaptažodis</label></td>
+                        <td><input type="password" id="password" name="_password" required="required" /> </td>
+                    </tr>
+                </table>
 
-                <label for="username">Prisijungimo vardas</label>
-                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" /><br />
+                <div class="ccenter">
+                    <input type="submit" id="_submit" class="btn btn-primary btn-md" name="_submit" value="Prisijungti" />
+                </div>
 
-                <label for="password">Slaptažodis</label>
-                <input type="password" id="password" name="_password" required="required" /> <br />
-
-                <input type="submit" id="_submit" name="_submit" value="Prisijunkti" />
             </form>
         </div>
 
-        <div class="col-lg-4 col-md-4">
-
-        </div>
+        <div class="col-lg-4 col-md-4"> </div>
         <div class="col-lg-2 col-md-2"> </div>
     </div>
   </div>

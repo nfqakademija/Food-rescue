@@ -256,7 +256,7 @@ class RecipeService
             $formBuilder->add('prod_name_'.$key, 'number', array('label' => $product['name'].' ('.$product['unit'].')', 'data' => $product['quantity']));
         }
         $formBuilder->add('recipe_id', 'hidden', array('label' => 'recipe_id', 'data' => $recipeid));
-        $formBuilder->add('recipe_liked', 'checkbox', array('label' => 'Click if you liked it', 'required' => false));
+        $formBuilder->add('recipe_liked', 'checkbox', array('label' => 'Buvo skanu?', 'required' => false));
         $formBuilder->add('save', 'submit', array('label'  => 'Pagaminau', 'attr' => array('class' => 'btn btn-primary btn-md')));
         return $formBuilder->getForm();
     }
@@ -267,7 +267,7 @@ class RecipeService
             if (isset($usedproduct['id'])){
                 //update quantity of products that i have
                 if($usedproduct['my_product_id']){
-print_r($usedproduct); echo " ";
+//print_r($usedproduct); echo " ";
                     $liked = 0;
                     if (!empty($usedproducts['recipe_liked'])){
                         $liked = 1;
@@ -291,7 +291,7 @@ print_r($usedproduct); echo " ";
         $oldQuantity  = $myproduct->getQuantity();
         $newQuantity  = $oldQuantity - $usedQuantity;
 
-echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." <br/>";
+//echo " old: ".$oldQuantity." used: ".$usedQuantity." new: ".$newQuantity." <br/>";
 
         if ($newQuantity < 1){
             // remove product from my_products table;
