@@ -35,25 +35,29 @@ class MyProductsController extends Controller
             ->getForm()
             ->handleRequest($request);
 
+        $productIdError = false;
         if ($addProductForm->isValid()) {
 
             $productData = $addProductForm->getData();
+            $productIdError = $productData->getProductId() == "";
+            if (! $productIdError) {
+                $product = new MyProducts();
+                $prod = $this->getDoctrine()
+                    ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
+                    ->findOneById($productData->getProductId());
+                $product->setEndDate(strtotime($productData->getEndDate()))
+                    ->setQuantity($productData->getQuantity())
+                    ->setUserId($userId)
+                    ->setProduct($prod);
 
-            $product = new MyProducts();
-            $prod = $this->getDoctrine()
-                ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Products')
-                ->findOneById($productData->getProductId());
-            $product->setEndDate(strtotime($productData->getEndDate()))
-                ->setQuantity($productData->getQuantity())
-                ->setUserId($userId)
-                ->setProduct($prod);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+                //update available recipes
+                $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+            }
 
-            //update available recipes
-            $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
         }
 
         $myProducts = $this->getDoctrine()
@@ -74,6 +78,7 @@ class MyProductsController extends Controller
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
         $array['addProductForm'] = $addProductForm->createView();
+        $array['productIdError'] = $productIdError;
 
         return $this->render('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts:index.html.twig', $array);
     }

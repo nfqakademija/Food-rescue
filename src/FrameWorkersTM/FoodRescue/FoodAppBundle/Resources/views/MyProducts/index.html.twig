@@ -28,6 +28,7 @@
                 {{ form_start(addProductForm) }}
 
                 {{ form_errors(addProductForm) }}
+                {% if productIdError %} Prašome pasirinkti produktą iš sąrašo. {% endif %}
                 <div class ="row">
                     <div class="form-small-margin col-lg-4">
                         {{ form_label(addProductForm.productName, 'Pavadinimas') }}
