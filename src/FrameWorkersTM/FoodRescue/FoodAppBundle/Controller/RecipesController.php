@@ -22,6 +22,12 @@ class RecipesController extends Controller
         //old way to get recipes
         //$recipes = $this->get('recipeservice')->findRecipesOldWay($userid, 2, $limit);
 
+        // if no recipes found - get random products
+        if (!$recipes){
+            $recipes = $this->get('recipeservice')->findRandomRecipes($userid, $limit);
+            $request->getSession()->getFlashBag()->set('notice', 'Pagal jūsų turimus produktus receptai nerasti arba jūs neįvedėte jokių produktų');
+        }
+
         /*
          if ($recipes){
              foreach ($recipes as $key=>$recipe){

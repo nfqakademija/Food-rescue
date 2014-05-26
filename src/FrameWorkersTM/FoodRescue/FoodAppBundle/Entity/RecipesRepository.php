@@ -224,6 +224,34 @@ class RecipesRepository extends EntityRepository
         return $results;
     }
 
+    //find random recipes
+    public function findRandomRecipesNativeSQL($userid, $limit = null){
+        $limitblock = (!empty($limit) ? $limit : 15);
+
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("
+             SELECT a.id, a.name, a.image_name, a.products_nr,
+             (  SELECT COUNT(e.product_id)
+                 FROM recipes_products e
+                 WHERE e.product_id in (0)
+                 AND e.recipe_id = a.id
+             ) as products_accepted,
+             f.cooked, f.liked
+
+             FROM recipes as a
+             LEFT JOIN users_recipes f on f.user_id = :userid AND f.recipe_id = a.id
+
+             ORDER BY RAND()
+             LIMIT ".$limitblock."
+             ;
+        ");
+        $statement->bindValue('userid', $userid);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
+
     // get recipe with info if it was cooked and liked (recipe page)
     public function findRecipeNativeSQL($userid, $recipeid)
     {
