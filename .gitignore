@@ -14,7 +14,7 @@
 /bin/
 /composer.phar
 
-/web/phpMyAdmin/*
+#/web/phpMyAdmin/*
 /web/jquery-ui-1.10.4.custom/development-bundle/*
 #personal ignores
 #/src/Acme/*

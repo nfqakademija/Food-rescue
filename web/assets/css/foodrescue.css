@@ -15,7 +15,8 @@ body{
 }
 .logo{
     display: block;
-    margin: 20px 0;
+    margin: 19px 0;
+    font-size: 16px;
 }
 a.logo, a.fb-login, a.gplus-login{
     color:white;
@@ -167,6 +168,12 @@ a.logo, a.fb-login, a.gplus-login{
 #form_recipe_liked{
 
 }
+#form_save{
+    color: #fff;
+    background-color: #3276b1;
+    border-color: #285e8e;
+}
+
 
 .rec_wrap{
     padding: 8px;
