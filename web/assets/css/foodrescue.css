@@ -301,8 +301,8 @@ label[for=form_recipe_id]{
 /* My products table */
 
 .myproducts-endsoon {
-    background-color: #E7746F !important;
-    color:white;
+    /*background-color: #E7746F !important;*/
+    color:red;
 }
 
 
