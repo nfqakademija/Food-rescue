@@ -127,7 +127,7 @@ $("#addProductForm_productName").autocomplete({
         console.log("prodId " + ui.item.value);
         $("#addProductForm_productId").val(ui.item.value);
         $("#addMyProductUnits").html(ui.item.units);
-        $("#addProductForm_endDate").val((new Date((new Date()).getTime() + ui.item.endDays * 24 * 60 * 60 * 1000).toLocaleDateString()));
+        $("#addProductForm_endDate").val(printDate(new Date((new Date()).getTime() + ui.item.endDays * 24 * 60 * 60 * 1000))); //.toLocaleDateString()));
         $("#addProductForm_quantity").val(ui.item.quantity);
 //                console.log(ui.item);
 //                console.log(ui.item.quantity);
@@ -135,3 +135,6 @@ $("#addProductForm_productName").autocomplete({
     },
     minLength: 2
 })
+function printDate(date) {
+    return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate()
+}
