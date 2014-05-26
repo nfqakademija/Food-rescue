@@ -68,7 +68,7 @@
                             {{ form_label(child) }}
                         {% endif %}
                     </td>
-                    <td>{{ form_widget(child) }}</td>
+                    <td>{{ form_widget(child, {'attr': {'class': 'form-control'}}) }}</td>
                 </tr>
                 {% endfor %}
             </table>
