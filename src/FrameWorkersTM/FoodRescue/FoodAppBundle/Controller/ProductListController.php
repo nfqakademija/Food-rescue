@@ -25,7 +25,7 @@ class ProductListController extends Controller {
                 'value' => $product->getId(),
                 'units' => $product->getUnit(),
                 'quantity' => $product->getQuantity(),
-                'endDate' => date('Y/m/d', time() + ($product->getEndDays() * 24 * 60 * 60))//strtotime("+".$product->getEndDays()." days")
+                'endDays' => $product->getEndDays()  //strtotime("+".$product->getEndDays()." days")
             );
         }
         $response = new Response(json_encode($prodNameList));
