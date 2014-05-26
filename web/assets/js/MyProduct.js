@@ -127,7 +127,7 @@ $("#addProductForm_productName").autocomplete({
         console.log("prodId " + ui.item.value);
         $("#addProductForm_productId").val(ui.item.value);
         $("#addMyProductUnits").html(ui.item.units);
-        $("#addProductForm_endDate").val((new Date((new Date()).getTime() + ui.item.endDays * 24 * 60 * 60 * 1000)).format("yyyy/mm/dd"));
+        $("#addProductForm_endDate").val((new Date((new Date()).getTime() + ui.item.endDays * 24 * 60 * 60 * 1000).toLocaleDateString()));
         $("#addProductForm_quantity").val(ui.item.quantity);
 //                console.log(ui.item);
 //                console.log(ui.item.quantity);
