@@ -62,12 +62,15 @@ class MyProductsController extends Controller
         usort($myProducts, function ($a, $b) {
             return $a->getEndDate() > $b->getEndDate();
         });
+        $endsSoon = array();
         $productEndDates = array();
         foreach ($myProducts as $product) {
             $productEndDates[$product->getId()] = date('Y/m/d',$product->getEndDate());
+            $endsSoon[$product->getId()] = $product->getEndDate() < time() + 60 * 60 * 24 * 3;
         }
 
         $array = array();
+        $array['endsSoon'] = $endsSoon;
         $array['myProducts'] = $myProducts;
         $array['productEndDates'] = $productEndDates;
         $array['addProductForm'] = $addProductForm->createView();
