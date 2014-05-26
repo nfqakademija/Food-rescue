@@ -1,8 +1,29 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    <table>
+        <tr><td colspan="3">{{ form_errors(form.username) }}</td></tr>
+        <tr>
+            <td>{{ form_label(form.username) }}</td>
+            <td>{{ form_widget(form.username) }}</td>
+        </tr>
+
+        <tr><td colspan="3">{{ form_errors(form.email) }}</td></tr>
+        <tr>
+            <td>{{ form_label(form.email) }}</td>
+            <td>{{ form_widget(form.email) }}</td>
+        </tr>
+
+        <tr><td colspan="3">{{ form_errors(form.current_password) }}</td></tr>
+        <tr>
+            <td>{{ form_label(form.current_password) }}</td>
+            <td>{{ form_widget(form.current_password) }}</td>
+        </tr>
+
+    </table>
+
     {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+    <div class="ccenter">
+        <input class="btn btn-primary btn-md" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
     </div>
 </form>

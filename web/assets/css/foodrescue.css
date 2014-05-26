@@ -282,12 +282,12 @@ label[for=form_recipe_id]{
 #addProductForm_submit{
     margin-top:5px;
 }
-.login-form, #fos_user_registration_form, .fos_user_registration_register{
+.login-form, #fos_user_registration_form, .fos_user_registration_register, .fos_user_profile_edit{
     float: none;
     margin: 0 auto;
     width: 400px;
 }
-.login-form table, .fos_user_registration_register table{
+.login-form table, .fos_user_registration_register table, .fos_user_profile_edit table{
   width:87%;
 }
 
