@@ -214,6 +214,13 @@ class RecipeService
         }
     }
 
+    //get random recipes
+    public function findRandomRecipes($userid, $limit=null){
+        $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
+            ->findRandomRecipesNativeSQL($userid, $limit);
+        return $recipes;
+    }
+
     // DEPRECATED - get available recipes (bad way cause of making calculations)(recipes page)
     public function findRecipesOldWay($userid, $seperator, $limit=null){
         $recipes = $this->doctrine->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:Recipes')
