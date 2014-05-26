@@ -42,11 +42,6 @@ namespace :deploy do
   before :restart, :clear_cache do
     on roles(:web) do
         execute "cd #{release_path} && composer install"
-     #   execute "cd #{release_path} && php app/console doctrine:schema:update --force"
-     #  execute "cd #{release_path} && npm install"
-     #  execute "cd #{release_path} && bower install"
-     #  execute "cd #{release_path} && gulp init"
-     #  execute "cd #{release_path} && gulp"
     end
   end
   after :finishing, 'deploy:cleanup'
