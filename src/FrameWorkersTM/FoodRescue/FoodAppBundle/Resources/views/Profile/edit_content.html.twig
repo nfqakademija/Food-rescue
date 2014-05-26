@@ -5,19 +5,19 @@
         <tr><td colspan="3">{{ form_errors(form.username) }}</td></tr>
         <tr>
             <td>{{ form_label(form.username) }}</td>
-            <td>{{ form_widget(form.username) }}</td>
+            <td>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
         <tr><td colspan="3">{{ form_errors(form.email) }}</td></tr>
         <tr>
             <td>{{ form_label(form.email) }}</td>
-            <td>{{ form_widget(form.email) }}</td>
+            <td>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
         <tr><td colspan="3">{{ form_errors(form.current_password) }}</td></tr>
         <tr>
             <td>{{ form_label(form.current_password) }}</td>
-            <td>{{ form_widget(form.current_password) }}</td>
+            <td>{{ form_widget(form.current_password, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
     </table>
