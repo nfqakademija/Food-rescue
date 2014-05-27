@@ -68,6 +68,7 @@
                 <span id="edit_table_errors"></span>
                 <table id="myProductsTable" class="table table-striped">
                     <thead>
+                    {% if myProducts|length > 0 %}
                     <tr>
                         <th>Pavadinimas</th>
                         <th>Kiekis</th>
@@ -75,6 +76,7 @@
                         <th>Suges</th>
                         <th></th>
                     </tr>
+                    {% endif %}
                     </thead>
                     <tbody>
                     {% if myProducts|length == 0 %}
