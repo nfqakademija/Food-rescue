@@ -5,7 +5,6 @@ namespace FrameWorkersTM\FoodRescue\FoodAppBundle\Controller;
 
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\AddMyProduct;
 use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\MyProducts;
-#use FrameWorkersTM\FoodRescue\FoodAppBundle\Entity\Products;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
