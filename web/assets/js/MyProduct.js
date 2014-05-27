@@ -132,7 +132,8 @@ $("#addProductForm_productName").autocomplete({
         return false;
     },
     minLength: 2
-})
+});
+
 function printDate(date) {
     return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate()
 }
