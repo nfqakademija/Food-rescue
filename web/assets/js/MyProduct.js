@@ -71,11 +71,11 @@ function setupEditableTable() {
 
 $('.ui-icon-trash').click(function() {
     var ID = $(this).attr('id').split('_')[1];
-    $("#pro_quantity_input_"+ID).hide();
-    $("#pro_end_date_input_"+ID).hide();
+
     var name= $('#pro_name_' + ID).text();
     console.log(ID);
     if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
+        $('#'+ ID).slideUp();
         $.ajax({
             url: appUrl + 'myproductsdelete/',
             type: 'POST',
