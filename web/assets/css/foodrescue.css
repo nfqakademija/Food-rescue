@@ -25,7 +25,7 @@ a.logo, a.fb-login, a.gplus-login{
 }
 
 .body_bg{
-    background-image: url("../images/bg.png") !important;
+    background-image: url("../images/bg.png");
     background-color: #FAFAFA;
 }
 

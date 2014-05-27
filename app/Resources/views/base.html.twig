@@ -14,9 +14,9 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
     </head>
-    <body   >
-{%  path(app.request.attributes.get('_route')) != "/" %}
-    <div class="header">
+    <body class="body_bg" >
+
+        <div class="header">
             <div class="container">
                 {% block headblock %}
                 <div class="row">

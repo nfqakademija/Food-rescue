@@ -5,6 +5,15 @@
 
 {% block title %} Pradinis {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        body{
+            background: #fff !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="page-home">
         <div class="container">
