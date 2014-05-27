@@ -54,9 +54,10 @@ class MyProductsController extends Controller
                 //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
             }
 
-            // check for ended products
-            $this->get('recipeservice')->findTrashedProducts($userId,$request);
         }
+
+        // check for ended products
+        $this->get('recipeservice')->findTrashedProducts($userId,$request);
 
         $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
