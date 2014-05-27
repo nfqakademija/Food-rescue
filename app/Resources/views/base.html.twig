@@ -15,7 +15,7 @@
 
     </head>
     <body {% if path(app.request.attributes.get('_route')) != "/" %} class="body_bg" {% endif %}>
-
+{{ path(app.request.attributes.get('_route')) }}
         <div class="header">
             <div class="container">
                 {% block headblock %}
