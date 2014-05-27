@@ -7,128 +7,137 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css') }}" />
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
-<div class="page-myproducts">
-    <div class="container">
-    <div class="row">
+    <div class="page-myproducts">
+        <div class="container">
+            <div class="row">
 
-        {# show a message if there is trashed products #}
-        {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="flash-notice">
+                {# show a message if there is trashed products #}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="flash-notice">
                 {{ flashMessage }}
             </div>
-        {% endfor %}
+                {% endfor %}
 
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="jumbo1 jumbotron">
-                <h4>Pridėti produktą</h4>
-                {{ form_start(addProductForm) }}
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="jumbo1 jumbotron">
+                        <h4>Pridėti produktą</h4>
+                        {{ form_start(addProductForm) }}
 
-                {{ form_errors(addProductForm) }}
-                {% if productIdError %} Prašome pasirinkti produktą iš sąrašo. {% endif %}
-                <div class ="row">
-                    <div class="form-small-margin col-lg-4">
+                        {{ form_errors(addProductForm) }}
+                        {% if productIdError %} Prašome pasirinkti produktą iš sąrašo. {% endif %}
+                        <div class="row">
+                            <div class="form-small-margin col-lg-4">
                         {{ form_label(addProductForm.productName, 'Pavadinimas') }}
                         {{ form_errors(addProductForm.productName) }}
                         {{ form_widget(addProductForm.productName, {'attr': {'class': 'form-control ui-autocomplete-input'}}) }}
-                    </div>
-                    <div class="form-small-margin col-lg-1">
+                            </div>
+                            <div class="form-small-margin col-lg-1">
                         {{ form_label(addProductForm.quantity, 'Kiekis') }}
                         {{ form_errors(addProductForm.quantity) }}
                         {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-small-margin col-lg-1">
-                        <label>Vnt</label> <br/>
-                        <label id="addMyProductUnits"></label>
-                    </div>
-                    <div class="form-small-margin col-lg-2">
+                            </div>
+                            <div class="form-small-margin col-lg-1">
+                                <label>Vnt</label> <br/>
+                                <label id="addMyProductUnits"></label>
+                            </div>
+                            <div class="form-small-margin col-lg-2">
                         {{ form_label(addProductForm.endDate, 'Suges') }}
                         {{ form_errors(addProductForm.endDate) }}
                         {{ form_widget(addProductForm.endDate, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-small-margin col-lg-2">
-                        <label> </label>
-                        {{ form_widget(addProductForm.submit, {'attr': {'class': 'form-control form-control btn btn-primary btn-md', 'value': 'Išsaugoti'}, 'label': 'Išsaugoti'}) }}
+                            </div>
+                            <div class="form-small-margin col-lg-2">
+                                <label> </label>
+                                {{ form_widget(addProductForm.submit, {'attr': {'class': 'form-control form-control btn btn-primary btn-md', 'value': 'Išsaugoti'}, 'label': 'Išsaugoti'}) }}
+                            </div>
+                        </div>
+                        {{ form_widget(addProductForm.productId) }}
+                        {{ form_end(addProductForm) }}
                     </div>
                 </div>
-                {{ form_widget(addProductForm.productId) }}
-                {{ form_end(addProductForm) }}
             </div>
+
+            <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
+
+            <div class="jumbotron" id="myProductsTable">
+                <h4>Turimi produktai</h4>
+                <span id="edit_table_errors"></span>
+                <table id="myProductsTable" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Pavadinimas</th>
+                        <th>Kiekis</th>
+                        <th>vnt.</th>
+                        <th>Suges</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if myProducts|length == 0 %}
+                        <tr>
+                            <td colspan="5">
+                                <strong>Deja, šiuo metu nesi pridėjęs nei vieno produkto! <br/>
+                                    Tai gali padaryti užpildęs viršuje esančią paprastą formą! <br/>
+                                </strong>
+
+                                <em>Atsimink:</em>
+                                <ul>
+                                    <li>
+                                        Jeigu produkto data raudona - jis jau arti sugedimo datos ir jį reiktų panaudoti
+                                    </li>
+                                    <li>
+                                        Produkto kiekį ir sugedimo datą gali pakeisti paprasčiausiai paspaudęs ant
+                                        atitinkamo skaičiaus!
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% for product in myProducts %}
+                        <tr class="editable_tr" id="{{ product.id }}">
+                            <td>
+                                <span id="pro_name_{{ product.id }}"> {{ product.product.name }}</span>
+                            </td>
+                            <td class="editable_td edit_prod" data-id="{{ product.id }}">
+                                <span id="pro_quantity_{{ product.id }}"
+                                      class="edit-text"> {{ product.quantity }}</span>
+                                <input id="pro_quantity_input_{{ product.id }}" type="text"
+                                       value="{{ product.quantity }}"
+                                       class="edit-input form-control hidden_field ">
+                            </td>
+                            <td>
+                                <span id="pro_unit_{{ product.id }}"> {{ product.product.unit }}</span>
+                            </td>
+                            <td class="editable_td {% if endsSoon[product.id] %} myproducts-endsoon {% endif %} edit_prod"
+                                data-id="{{ product.id }}">
+                                <span id="pro_end_date_{{ product.id }}"
+                                      class="edit-text"> {{ productEndDates[product.id] }}</span>
+                                <input id="pro_end_date_input_{{ product.id }}" type="text"
+                                       value="{{ productEndDates[product.id] }}"
+                                       class="edit-input edit-endDate form-control hidden_field ">
+                            </td>
+                            <td>
+                                <span class="ui-icon ui-icon-trash" id="trash_{{ product.id }}"></span>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
+
         </div>
-    </div>
-
-        <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
-
-    <div class="jumbotron" id="myProductsTable">
-        <h4>Turimi produktai</h4>
-        <span id="edit_table_errors"></span>
-        <table id="myProductsTable" class="table table-striped">
-            <thead>
-            <tr>
-                <th>Pavadinimas</th>
-                <th>Kiekis</th>
-                <th>vnt.</th>
-                <th>Suges</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {%  if myProducts|length == 0 %}
-            <tr>
-                <td colspan="5">
-                   Deja, šiuo metu nesi pridėjęs nei vieno produkto! <br/>
-                   Tai gali padaryti užpildęs viršuje esančią paprastą formą! <br />
-                   <em>Atsimink:</em>
-                    <ul>
-                        <li>
-                            Jeigu produkto data raudona - jis jau arti sugedimo datos ir jį reiktų panaudoti
-                        </li>
-                        <li>
-                            Produkto kiekį ir sugedimo datą gali pakeisti paprasčiausiai paspaudęs ant atitinkamo skaičiaus!
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            {% endif %}
-            {% for product in myProducts %}
-                <tr class="editable_tr" id="{{ product.id }}">
-                    <td>
-                        <span id="pro_name_{{ product.id }}"> {{ product.product.name }}</span>
-                    </td>
-                    <td class="editable_td edit_prod" data-id="{{ product.id }}">
-                        <span id="pro_quantity_{{ product.id }}" class="edit-text"> {{ product.quantity }}</span>
-                        <input id="pro_quantity_input_{{ product.id }}" type="text" value="{{ product.quantity }}"
-                               class="edit-input form-control hidden_field ">
-                    </td>
-                    <td>
-                        <span id="pro_unit_{{ product.id }}"> {{ product.product.unit }}</span>
-                    </td>
-                    <td class="editable_td {% if endsSoon[product.id] %} myproducts-endsoon {% endif %} edit_prod"  data-id="{{ product.id }}">
-                        <span id="pro_end_date_{{ product.id }}" class="edit-text"> {{ productEndDates[product.id] }}</span>
-                        <input id="pro_end_date_input_{{ product.id }}" type="text" value="{{ productEndDates[product.id] }}"
-                               class="edit-input edit-endDate form-control hidden_field ">
-                    </td>
-                    <td>
-                        <span class="ui-icon ui-icon-trash" id="trash_{{ product.id }}"></span>
-                    </td>
-
-                </tr>
-            {% endfor %}
-
-            </tbody>
-        </table>
-    </div>
-
-    <div class="center"><a class="btn btn-primary btn-md" href="recipes/">Receptai</a></div>
-
-</div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-     <script type="text/javascript" src="{{ asset('assets/js/MyProduct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/MyProduct.js') }}"></script>
 {% endblock %}
