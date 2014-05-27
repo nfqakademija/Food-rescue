@@ -18,9 +18,6 @@ class MyProductsController extends Controller
     {
         $userId = $this->get('recipeservice')->findUser($request->getSession());
 
-        // check for ended products
-        $this->get('recipeservice')->findTrashedProducts($userId,$request);
-
         $addNewProduct = new AddMyProduct();
         $addProductFormBuilder = $this->container
             ->get('form.factory')
@@ -59,6 +56,9 @@ class MyProductsController extends Controller
 
         }
 
+        // check for ended products
+        $this->get('recipeservice')->findTrashedProducts($userId,$request);
+
         $myProducts = $this->getDoctrine()
             ->getRepository('FrameWorkersTMFoodRescueFoodAppBundle:MyProducts')
             ->findBy(array("userId" => $userId));
@@ -83,7 +83,7 @@ class MyProductsController extends Controller
     }
     public function editAction(Request $request) {
         if (array_key_exists('id', $_POST) && array_key_exists('quantity', $_POST) && array_key_exists('endDate', $_POST)) {
-            $userId = $this->get('recipeservice')->findUser($request->getSession());
+            //$userId = $this->get('recipeservice')->findUser($request->getSession());
             $errors = array();
             $id = $_POST['id'];
             $quantity = $_POST['quantity'];
