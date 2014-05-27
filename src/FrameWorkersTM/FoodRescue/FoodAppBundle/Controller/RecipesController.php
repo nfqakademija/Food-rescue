@@ -15,9 +15,9 @@ class RecipesController extends Controller
     public function indexAction(Request $request, $limit=null)
     {
         $userid = $this->get('recipeservice')->findUser($request->getSession());
-        
+
         //update available recipes
-        $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
+        $this->get('recipeservice')->findAndSaveAvailableUserRecipes($userid);
 
         //get recipe from service
         $recipes = $this->get('recipeservice')->findRecipes($userid, $limit);
