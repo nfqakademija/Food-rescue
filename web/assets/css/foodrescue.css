@@ -24,14 +24,16 @@ a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
 
+.body_bg{
+    background-image: url("../images/bg.png") !important;
+    background-color: #FAFAFA;
+}
 
 /* BACKGROUNDS */
 .page-home, .page-settings{
     background-color:white;
 }
 .page-recipes, .page-recipe, .page-myproducts{
-    background-image: url("../images/bg.png");
-    background-color: #FAFAFA;
     position:relative;
 }
 .page-recipe{
