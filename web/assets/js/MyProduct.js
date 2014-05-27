@@ -28,11 +28,14 @@ var appUrl = window.location.origin + window.location.pathname.split('myproducts
 
 
 function setupEditableTable() {
-    $(".editable_tr").click(function() {
+
+    $(".edit_prod").click(function() {
         var ID=$(this).attr('id');
         $("#pro_quantity_input_"+ID).show();
         $("#pro_end_date_input_"+ID).show();
-    } ).change(function() {
+    } );
+
+    $(".editable_tr").change(function() {
         var ID=$(this).attr('id');
         var quantity=$("#pro_quantity_input_"+ID).val();
         var endDate=$("#pro_end_date_input_"+ID).val();
@@ -62,32 +65,29 @@ function setupEditableTable() {
             });
         }
     });
+    $('.ui-icon-trash').click(function() {
+        var ID = $(this).attr('id').split('_')[1];
+        var name= $('#pro_name_' + ID).text();
+        console.log(ID);
+        if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
+            $.ajax({
+                url: appUrl + 'myproductsdelete/',
+                type: 'POST',
+                data:'id=' + ID,
+                success: function(response) {
+                    if (response == 'deleted'){
+                        $('#'+ ID).slideUp();
+                    }
+                }
+            });
+        }
+    });
     $(".edit-endDate").datepicker({
         monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
         dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
         dateFormat: 'yy/mm/dd'
     });
 }
-
-$('.ui-icon-trash').click(function() {
-    var ID = $(this).attr('id').split('_')[1];
-
-    var name= $('#pro_name_' + ID).text();
-    console.log(ID);
-    if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
-        $('#'+ ID).slideUp();
-        $.ajax({
-            url: appUrl + 'myproductsdelete/',
-            type: 'POST',
-            data:'id=' + ID,
-            success: function(response) {
-                if (response == 'deleted'){
-                    $('#'+ ID).slideUp();
-                }
-            }
-        });
-    }
-});
 
 $(document).ready(function() {
     $(".edit-input").hide();
