@@ -5,6 +5,12 @@
         body{
             background: #fff !important;
         }
+        ul{
+            list-style: none;
+        }
+        ul li{
+            color: red;
+        }
     </style>
 {% endblock %}
 
@@ -12,25 +18,26 @@
 {% block body %}
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
     <table>
+        <tr><td colspan="3">{{ form_errors(form.plainPassword.second) }}</td></tr>
         <tr><td colspan="3">{{ form_errors(form.email) }}</td></tr>
+        <tr><td colspan="3">{{ form_errors(form.username) }}</td></tr>
+        <tr><td colspan="3">{{ form_errors(form.plainPassword.first) }}</td></tr>
+
         <tr>
             <td>{{ form_label(form.email) }}</td>
             <td>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
-        <tr><td colspan="3">{{ form_errors(form.username) }}</td></tr>
         <tr>
             <td>{{ form_label(form.username) }}</td>
             <td>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
-        <tr><td colspan="3">{{ form_errors(form.plainPassword.first) }}</td></tr>
         <tr>
             <td>{{ form_label(form.plainPassword.first) }}</td>
             <td>{{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
-        <tr><td colspan="3">{{ form_errors(form.plainPassword.second) }}</td></tr>
         <tr>
             <td>{{ form_label(form.plainPassword.second) }}</td>
             <td>{{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}</td>
