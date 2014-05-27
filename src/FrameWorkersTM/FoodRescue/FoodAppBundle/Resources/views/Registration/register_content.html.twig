@@ -4,7 +4,7 @@
     <table>
         <tr><td colspan="3">{{ form_errors(form.email) }}</td></tr>
         <tr>
-            <td>{{ form_label(form.email) }}</td>
+            <td>{{ form_label(form.email) | trans }}</td>
             <td>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
