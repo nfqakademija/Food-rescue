@@ -21,12 +21,12 @@
                 {% block headblock %}
                 <div class="row">
                     {% if is_granted("ROLE_USER") %}
-                        <div class="col-lg-2 col-md-2 col-sm-2"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="logo">Food Rescue</a></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="logo"><img src="{{ asset('assets/images/logo30.png') }}" alt="logo" /> Food Rescue</a></div>
                     {% else %}
-                        <div class="col-lg-2 col-md-2 col-sm-2"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" class="logo">Food Rescue</a></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" class="logo"><img src="{{ asset('assets/images/logo30.png') }}" alt="logo" /> Food Rescue</a></div>
                     {% endif %}
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <div class="col-lg-10 col-md-10 col-sm-10">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
                             <ul class="navmenu user-settings nav nav-pills pull-right">
                                 <li class="username"><a href="{{ path('fos_user_profile_edit') }}">{{ app.user.username }}</a></li>
                                 <li class="settings"><a href="{{ path('fos_user_profile_edit') }}">Nustatymai</a></li>
@@ -38,7 +38,7 @@
                             </ul>
                         </div>
                     {% else %}
-                        <div class="col-lg-10 col-md-10 col-sm-10">
+                        <div class="col-lg-9 col-md-9 col-sm-9">
                             <ul class="navmenu nav nav-pills pull-right">
                                 <li><a href="{{ path('fos_user_security_login') }}">Prisijungti </a></li>
                                 <li><a href="{{ path('fos_user_registration_register') }}">Registruotis</a></li>
