@@ -338,3 +338,6 @@ label[for=form_recipe_id]{
     }
 
 }
+.hidden_field{
+    display: none;
+}

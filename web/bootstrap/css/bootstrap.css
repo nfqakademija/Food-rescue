@@ -3464,7 +3464,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eee;
 }
 .nav > li.disabled > a {
   color: #999;
@@ -3479,7 +3478,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eee;
   border-color: #428bca;
 }
 .nav .nav-divider {
@@ -3505,7 +3503,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eee #eee #ddd;
+
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
@@ -4164,7 +4162,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   color: #2a6496;
-  background-color: #eee;
   border-color: #ddd;
 }
 .pagination > .active > a,
@@ -4240,7 +4237,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pager li > a:hover,
 .pager li > a:focus {
   text-decoration: none;
-  background-color: #eee;
 }
 .pager .next > a,
 .pager .next > span {

@@ -15,7 +15,11 @@
             <div class="container">
                 {% block headblock %}
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-2"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" class="logo">Food Rescue</a></div>
+                    {% if is_granted("ROLE_USER") %}
+                        <div class="col-lg-2 col-md-2 col-sm-2"><a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="logo">Food Rescue</a></div>
+                    {% else %}
+                        <div class="col-lg-2 col-md-2 col-sm-2"><a href="{{ path('frame_workers_tm_food_rescue_food_app_homepage') }}" class="logo">Food Rescue</a></div>
+                    {% endif %}
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <div class="col-lg-10 col-md-10 col-sm-10">
                             <ul class="navmenu user-settings nav nav-pills pull-right">

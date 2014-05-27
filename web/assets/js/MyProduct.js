@@ -30,8 +30,8 @@ var productListUrl = appUrl + 'productslist/';
 function setupEditableTable() {
     $(".editable_tr").click(function() {
         var ID=$(this).attr('id');
-        $("#pro_quantity_"+ID).hide();
-        $("#pro_end_date_"+ID).hide();
+      // // $("#pro_quantity_"+ID).hide();
+       // $("#pro_end_date_"+ID).hide();
         $("#pro_quantity_input_"+ID).show();
         $("#pro_end_date_input_"+ID).show();
     } ).change(function() {
