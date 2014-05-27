@@ -76,7 +76,11 @@
             </tr>
             </thead>
             <tbody>
-
+            <tr>
+                <td>
+                    {{ myProducts.count() }}
+                </td>
+            </tr>
             {% for product in myProducts %}
                 <tr class="editable_tr" id="{{ product.id }}">
                     <td>
