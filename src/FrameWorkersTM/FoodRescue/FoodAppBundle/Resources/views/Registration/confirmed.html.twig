@@ -4,6 +4,9 @@
 
     <div class="container center">
         <h3>Sveikiname užsiregistravus {{ user.username }} !</h3>
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <a href="{{ path('frame_workers_tm_food_rescue_food_app_my_products') }}" class="btn btn-primary btn-md">Į pagdindinį</a></div>
+
     </div>
 
     {% if app.session is not empty %}
