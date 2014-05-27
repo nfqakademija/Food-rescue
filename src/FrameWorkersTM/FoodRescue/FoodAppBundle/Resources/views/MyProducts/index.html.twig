@@ -76,11 +76,23 @@
             </tr>
             </thead>
             <tbody>
+            {%  if myProducts|length == 0 %}
             <tr>
-                <td>
-                    {{ myProducts|length }}
+                <td colspan="5">
+                   Deja, šiuo metu nesi pridėjęs nei vieno produkto! <br/>
+                   Tai gali padaryti užpildęs viršuje esančią paprastą formą! <br />
+                   <em>Atsimink:</em>
+                    <ul>
+                        <li>
+                            Jeigu produkto data raudona - jis jau arti sugedimo datos ir jį reiktų panaudoti
+                        </li>
+                        <li>
+                            Produkto kiekį ir sugedimo datą gali pakeisti paprasčiausiai paspaudęs ant atitinkamo skaičiaus!
+                        </li>
+                    </ul>
                 </td>
             </tr>
+            {% endblock %}
             {% for product in myProducts %}
                 <tr class="editable_tr" id="{{ product.id }}">
                     <td>
