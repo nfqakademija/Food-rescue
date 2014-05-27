@@ -86,7 +86,9 @@ function setupEditableTable() {
     $(".edit-endDate").datepicker({
         monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
         dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
-        dateFormat: 'yy/mm/dd'
+        dateFormat: 'yy/mm/dd',
+        changeMonth: true,
+        changeYear: true
     });
 }
 
@@ -104,7 +106,9 @@ $(document).ready(function() {
 $('#addProductForm_endDate').datepicker({
     monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
     dayNamesMin: ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Š', 'S'],
-    dateFormat: 'yy/mm/dd'
+    dateFormat: 'yy/mm/dd',
+    changeMonth: true,
+    changeYear: true
 });
 
 
