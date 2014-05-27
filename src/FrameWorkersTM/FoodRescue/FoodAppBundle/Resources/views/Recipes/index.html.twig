@@ -5,6 +5,17 @@
 
 {% block title %} Receptai {% endblock %}
 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        .thumbnail{
+            height: 350px;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
 
     <div class="page-recipes">
