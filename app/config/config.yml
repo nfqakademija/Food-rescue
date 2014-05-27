@@ -3,7 +3,8 @@ imports:
     - { resource: security.yml }
 
 framework:
-    translator: ~
+    #esi:             ~
+    translator:      { fallback: "lt" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
