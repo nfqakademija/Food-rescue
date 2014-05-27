@@ -23,7 +23,10 @@ body{
 a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
-
+.body_bg{
+    background-image: url("../images/bg.png");
+    background-color: #FAFAFA;
+}
 
 /* BACKGROUNDS */
 .page-home, .page-settings{
@@ -32,7 +35,6 @@ a.logo, a.fb-login, a.gplus-login{
 .page-recipes, .page-recipe, .page-myproducts{
     background-image: url("../images/bg.png");
     background-color: #FAFAFA;
-
     position:relative;
 }
 .page-recipe{

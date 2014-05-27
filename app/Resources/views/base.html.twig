@@ -13,7 +13,8 @@
         <meta http-equiv="Content-Language" content="lt">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body {% if path(app.request.attributes.get('_route')) != "/" %} class="body_bg" {% endif %}>
+
         <div class="header">
             <div class="container">
                 {% block headblock %}
