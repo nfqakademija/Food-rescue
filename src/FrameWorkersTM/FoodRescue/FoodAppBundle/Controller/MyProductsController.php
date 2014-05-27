@@ -18,9 +18,6 @@ class MyProductsController extends Controller
     {
         $userId = $this->get('recipeservice')->findUser($request->getSession());
 
-        // check for ended products
-        $this->get('recipeservice')->findTrashedProducts($userId,$request);
-
         $addNewProduct = new AddMyProduct();
         $addProductFormBuilder = $this->container
             ->get('form.factory')
@@ -57,6 +54,8 @@ class MyProductsController extends Controller
                 //$this->get('recipeservice')->findAndSaveAvailableUserRecipes($userId);
             }
 
+            // check for ended products
+            $this->get('recipeservice')->findTrashedProducts($userId,$request);
         }
 
         $myProducts = $this->getDoctrine()
