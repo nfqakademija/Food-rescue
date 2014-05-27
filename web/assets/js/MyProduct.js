@@ -93,6 +93,10 @@ function setupEditableTable() {
 $(document).ready(function() {
     $(".edit-input").hide();
     $(".edit-text").show();
+    $('#addProductForm_productName').val("");
+    $('#addProductForm_quantity').val("");
+    $('#addProductForm_endDate').val("");
+
     setupEditableTable();
 });
 

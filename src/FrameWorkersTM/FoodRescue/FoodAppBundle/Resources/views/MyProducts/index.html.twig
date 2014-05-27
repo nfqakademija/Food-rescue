@@ -34,12 +34,12 @@
                             <div class="form-small-margin col-lg-4">
                         {{ form_label(addProductForm.productName, 'Pavadinimas') }}
                         {{ form_errors(addProductForm.productName) }}
-                        {{ form_widget(addProductForm.productName, {'attr': {'class': 'form-control ui-autocomplete-input'}}) }}
+                        {{ form_widget(addProductForm.productName, {'attr': {'class': 'form-control ui-autocomplete-input', 'autocomplete' : 'off'}}) }}
                             </div>
                             <div class="form-small-margin col-lg-1">
                         {{ form_label(addProductForm.quantity, 'Kiekis') }}
                         {{ form_errors(addProductForm.quantity) }}
-                        {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(addProductForm.quantity, {'attr': {'class': 'form-control', 'autocomplete' : 'off'}}) }}
                             </div>
                             <div class="form-small-margin col-lg-1">
                                 <label>Vnt</label> <br/>
@@ -48,7 +48,7 @@
                             <div class="form-small-margin col-lg-2">
                         {{ form_label(addProductForm.endDate, 'Suges') }}
                         {{ form_errors(addProductForm.endDate) }}
-                        {{ form_widget(addProductForm.endDate, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(addProductForm.endDate, {'attr': {'class': 'form-control', 'autocomplete' : 'off'}}) }}
                             </div>
                             <div class="form-small-margin col-lg-2">
                                 <label> </label>
