@@ -4,25 +4,27 @@
     <table>
         <tr><td colspan="3">{{ form_errors(form.email) }}</td></tr>
         <tr>
-            <td>{{ form_label(form.email) | trans }}</td>
+            <td>
+                <label for="fos_user_registration_form_email" class="required">El.paštas:</label>
+            </td>
             <td>{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
         <tr><td colspan="3">{{ form_errors(form.username) }}</td></tr>
         <tr>
-            <td>{{ form_label(form.username) }}</td>
+            <td><label class="required" for="fos_user_registration_form_username">Prisijungimo vardas:</label></td>
             <td>{{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
         <tr><td colspan="3">{{ form_errors(form.plainPassword.first) }}</td></tr>
         <tr>
-            <td>{{ form_label(form.plainPassword.first) }}</td>
+            <td><label class="required" for="fos_user_registration_form_plainPassword_first">Slaptažodis:</label></td>
             <td>{{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
 
         <tr><td colspan="3">{{ form_errors(form.plainPassword.second) }}</td></tr>
         <tr>
-            <td>{{ form_label(form.plainPassword.second) }}</td>
+            <td>{<label class="required" for="fos_user_registration_form_plainPassword_second">Kar kartelį:</label></td>
             <td>{{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
     </table>
