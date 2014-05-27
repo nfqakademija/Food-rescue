@@ -31,7 +31,7 @@ function setupEditableTable() {
 
     $(".edit_prod").click(function() {
         var ID=$(this).attr('id');
-        alert(id);
+        alert(ID);
         $("#pro_quantity_input_"+ID+",#pro_end_date_input_"+ID).show();
     } );
 
