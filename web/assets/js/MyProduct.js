@@ -30,7 +30,7 @@ var appUrl = window.location.origin + window.location.pathname.split('myproducts
 function setupEditableTable() {
 
     $(".edit_prod").click(function() {
-        var ID=$(this).attr('id');
+        var ID=$(this).attr('data-id');
         alert(ID);
         $("#pro_quantity_input_"+ID+",#pro_end_date_input_"+ID).show();
     } );
