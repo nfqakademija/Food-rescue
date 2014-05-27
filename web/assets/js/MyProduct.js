@@ -70,7 +70,7 @@ function setupEditableTable() {
         var name= $('#pro_name_' + ID).text();
         console.log(ID);
         if (confirm('Ar tikrai norite ištrinti produktą ' + name)) {
-            $('#'+ ID).css('text-decoration','underline');
+            $('#'+ ID).css('text-decoration','line-through');
             $.ajax({
                 url: appUrl + 'myproductsdelete/',
                 type: 'POST',
