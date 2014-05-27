@@ -23,10 +23,7 @@ body{
 a.logo, a.fb-login, a.gplus-login{
     color:white;
 }
-.body_bg{
-    background-image: url("../images/bg.png");
-    background-color: #FAFAFA;
-}
+
 
 /* BACKGROUNDS */
 .page-home, .page-settings{

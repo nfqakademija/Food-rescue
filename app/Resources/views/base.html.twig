@@ -12,6 +12,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="Content-Language" content="lt">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <style type="text/css">
+            .body_bg{
+                background-image: url("images/bg.png");
+                background-color: #FAFAFA;
+            }
+        </style>
     </head>
     <body {% if path(app.request.attributes.get('_route')) != "/" %} class="body_bg" {% endif %}>
 
