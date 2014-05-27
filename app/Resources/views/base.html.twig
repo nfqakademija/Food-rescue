@@ -14,8 +14,8 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
     </head>
-    <body {% if path(app.request.attributes.get('_route')) != "/" %} class="body_bg" {% endif %} >
-
+    <body   >
+{{ path(app.request.attributes.get('_route')) != "/" %} }}
     <div class="header">
             <div class="container">
                 {% block headblock %}
